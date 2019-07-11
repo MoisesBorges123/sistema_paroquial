@@ -28,7 +28,7 @@
         <div class="col-md-1 col-sm-1"></div>
         <div class="col-md-10 col-sm-12">
                 <div class="card" >
-                    <div class="card-header text-center bg-inverse"><h4 class='text-white'>1-Selecione o sacramento referente aos registros do livro</h4></div>
+                    <div class="card-header text-center bg-inverse"><h4 class='text-white tiulo'>1-Selecione o sacramento referente aos registros do livro</h4></div>
                 <div class="card-block">  
                     <form method="POST" action="{{route("SalvarLivroDigital.Folha")}}">
                             {!! csrf_field() !!}
@@ -76,10 +76,10 @@
     @endsection
 
     @section('css')
-    <!-- jquery file upload Frame work -->
+    <!-- jquery file upload Frame work 
     <link href="{{asset('estilo_painel/assets/pages/jquery.filer/css/jquery.filer.css')}}" type="text/css" rel="stylesheet">
     <link href="{{asset('estilo_painel/assets/pages/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css')}}" type="text/css" rel="stylesheet">
-    
+    -->
     <!-- themify-icons line icon -->
     <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/icon/themify-icons/themify-icons.css')}}">
     <style>
@@ -101,7 +101,7 @@
     <script type="text/javascript">
 $(document).ready(function () {
 
-     var _token = $('meta[name="_token"]').attr('content');
+     var _token = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': _token
@@ -114,12 +114,14 @@ $(document).ready(function () {
                 url: "{{route('BuscaLivroDititalizacao.Folha')}}",
                 type: 'POST',
                 data: {
-                    sacramento:sacramento
+                    sacramento:sacramento,
                 },
                 dataType: 'JSON',
                 beforeSend: function () {
+                    $('.carregando').remove();
+                    $('.resultado1').remove();
                     $('#step1').after(
-                    "<div class='text-left col-md-3 col-sm-12 carregando'>"+
+                    "<div class='text-left col-md-12 col-sm-12 carregando'>"+
                         "<div class=\"preloader3 loader-block\">"+
                                 "<div class=\"circ1\"></div>"+
                                 "<div class=\"circ2\"></div>"+
@@ -130,7 +132,10 @@ $(document).ready(function () {
                     );
                 },
                 success: function(data){
-                    alert("consultou");
+                    $('.carregando').remove();
+                    $('#step1').after(data.resultadoHTML);
+                    $('#titulo').html("2-Insira as informações abaixo e envie a foto do livro");
+                    
                 }
             });
         });

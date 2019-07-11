@@ -146,35 +146,60 @@ class Folha extends Controller
     }
     
     public function buscar_livros(Request $request){
-        $livros=$this->livro->where('sacramento',$request->only("sacramento"));
-        
-        echo"<div class='col-md-6 col-sm-12'>
-                        <label>Digitalizar Livro:</label>
-                        <select class='form-control' name='livro' id='livro'>
-                            <option value=''>Selecione um livro</option>
-                            <option value='-1'>Outro Livro</option
-                                                      
-                        </select>
-                    </div>
-                    
-                        <div class='col-md-5'>
-                            <label>*Numero da Página</label>
-                            <input class='form-control' type='number' name='numeracao_pagina' value='{{old('numeracao_pagina')}}' placeholder='Ex. 1,2,3,4,...' required=''>
+        $sacramento = $request->only("sacramento");        
+         $livros = DB::table ('livros')
+              ->where('sacramento',$sacramento)
+              ->orderBy('numeracao','asc')
+              ->get();
+       
+        if(empty($livros)){
+            ob_start();
+               echo"<div class='col-md-12 col-sm-12 resultado1'><div class='alert alert-warning'>Não existe nenhum livro desse sacramento em nossos registros"
+            . "por favor <a href='".route('FormCadastro2.Livro',$request->only("sacramento")).
+            "'>CLIQUE AQUI</a> para adicionar um NOVO LIVRO.</div></div>";         
+       
+            $dados_folha= ob_get_clean();
+          
+        }else{
+            
+            ob_start();
+            echo"<div class='col-md-6 col-sm-12 resultado1'>
+                            <label>Digitalizar Livro:</label>
+                            <select class='form-control' name='livro' id='livro'>
+                                <option value=''>Selecione um livro</option>
+                                <option value='-1'>Outro Livro</option";
+                                foreach($livros as $livro){
+                                    echo"<option value='".$livro->id_livro."'>".$livro->numeracao."</option>";
+                                }                          
+                            echo"</select>
                         </div>
-                        
-                        <div class='col-md-12'>
-                            <label>Observações</label>
-                            <textarea class='form-control' value='{{old('obs_folha')}}' name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
-                        </div>
-                        <div class='col-md-12 m-t-40'>                           
-                            <input type='file' name='files[]' id='filer_input1' multiple='multiple' required=''>
-                        </div>
-                        <div class='col-md-6 col-sm-3 text-left'>
-                            <button class='btn btn-danger' type='button' id='btn-sair'>Cancelar</button>   
-                        </div>
-                        <div class='col-md-6 col-sm-3 text-right'>
-                            <button class='btn btn-success' id='btn-salvar' type='submit'>Cadastrar</button>
-                        </div>";
+
+                            <div class='col-md-5 resultado1'>
+                                <label>*Numero da Página</label>
+                                <input class='form-control' type='number' name='numeracao_pagina'  placeholder='Ex. 1,2,3,4,...' required=''>
+                            </div>
+
+                            <div class='col-md-12 resultado1'>
+                                <label>Observações</label>
+                                <textarea class='form-control'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
+                            </div>
+                            <div class='col-md-12 m-t-40 resultado1'>                           
+                                <input type='file' name='files[]' class='foto' multiple='multiple' required=''>
+                            </div>
+                            <div class='col-md-6 col-sm-3 text-left resultado1'>
+                                <button class='btn btn-danger' type='button' id='btn-sair'>Cancelar</button>   
+                            </div>
+                            <div class='col-md-6 col-sm-3 text-right resultado1'>
+                                <button class='btn btn-success' id='btn-salvar' type='submit'>Cadastrar</button>
+                            </div>";
+            $dados_folha=ob_get_clean();
+            
+           
+        }
+        $dados = array(
+                    'resultadoHTML'=>$dados_folha
+        );
+        return $dados;
     }   
     
     

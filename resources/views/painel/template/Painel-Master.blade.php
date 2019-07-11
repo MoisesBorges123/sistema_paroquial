@@ -14,6 +14,8 @@
         <meta name="description" content="#">
         <meta name="keywords" content="livro , folhas, batismo, batizado, casamento, crisma, registro, catedral, paroquia, imaculada, conceição">
         <meta name="author" content="#">
+        <!-- TOKEN LARAVEL -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Favicon icon -->
         <link rel="icon" href="{{asset('estilo_painel/assets/images/favicon.ico')}}" type="image/x-icon">
         <!-- Google font--><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">

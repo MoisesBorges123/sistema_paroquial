@@ -46,6 +46,13 @@ Route::group(['prefix'=>'painel/livros'], function () {
             //FIM ROTAS PARA TRABALHAR COM LIVROS===================================================================    
 
 
+                
+                
+                
+                
+                
+                
+                
 
             //INICIO ROTAS PARA TRABALHAR COM FOLHAS LIVROS===================================================================    
 
