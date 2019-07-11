@@ -28,7 +28,7 @@
         <div class="col-md-1 col-sm-1"></div>
         <div class="col-md-10 col-sm-12">
                 <div class="card" >
-                    <div class="card-header text-center bg-inverse"><h4 class='text-white tiulo'>1-Selecione o sacramento referente aos registros do livro</h4></div>
+                    <div class="card-header text-center bg-inverse"><h4 class='text-white' id="titulo">1-Selecione o sacramento referente aos registros do livro</h4></div>
                 <div class="card-block">  
                     <form method="POST" action="{{route("SalvarLivroDigital.Folha")}}">
                             {!! csrf_field() !!}
@@ -134,11 +134,13 @@ $(document).ready(function () {
                 success: function(data){
                     $('.carregando').remove();
                     $('#step1').after(data.resultadoHTML);
-                    $('#titulo').html("2-Insira as informações abaixo e envie a foto do livro");
+                    $('#titulo').html("2-Insira os dados da nova folha.");
                     
                 }
             });
         });
+        
+        $(document).on('')
 
 
 });

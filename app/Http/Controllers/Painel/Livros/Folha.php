@@ -183,14 +183,12 @@ class Folha extends Controller
                                 <label>Observações</label>
                                 <textarea class='form-control'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
                             </div>
-                            <div class='col-md-12 m-t-40 resultado1'>                           
-                                <input type='file' name='files[]' class='foto' multiple='multiple' required=''>
-                            </div>
+                            
                             <div class='col-md-6 col-sm-3 text-left resultado1'>
                                 <button class='btn btn-danger' type='button' id='btn-sair'>Cancelar</button>   
                             </div>
-                            <div class='col-md-6 col-sm-3 text-right resultado1'>
-                                <button class='btn btn-success' id='btn-salvar' type='submit'>Cadastrar</button>
+                            <div class='col-md-6 col-sm-3 text-right resultado1 ' id='btn-step2'>
+                                <button class='btn btn-inverse' id='btn-salvar' type='button'>Avançar</button>
                             </div>";
             $dados_folha=ob_get_clean();
             
