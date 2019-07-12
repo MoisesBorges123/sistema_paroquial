@@ -88,12 +88,18 @@
     height: auto;
     border:none;
 }
-.mostra-foto{  
+#mostra-foto{  
 
     height: 400px;
     background-color: #e8e8e1;
     width: 80%;
     margin: auto;
+}
+.icon-btn{
+   text-align: center;
+}
+.btn{
+    margin-left: 8px;
 }
     </style>
     @endsection
@@ -173,6 +179,7 @@ $(document).ready(function () {
                     },
                     success: function(data){
                         $('.carregando').remove();
+                        $('.resultado2').remove();
                         if(data.resposta==1){
                             $('.resultado1').addClass('fade');
                             $("#step1").addClass('fade');
