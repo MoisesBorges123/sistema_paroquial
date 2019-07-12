@@ -181,7 +181,7 @@ class Folha extends Controller
 
                             <div class='col-md-12 resultado1'>
                                 <label>Observações</label>
-                                <textarea class='form-control'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
+                                <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
                             </div>
                             
                             <div class='col-md-6 col-sm-3 text-left resultado1'>
@@ -200,6 +200,48 @@ class Folha extends Controller
         return $dados;
     }   
     
+    public function validaStep1(Request $request, FuncoesAdicionais $fn){
+       
+        $dados_VALIDACAO=[];
+        $dados_VALIDACAO[]=['value'=>$request->input("livro"),'type'=>1,'variavel'=>'livro'];
+        $dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>0,'variavel'=>'numeração da página'];
+        if(!empty($request->input("obs_folha"))){
+            $dados_VALIDACAO[]=['value'=>$dataForm['obs_folha'],'type'=>8,'variavel'=>'observações'];
+        }
+        
+        $r=$fn->validacoes($dados_VALIDACAO);
+        if($r=="23"){
+            ob_start();
+                echo""
+            . "<div class='col-md-12 col-sm-12 resultado2'>"
+                . "<div id='mostra-foto'></div>"
+                . "<button class='btn btn-default' id='btn-seleciona-foto'>Selecionar Foto</button>"
+                . "<button class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
+                . "<button class=\"btn btn-success btn-icon\"><i class=\"icofont icofont-upload-alt\"></i></button>"
+                . "<input type='file' class='form-control fade' id='foto-livro'>"
+                . "</div>";
+            $dadosHTML= ob_get_clean();
+            $resposta=1;
+        }else{
+            $mensagem = $fn->notificacao1($r);
+            ob_start();
+                echo"<div class='col-md-12 com-sm-12 resultado2'>"
+                    . "<div class='alert alert-warning'>"
+                        . "$mensagem"                      
+                    . "</div>"
+                . "</div>";
+            $dadosHTML = ob_get_clean();
+            $resposta=0;
+                
+            
+        }
+           
+        $dados = array(
+            'html' =>$dadosHTML,
+            'resposta'=>$resposta
+        );
+        return $dados;
+    }
     
     public function salvar(Request $request,$livroSelect){
         //Pega dados do formulario         
