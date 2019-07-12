@@ -215,9 +215,11 @@ class Folha extends Controller
                 echo""
             . "<div class='col-md-12 col-sm-12 resultado2'>"
                 . "<div id='mostra-foto'></div>"
-                . "<button class='btn btn-default' id='btn-seleciona-foto'>Selecionar Foto</button>"
+                . "<div class='icon-btn'>"
+                
                 . "<button class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
                 . "<button class=\"btn btn-success btn-icon\"><i class=\"icofont icofont-upload-alt\"></i></button>"
+                . "</div>"
                 . "<input type='file' class='form-control fade' id='foto-livro'>"
                 . "</div>";
             $dadosHTML= ob_get_clean();

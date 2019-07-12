@@ -88,6 +88,13 @@
     height: auto;
     border:none;
 }
+.mostra-foto{  
+
+    height: 400px;
+    background-color: #e8e8e1;
+    width: 80%;
+    margin: auto;
+}
     </style>
     @endsection
 
@@ -170,6 +177,7 @@ $(document).ready(function () {
                             $('.resultado1').addClass('fade');
                             $("#step1").addClass('fade');
                             $('#titulo').html("3-Enviar foto da folha...");
+                            $('#step1').before(data.html);                            
                         }else{                            
                             $('#step1').before(data.html);                            
                         }
