@@ -214,13 +214,13 @@ class Folha extends Controller
             ob_start();
                 echo""
             . "<div class='col-md-12 col-sm-12 resultado2'>"
-                . "<div id='mostra-foto'></div>"
-                . "<div class='icon-btn'>"
+                . "<div id='mostra-foto'><i class=\"icofont icofont-cloud-upload\" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>"
+                . "<div class='icon-btn fade buttons'>"
                 
-                . "<button class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
-                . "<button class=\"btn btn-success btn-icon\"><i class=\"icofont icofont-upload-alt\"></i></button>"
+                . "<button id='btn-deleta-foto' type='button' class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
+                . "<button id='btn-upload-foto' type='button' class=\"btn btn-success btn-icon\"><i class=\"icofont icofont icofont-ui-check\"></i></button>"
                 . "</div>"
-                . "<input type='file' class='form-control fade' id='foto-livro'>"
+                . "<input type='file' class='form-control fade' accept='image/*' id='foto-livro'>"
                 . "</div>";
             $dadosHTML= ob_get_clean();
             $resposta=1;
