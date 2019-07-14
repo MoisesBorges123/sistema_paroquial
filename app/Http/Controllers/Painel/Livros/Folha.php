@@ -5,26 +5,27 @@ namespace App\Http\Controllers\Painel\Livros;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Livros_Registros\Livros;
+use App\Models\Painel\Livros_Registros\Folhas;
+use App\Models\Painel\Livros_Registros\Foto_folhas;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 use Illuminate\Validation\Validator;
 
 
 
-use App\Models\Painel\TipoLivros;
-use App\Models\Painel\FolhaLivro;
+
 
 class Folha extends Controller
 {
     //
     private $livro;
-    private $tipo_livro;
+    private $fotos;
     private $pagina;
     
-    public function __construct(Livros $book,TipoLivros $tipo_livro, FolhaLivro $page) {
+    public function __construct(Livros $book, Folhas $paper, Foto_folhas $picture) {
         $this->livro = $book;        
-        $this->pagina =$page;
-        $this->tipo_livro = $tipo_livro;       
+        $this->pagina =$paper;
+        $this->fotos = $picture;       
     }
     public function index(){
         
@@ -69,7 +70,12 @@ class Folha extends Controller
     }
     
     public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
-        
+        /*
+         * Esse Código faz o cadastramento de um novo livro e não de uma nova folha
+         * Coloque ele aqui para caso o usuário tente cadastrar uma folha sem cadastrar um livro
+         * aí ele manda para esse código para salvar os dados do livro e depois trabalhar com 
+         * o cadastramento de uma nova folha.
+         */
             $dataForm = $request->all();
             
             //Validação Basica dos Campos
@@ -185,7 +191,7 @@ class Folha extends Controller
                             </div>
                             
                             <div class='col-md-6 col-sm-3 text-left resultado1'>
-                                <button class='btn btn-danger' type='button' id='btn-sair'>Cancelar</button>   
+                                <button class='btn btn-danger sair' type='button' >Cancelar</button>   
                             </div>
                             <div class='col-md-6 col-sm-3 text-right resultado1 ' id='btn-step2'>
                                 <button class='btn btn-inverse' id='btn-salvar' type='button'>Avançar</button>
@@ -201,7 +207,7 @@ class Folha extends Controller
     }   
     
     public function validaStep1(Request $request, FuncoesAdicionais $fn){
-       
+      
         $dados_VALIDACAO=[];
         $dados_VALIDACAO[]=['value'=>$request->input("livro"),'type'=>1,'variavel'=>'livro'];
         $dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>0,'variavel'=>'numeração da página'];
@@ -218,10 +224,13 @@ class Folha extends Controller
                 . "<div class='icon-btn fade buttons'>"
                 
                 . "<button id='btn-deleta-foto' type='button' class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
-                . "<button id='btn-upload-foto' type='button' class=\"btn btn-success btn-icon\"><i class=\"icofont icofont icofont-ui-check\"></i></button>"
+                . "<button id='btn-upload-foto' type='submit' class=\"btn btn-success btn-icon\"><i class=\"icofont icofont icofont-ui-check\"></i></button>"
                 . "</div>"
-                . "<input type='file' class='form-control fade' accept='image/*' id='foto-livro'>"
-                . "</div>";
+                . "<input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>"
+                . "</div>"
+                . "<div class='col-md-6 col-sm-3 text-left resultado2'>
+                    <button class='btn btn-danger sair' type='button' >Cancelar</button>   
+                </div>";
             $dadosHTML= ob_get_clean();
             $resposta=1;
         }else{
@@ -243,6 +252,65 @@ class Folha extends Controller
             'resposta'=>$resposta
         );
         return $dados;
+    }
+    
+    public function salvar_folha(Request $request, FuncoesAdicionais $fn){
+     
+        $dadosForm = $request->except('_token');
+        if(!empty($dadosForm)){
+            
+            $extencao=$dadosForm['foto']->extension();
+            $tamanho=$dadosForm['foto']->getClientSize();
+            $nameFile=uniqid(time()).".".$extencao;
+            $caminho = "Imagens/Livro_".$dadosForm['livro']."/Folhas/";
+            $upload=$dadosForm['foto']->storeAs($caminho,$nameFile);
+
+            if($upload){
+                $campos=['num_pagina','livro','observacao'];
+                $valores=[];      
+                $valores[]=['value'=>$dadosForm['numeracao_pagina'],'type'=>0];
+                $valores[]=['value'=>$dadosForm['livro'],'type'=>0];
+                $valores[]=['value'=>$dadosForm['obs_folha'],'type'=>0];
+                $dadosTratados=$fn->tratamentoDados($valores, $campos);
+                $r=$this->pagina->create($dadosTratados);
+                $folha = $r->id_folha;
+
+                if($r){
+                   $dados=[
+                       'foto'   => $nameFile,
+                       'tamanho'=>$tamanho,
+                       'caminho'=>$caminho,
+                       'folha'  =>$folha
+                   ];
+
+                   $r2=$this->fotos->create($dados);
+
+                   if($r2){
+                       return redirect()
+                        ->back()
+                        ->with('success','OK! Folha adicionada com sucesso.');
+
+                   }
+                }else{
+                    return redirect()
+                        ->back()
+                        ->with('erro','Erro ao salvar os dados verifique se estão corretos.')
+                        ->withInput();
+                }
+            }else{
+                return redirect()
+                        ->back()
+                        ->with('erro','Não foi possível fazer o upload do arquivo.')
+                        ->withInput();
+            }
+            
+        }else{
+            return redirect()
+                        ->back()
+                        ->with('erro','Não foi possível encontrar o arquivo selecionado.')
+                        ->withInput();
+        }
+        
     }
     
     public function salvar(Request $request,$livroSelect){

@@ -1,7 +1,9 @@
 
 <nav class="pcoded-navbar">
                         <div class="pcoded-inner-navbar main-menu">
+                            <!--Sistema 
                             <div class="pcoded-navigatio-lavel">Sistema</div>
+                            
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
@@ -116,6 +118,8 @@
                                     </ul>
                                 </li>
                             </ul>
+                             Fim Sistema -->
+                            <!--Dízimo
                             <div class="pcoded-navigatio-lavel">Dízimo</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
@@ -376,6 +380,7 @@
                                     </ul>
                                 </li>
                             </ul>
+                            -->
                             <div class="pcoded-navigatio-lavel">Certidões</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
@@ -517,6 +522,7 @@
                                     </ul>
                                 </li>
                             </ul>
+                            <!--Pastoriais e Movimentos
                             <div class="pcoded-navigatio-lavel">Pastorais / Movimentos</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
@@ -733,6 +739,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            -->
                             <div class="pcoded-navigatio-lavel">Intenções e Avisos de Missa</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
@@ -843,6 +850,8 @@
                                     </a>
                                 </li>
                             </ul>
+                            
+                            <!--Cursos
                             <div class="pcoded-navigatio-lavel">Cursos</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
@@ -1059,6 +1068,9 @@
                                     </ul>
                                 </li>
                             </ul>
+                            -->
+                            
+                            <!--Biblioteca
                             <div class="pcoded-navigatio-lavel">Biblioteca</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class=" ">
@@ -1202,6 +1214,11 @@
                                     </ul>
                                 </li>
                             </ul>
+                            
+                            -->
+                            
+                            <!--Estacionamento
+                            
                             <div class="pcoded-navigatio-lavel">Estacionamento</div>
                             <ul class="pcoded-item pcoded-left-item">
                                <li class="">
@@ -1274,6 +1291,8 @@
                                     </a>
                                 </li>
                             </ul>
+                            -->
+                            <!--Outros
                             <div class="pcoded-navigatio-lavel">Other</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
@@ -1320,6 +1339,8 @@
                                     </a>
                                 </li>
                             </ul>
+                            -->
+                            <!--Suport
                             <div class="pcoded-navigatio-lavel">Support</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
@@ -1335,6 +1356,8 @@
                                     </a>
                                 </li>
                             </ul>
+                            
+                            -->
                         </div>
                     </nav>
 

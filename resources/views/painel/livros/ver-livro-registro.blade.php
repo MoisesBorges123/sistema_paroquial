@@ -31,14 +31,14 @@
                     <div class="card-header text-center bg-inverse">
                         <h4 class='text-white' id="titulo">1-Selecione o sacramento referente aos registros do livro</h4>
                     </div>
-                    <div class="progress progress-xs" id="progressbox">
-                            <div class="progress-bar progress-bar-danger" id="progressbar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress progress-xs fade" id="progressbox">
+                            <div class="progress-bar progress-bar-danger" id="progressbar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                 <div class="card-block"> 
                   
                         
                    
-                    <form method="POST" action="{{route("SalvarLivroDigital.Folha")}}" id="form-folha-liro">
+                    <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                        
                                @if(isset($errors) && count($errors)>0)
@@ -51,6 +51,11 @@
                                 @if(session('erro'))
                                 <div class="alert alert-danger">                                    
                                     <p>{!!session('erro')!!}</p>                                    
+                                </div>
+                                @endif
+                                @if(session('success'))
+                                <div class="alert alert-success">                                    
+                                    <p>{!!session('success')!!}</p>                                    
                                 </div>
                                 @endif
                 <div  class="row m-t-20">
@@ -69,8 +74,26 @@
                     </div>
                     </div>
                               
-                    </form>                    
-               
+                    </form> 
+                    <!--
+                    
+                    *Tentei trabalhar com a progressbar, mas não deu certo
+                    *Formulário de envio de arquivo
+                    
+                  <form id="uploadForm"  enctype="multipart/form-data" class="form">
+                        <input id="inpFile" type="file" name="foto" />
+                        <input class="button"  type="submit" value="Enviar" />
+
+                        
+                    </form>
+
+                    <div class="progress-bar" idprogressBar>
+                        <div class="progress-bar-fill"></div >
+                        <span class="percent">0%</span >
+                    </div>
+
+                    <div id="status"></div>
+                    -->
             </div>
         </div>
  </div>
@@ -122,11 +145,40 @@
 
     @section('javascript')
    <!-- jquery funções AJAX -->
+    <script src="{{asset('estilo_painel/assets/js/jquery.form.js')}}"></script>
     <script src="{{asset('estilo_painel/assets/js/meus/painel-digitalizacao-folha-ajax.js')}}"></script>
    
 
     
     <script type="text/javascript">
-
+        $(document).ready(function(){
+            $(document).on('change','#sacramento',function(){
+                $('.alert').remove();
+            });
+        });
+        
+        
+        /*
+         * Código JAVASCRIPT para trabalhar com progressbar mas não deu ceto
+         * Talvez um dia dê certo
+         * 
+        const uploadForm = document.getElementById("uploadForm");
+        const inpFile = document.getElementById("inpFile");
+        const progressBarFill = document.querySelector("#progressBar > .progress-bar-fill");
+        const progressBarText = progressBarFill.querySelector(".progress-bar-text");
+        uploadForm.addEventListener("submit",uploadFile);
+        
+        function uploadFile(e){
+            e.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST","http://127.0.0.1:8000/painel/livros/ajax3/salvar/livroDigital/novaFolha");
+            xhr.upload.addEventListener("progress",e => {
+                progressBarFill.style.width=percent.toFixed(2)
+                progressBarText.textContent=percent.toFixed(2)
+            });
+            xhr.setRequestHeader("Content-Type","multipart/form-data");
+            xhr.send(new FomrData(uploadForm));
+        }
+        */
     </script>
     @endsection
