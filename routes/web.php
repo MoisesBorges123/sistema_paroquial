@@ -14,20 +14,22 @@
 Route::get('/', function () {
     //return view('welcome');
     return view('painel\dashboard');
-});
+})->name('dashboard');
 
 
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO
-Route::group(['prefix'=>'painel/livros'], function () {    
+Route::group(['prefix'=>'painel/livros'], function () {
+//Rotas para cadastrar uma nova página    
  Route::get('/cadastro/livroDigital/novasFolhas', 'Painel\Livros\Folha@index')->name("FormCadastro.Folha");    
     Route::post('/ajax/livroDigital/novaFolha','Painel\Livros\Folha@buscar_livros')->name("BuscaLivroDititalizacao.Folha");
     Route::post('/ajax2/livroDigital/novaFolha','Painel\Livros\Folha@validaStep1')->name("VerificaStep1.Folha");
     Route::post('/ajax3/salvar/livroDigital/novaFolha','Painel\Livros\Folha@salvar_folha')->name("SalvarDigitalizacao.Folha");
     
     
-
- 
+//Rotas´para cadastrar um novo livro
+Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro')->name("FormCadastro.Livro");    
+    Route::post('/salvar/livroDigital/novoLivro','Painel\Livros\LivrosRegistros@salvarLivroDigital')->name("SalvarLivroDigital.Folha");
             
 
 
@@ -35,9 +37,7 @@ Route::group(['prefix'=>'painel/livros'], function () {
             //INICIO ROTAS PARA TRABALHAR COM LIVROS===================================================================    
 
                 //FORMULÁRIO P/ CADASTRAR LIVRO
-                Route::get('/cadastro', 'Painel\Livros\LivrosRegistros@form_cadastro')->name("FormCadastro.Livro");    
                 Route::get('/cadastro/livroDigital/novoLivro/{sacramento}', 'Painel\Livros\LivrosRegistros@form_cadastro2')->name("FormCadastro2.Livro");    
-                    Route::post('/salvar/livroDigital/novoLivro','Painel\Livros\Folha@salvarLivroDigital')->name("SalvarLivroDigital.Folha");
                 //VISUALIZAR LIVROS
                 Route::get('/visualizar', 'Painel\Livros\LivrosRegistros@index')->name("Visualizar.Livro");
                 //EXCLUIR LIVROS

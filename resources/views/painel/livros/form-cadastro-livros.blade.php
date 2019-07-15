@@ -6,8 +6,36 @@
 
 
 <div class="page-body">
-    <!-- Basic table card start -->
-
+   @if(!empty(session('sucesso')))
+    <div class="card">
+        <div class='card-block'>
+            <!-- popup example start -->
+                <div class="bd-example bd-example-modal" style='background:none'>
+                    <div class="modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success">
+                                    <h5 class="modal-title">Livro Cadastrado!</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>{!!session('sucesso')!!}</p><br>                                    
+                                    <p>Clique no botão <b>Adicionar Folhas</b> para inserir fotos das paginas desse livro</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{route('FormCadastro.Livro')}}" class="btn btn-secondary mobtn" data-dismiss="modal">Voltar</button>
+                                    <a href="{{route('FormCadastro.Folha')}}" class="btn btn-primary mobtn">Adicionar Folhas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                                        <!-- popup example end -->
+        </div>
+    </div>
+   @else
     <div class="row">
         <div class="col-md-1 col-sm-1"></div>
         <div class="col-md-10 col-sm-12">
@@ -23,11 +51,13 @@
                             <p>{{$erro}}</p>
                             @endforeach
                         </div>
+                        @else
                         @endif
                         @if(session('erro'))
                         <div class="alert alert-danger">                                    
                             <p>{!!session('erro')!!}</p>                                    
                         </div>
+                        @else
                         @endif
                         <div class="card-header text-center bg-inverse"><h4>Dados do Livro</h4></div>
                         <div class="card-body">
@@ -40,12 +70,12 @@
                                     <label>*Livro de:</label>
                                     <select value="1" class="form-control" name="sacramento" id="sacramento" required="">
                                         <option value="">Selecione um sacramento</option>
-                                        @foreach($query2->all() as $dado2)
-                                        @if(old('sacramento')==$dado2->id_sacramento)                                            
-                                        <option value="{{$dado2->id_sacramento}}" selected="true">{{$dado2->nome}}</option>
-                                        @else
-                                        <option value="{{$dado2->id_sacramento}}">{{$dado2->nome}}</option>
-                                        @endif
+                                        @foreach($query->all() as $dado2)
+                                            @if(old('sacramento')==$dado2->id_sacramento)                                            
+                                            <option value="{{$dado2->id_sacramento}}" selected="true">{{$dado2->nome}}</option>
+                                            @else
+                                            <option value="{{$dado2->id_sacramento}}">{{$dado2->nome}}</option>
+                                            @endif
                                         @endforeach                        
                                     </select>
                                 </div>
@@ -95,7 +125,7 @@
 
         </div> 
     </div>
-
+   @endif
 
 
     <!-- BODY PAGE -->
@@ -105,6 +135,9 @@
 
     <!-- themify-icons line icon -->
     <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/icon/themify-icons/themify-icons.css')}}">
+    <!-- animation nifty modal window effects css -->
+    <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/component.css')}}">
+    
     <style>
         .listaLivros{
             width: 100px;
@@ -115,17 +148,22 @@
     @endsection
 
     @section('javascript')  
-
-
+    
+    <!-- sweet alert js -->
+    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/sweetalert/js/sweetalert.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/modal.js')}}"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/modalEffects.js')}}"></script>
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/classie.js')}}"></script>
+    
     <script type="text/javascript">
-    $(document).ready(function () {
-
-            @if (!empty(session('livro')))
-                $('#livro').val({{session('livro')}});
-            @endif
+    $(document).ready(function () {           
        
-
        
+       $(document).on('click','#btn-cancelar',function(){
+           window.location.href="{{route('dashboard')}}";
+       });
 
 
 

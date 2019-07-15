@@ -390,12 +390,18 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class="">
+                                            <a href="{{route("FormCadastro.Livro")}}">
+                                                <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                                <span class="pcoded-mtext">Novo Livro</span>
+                                            </a>
+                                        </li>
+                                        
+                                        <li class="">
                                             <a href="{{route("FormCadastro.Folha")}}">
                                                 <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
                                                 <span class="pcoded-mtext">Digitalização</span>
                                             </a>
                                         </li>
-                                        
                                        
                                        <li class="pcoded-hasmenu ">
                                             <a href="javascript:void(0)">
