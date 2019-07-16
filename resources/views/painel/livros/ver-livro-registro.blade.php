@@ -23,7 +23,7 @@
         </div>
     </div>
     @else
-
+            
     <div class="row">
         <div class="col-md-1 col-sm-1"></div>
         <div class="col-md-10 col-sm-12">

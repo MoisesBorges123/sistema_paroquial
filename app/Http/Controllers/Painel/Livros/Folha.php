@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Painel\Livros_Registros\Livros;
 use App\Models\Painel\Livros_Registros\Folhas;
 use App\Models\Painel\Livros_Registros\Foto_folhas;
+use App\Models\Painel\Livros_Registros\Sacramentos;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 use Illuminate\Validation\Validator;
@@ -21,11 +22,13 @@ class Folha extends Controller
     private $livro;
     private $fotos;
     private $pagina;
+    private $sacramento;
     
-    public function __construct(Livros $book, Folhas $paper, Foto_folhas $picture) {
+    public function __construct(Livros $book, Folhas $paper, Foto_folhas $picture, Sacramentos $holyActivities) {
         $this->livro = $book;        
         $this->pagina =$paper;
-        $this->fotos = $picture;       
+        $this->fotos = $picture;
+        $this->sacramento = $holyActivities;
     }
     public function index(){
         
@@ -41,33 +44,23 @@ class Folha extends Controller
         return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','query','query2'));
     }
     
-    public function form_cadastro($livro){
-        $dado = DB::table('livros_registros')
-                ->where('id_livros_registros',$livro)
-                ->first();
-        $paginasCadastradas =DB::table('paginas_livros_registro')
-                ->where('livro',$livro)   
-                ->orderBy('paginas_livros_registro.num_pagina','asc')
-                ->get();
-                
-       
-        $tituloPagina = "Adicionar Folha";
-        $page_header = "Adicinar Folha no Livro ".$dado->numero;
-      $descricao_page_header="Paginas Cadastradas: ";
+
     
-        if(!empty($paginasCadastradas)){
-            
-            foreach ($paginasCadastradas->all() as $pagina){
-                $descricao_page_header.=$pagina->num_pagina.", ";
-              
-            }
-            
-        }else{
-            $descricao_page_header = "Livro em branco.";
-        }
-      
-        return view('painel\livros\form-cadastro-folhas',compact('tituloPagina','page_header','descricao_page_header','dado'));
+    public function salva_folha_via_cadas_livro($livo,$sacramento){
+      $tituloPagina = "Adicionar Folha";
+      $page_header = "Adicinar Folhas ao Livro ".$this->livro-find($livro)->numeracao." de ".$this->sacramento->find($sacramento)->nome.".";
+      $descricao_page_header="Paginas Cadastradas: ";
+
+      $dados= array(
+          'livro'=>$livro,
+          'sacramento'=>$sacramento          
+      );
+      return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','dados'));
     }
+    
+    
+    
+    
     
     public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
         /*

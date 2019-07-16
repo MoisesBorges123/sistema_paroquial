@@ -7,34 +7,29 @@
 
 <div class="page-body">
    @if(!empty(session('sucesso')))
-    <div class="card">
-        <div class='card-block'>
+   
             <!-- popup example start -->
-                <div class="bd-example bd-example-modal" style='background:none'>
-                    <div class="modal">
+                <div class="bd-example bd-example-modal" >
+                    <div class="modal" style='background:none'>
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-success">
                                     <h5 class="modal-title">Livro Cadastrado!</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+                                   
                                 </div>
                                 <div class="modal-body">
-                                    <p>{!!session('sucesso')!!}</p><br>                                    
+                                    <p>{!!session('sucesso')!!}</p>                                    
                                     <p>Clique no botão <b>Adicionar Folhas</b> para inserir fotos das paginas desse livro</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <a href="{{route('FormCadastro.Livro')}}" class="btn btn-secondary mobtn" data-dismiss="modal">Voltar</button>
-                                    <a href="{{route('FormCadastro.Folha')}}" class="btn btn-primary mobtn">Adicionar Folhas</a>
+                                    <a href="{{route('FormCadastro.Livro')}}" class="btn btn-secondary mobtn" data-dismiss="modal">Cadastrar Mais Livros</button>
+                                    <a href="{{route('FormCadastro2.Folha',session('livro'),session('sacramento'))}}" class="btn btn-primary mobtn">Adicionar Folhas</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                                                        <!-- popup example end -->
-        </div>
-    </div>
+       
    @else
     <div class="row">
         <div class="col-md-1 col-sm-1"></div>

@@ -98,10 +98,12 @@ public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
                     $campos = ['numeracao','data_inicio','data_fim','descricao','quant_paginas','sacramento','igreja'];
                     $dados=$fn->tratamentoDados($dado,$campos);    
                     $insert=$this->livro->create($dados);
-             
+                     $sacramentoSelecionado = $this->sacramentos->find($dataForm['sacramento']);
                     return redirect()
                             ->back()
-                            ->with('sucesso',"O livro ".$dataForm['numeracao']." de ".$dataForm['sacramento']." foi cadastrado com sucesso.");
+                            ->with('sucesso',"O livro ".$dataForm['numeracao']." de ".$sacramentoSelecionado->nome." foi cadastrado com sucesso.")
+                            ->with('sacramento',$dataForm['sacramento'])
+                            ->with('livro',$insert->id_livro);
                      
                 
                 }else{
