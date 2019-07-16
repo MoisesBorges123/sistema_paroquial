@@ -9,7 +9,7 @@
     <!-- Basic table card start -->
 
 
-    @if(empty($query))
+    @if(empty($query)&& empty($dados))
     <div class="card">
         <div class="card-block">
             <div class="row">
@@ -23,81 +23,107 @@
         </div>
     </div>
     @else
-            
-    <div class="row">
-        <div class="col-md-1 col-sm-1"></div>
-        <div class="col-md-10 col-sm-12">
-                <div class="card" >
-                    <div class="card-header text-center bg-inverse">
-                        <h4 class='text-white' id="titulo">1-Selecione o sacramento referente aos registros do livro</h4>
-                    </div>
-                    <div class="progress progress-xs fade" id="progressbox">
-                            <div class="progress-bar progress-bar-danger" id="progressbar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                <div class="card-block"> 
-                  
-                        
-                   
-                    <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
-                            {!! csrf_field() !!}
-                       
-                               @if(isset($errors) && count($errors)>0)
-                                <div class="alert alert-danger">
-                                    @foreach($errors->all() as $erro)
-                                    <p>{{$erro}}</p>
-                                    @endforeach
-                                </div>
-                                @endif
-                                @if(session('erro'))
-                                <div class="alert alert-danger">                                    
-                                    <p>{!!session('erro')!!}</p>                                    
-                                </div>
-                                @endif
-                                @if(session('success'))
-                                <div class="alert alert-success">                                    
-                                    <p>{!!session('success')!!}</p>                                    
-                                </div>
-                                @endif
-                <div  class="row m-t-20">
-                     <div class="col-md-5 col-sm-12" id="step1">
-                        <label>*Livro de:</label>
-                        <select value="1" class="form-control" name="sacramento" id="sacramento" required="">
-                            <option value="">Selecione um sacramento</option>
-                            @foreach($query2->all() as $dado2)
-                            @if(old('sacramento')==$dado2->id_sacramento)                                            
-                            <option value="{{$dado2->id_sacramento}}" selected="true">{{$dado2->nome}}</option>
-                            @else
-                            <option value="{{$dado2->id_sacramento}}">{{$dado2->nome}}</option>
-                            @endif
-                            @endforeach                        
-                        </select>
-                    </div>
-                    </div>
-                              
-                    </form> 
-                    <!--
-                    
-                    *Tentei trabalhar com a progressbar, mas não deu certo
-                    *Formulário de envio de arquivo
-                    
-                  <form id="uploadForm"  enctype="multipart/form-data" class="form">
-                        <input id="inpFile" type="file" name="foto" />
-                        <input class="button"  type="submit" value="Enviar" />
-
-                        
-                    </form>
-
-                    <div class="progress-bar" idprogressBar>
-                        <div class="progress-bar-fill"></div >
-                        <span class="percent">0%</span >
-                    </div>
-
-                    <div id="status"></div>
-                    -->
+       @if(!empty($dados)) 
+        <div class="row">
+            <div class="col-md-12 col-sm-12 passo1">
+                <label>Numero da Página</label>
+                <input type="text" maxlength="2" name="numero_folha" required="">
             </div>
+            <div class='col-md-12 passo1'>
+                <label>Observações</label>
+                <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
+            </div>
+           <div class='col-md-12 col-sm-12 passo2'>
+              <div id='mostra-foto'><i class="icofont icofont-cloud-upload" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>
+               <div class='icon-btn fade buttons'>
+                
+                <button id='btn-deleta-foto' type='button' class="btn btn-danger btn-icon"><i class="icofont icofont-trash"></i></button>
+                <button id='btn-upload-foto' type='submit' class="btn btn-success btn-icon"><i class="icofont icofont icofont-ui-check"></i></button>
+                </div>
+              
+                <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
+                <input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>
+                </div>
+                <div class='col-md-6 col-sm-3 text-left resultado2'>
+                    <button class='btn btn-danger sair' type='button' >Cancelar</button>   
+                </div>
         </div>
- </div>
-</div>
+       @else
+                <div class="row">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-10 col-sm-12">
+                            <div class="card" >
+                                <div class="card-header text-center bg-inverse">
+                                    <h4 class='text-white' id="titulo">1-Selecione o sacramento referente aos registros do livro</h4>
+                                </div>
+                                <div class="progress progress-xs fade" id="progressbox">
+                                        <div class="progress-bar progress-bar-danger" id="progressbar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                            <div class="card-block"> 
+
+
+
+                                <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
+                                        {!! csrf_field() !!}
+
+                                           @if(isset($errors) && count($errors)>0)
+                                            <div class="alert alert-danger">
+                                                @foreach($errors->all() as $erro)
+                                                <p>{{$erro}}</p>
+                                                @endforeach
+                                            </div>
+                                            @endif
+                                            @if(session('erro'))
+                                            <div class="alert alert-danger">                                    
+                                                <p>{!!session('erro')!!}</p>                                    
+                                            </div>
+                                            @endif
+                                            @if(session('success'))
+                                            <div class="alert alert-success">                                    
+                                                <p>{!!session('success')!!}</p>                                    
+                                            </div>
+                                            @endif
+                            <div  class="row m-t-20">
+                                 <div class="col-md-5 col-sm-12" id="step1">
+                                    <label>*Livro de:</label>
+                                    <select value="1" class="form-control" name="sacramento" id="sacramento" required="">
+                                        <option value="">Selecione um sacramento</option>
+                                        @foreach($query2->all() as $dado2)
+                                        @if(old('sacramento')==$dado2->id_sacramento)                                            
+                                        <option value="{{$dado2->id_sacramento}}" selected="true">{{$dado2->nome}}</option>
+                                        @else
+                                        <option value="{{$dado2->id_sacramento}}">{{$dado2->nome}}</option>
+                                        @endif
+                                        @endforeach                        
+                                    </select>
+                                </div>
+                                </div>
+
+                                </form> 
+                                <!--
+
+                                *Tentei trabalhar com a progressbar, mas não deu certo
+                                *Formulário de envio de arquivo
+
+                              <form id="uploadForm"  enctype="multipart/form-data" class="form">
+                                    <input id="inpFile" type="file" name="foto" />
+                                    <input class="button"  type="submit" value="Enviar" />
+
+
+                                </form>
+
+                                <div class="progress-bar" idprogressBar>
+                                    <div class="progress-bar-fill"></div >
+                                    <span class="percent">0%</span >
+                                </div>
+
+                                <div id="status"></div>
+                                -->
+                        </div>
+                    </div>
+             </div>
+            </div>
+           @endif
         @endif
    
 </div>
@@ -121,9 +147,9 @@
 }
 #mostra-foto{  
 
-    height: 400px;
+    height: 550px;
     background-color: #e8e8e1;
-    width: 80%;
+    width: 60%;
     margin: auto;
     font-size: 50px;
     padding: 15%;

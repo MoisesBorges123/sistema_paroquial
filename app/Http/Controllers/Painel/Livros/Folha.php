@@ -46,9 +46,11 @@ class Folha extends Controller
     
 
     
-    public function salva_folha_via_cadas_livro($livo,$sacramento){
+    public function form_folha_via_cadas_livro($livro,$sacramento){
       $tituloPagina = "Adicionar Folha";
-      $page_header = "Adicinar Folhas ao Livro ".$this->livro-find($livro)->numeracao." de ".$this->sacramento->find($sacramento)->nome.".";
+      $dadosLivro= $this->livro->find($livro);
+      $dadosSacramento = $this->sacramento->find($sacramento);
+      $page_header = "Adicinar Folhas ao Livro ".$dadosLivro->numeracao." de ".$dadosSacramento->nome.".";
       $descricao_page_header="Paginas Cadastradas: ";
 
       $dados= array(
@@ -306,51 +308,62 @@ class Folha extends Controller
         
     }
     
-    public function salvar(Request $request,$livroSelect){
-        //Pega dados do formulario         
-        if(!empty($request)){
-            $dadosForm=$request->all(); 
-            $dados_livro=DB::table('livros_registros')->where('id_livros_registros',$livroSelect)->first();
-            $file=$dadosForm['foto'];
-            $qtdeFotos=count($file);
-          
-            for($i=0;$i<$qtdeFotos;$i++){
-                $extencao=$dadosForm['foto'][$i]->extension();
-                $nameFile=uniqid(time()).".".$extencao;
-                $upload=$dadosForm['foto'][$i]->storeAs("public/Livros/".$dados_livro->numero,$nameFile);
-                if($upload){
-                    
-                    $insert = DB::table('paginas_livros_registro')
-                            ->insert([
-                                'livro'=> $livroSelect,
-                                'num_pagina'=>$dadosForm['num_pagina'],
-                                'foto'=>$nameFile,
-                                'observacao'=> $dadosForm['observacao']
-                                ]);
-                    if($insert){
-                        return redirect()->route("FormCadastro.Folha",$livroSelect)
-                                ->with('mensagem','Folha adicionada com sucesso!')
-                                ->with('tipo','success');
-                        
-                    }else{
-                        return redirect()->route("FormCadastro.Folha",$livroSelect)
-                                ->with('mensagem','Ops! Não foi possivel adicionar essa folha ao livro.')
-                                ->with('tipo','danger');
-                    }
-                    
+    public function salvar_folha2(Request $request,$livroSelect){
+        
+          $dadosForm = $request->except('_token');
+        if(!empty($dadosForm)){
+            
+            $extencao=$dadosForm['foto']->extension();
+            $tamanho=$dadosForm['foto']->getClientSize();
+            $nameFile=uniqid(time()).".".$extencao;
+            $caminho = "Imagens/Livro_".$dadosForm['livro']."/Folhas/";
+            $upload=$dadosForm['foto']->storeAs($caminho,$nameFile);
+
+            if($upload){
+                $campos=['num_pagina','livro','observacao'];
+                $valores=[];      
+                $valores[]=['value'=>$dadosForm['numeracao_pagina'],'type'=>0];
+                $valores[]=['value'=>$dadosForm['livro'],'type'=>0];
+                $valores[]=['value'=>$dadosForm['obs_folha'],'type'=>0];
+                $dadosTratados=$fn->tratamentoDados($valores, $campos);
+                $r=$this->pagina->create($dadosTratados);
+                $folha = $r->id_folha;
+
+                if($r){
+                   $dados=[
+                       'foto'   => $nameFile,
+                       'tamanho'=>$tamanho,
+                       'caminho'=>$caminho,
+                       'folha'  =>$folha
+                   ];
+
+                   $r2=$this->fotos->create($dados);
+
+                   if($r2){
+                       return redirect()
+                        ->back()
+                        ->with('success','OK! Folha adicionada com sucesso.');
+
+                   }
                 }else{
-                    return redirect()->back()
-                            ->with('mensagem','Não foi possivel fazer o upload desse arquivo ao servidor, por favor verifique a sua conexão.')
-                            ->with('tipo','warning');
+                    return redirect()
+                        ->back()
+                        ->with('erro','Erro ao salvar os dados verifique se estão corretos.')
+                        ->withInput();
                 }
+            }else{
+                return redirect()
+                        ->back()
+                        ->with('erro','Não foi possível fazer o upload do arquivo.')
+                        ->withInput();
             }
             
-           
-    }else{
-        return redirect()->back()-with('mensagem','Não foi possivel concectar ao servidor por favor verifique sua conexão.');
-    }
-    
-    
+        }else{
+            return redirect()
+                        ->back()
+                        ->with('erro','Não foi possível encontrar o arquivo selecionado.')
+                        ->withInput();
+        }
     
     }
 }

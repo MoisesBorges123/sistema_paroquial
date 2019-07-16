@@ -9,6 +9,8 @@
    @if(!empty(session('sucesso')))
    
             <!-- popup example start -->
+            <form method="POST" action="{{route("SalvarLivroDigital.Livro")}}">
+                    {!! csrf_field() !!}
                 <div class="bd-example bd-example-modal" >
                     <div class="modal" style='background:none'>
                         <div class="modal-dialog" role="document">
@@ -19,17 +21,17 @@
                                 </div>
                                 <div class="modal-body">
                                     <p>{!!session('sucesso')!!}</p>                                    
-                                    <p>Clique no botão <b>Adicionar Folhas</b> para inserir fotos das paginas desse livro</p>
+                                    <p>Clique no botão <b>Adicionar Folhas</b> para inserir fotos das paginas desse livro.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <a href="{{route('FormCadastro.Livro')}}" class="btn btn-secondary mobtn" data-dismiss="modal">Cadastrar Mais Livros</button>
-                                    <a href="{{route('FormCadastro2.Folha',session('livro'),session('sacramento'))}}" class="btn btn-primary mobtn">Adicionar Folhas</a>
+                                    <a href="{{route('FormCadastro2.Folha',['livro' =>session('livro'),'sacramento'=> session('sacramento')])}}" class="btn btn-primary mobtn">Adicionar Folhas</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-       
+            </form>
    @else
     <div class="row">
         <div class="col-md-1 col-sm-1"></div>
@@ -37,7 +39,7 @@
 
 
             <div class="card m-t-20">
-                <form method="POST" action="{{route("SalvarLivroDigital.Folha")}}">
+                <form method="POST" action="{{route("SalvarLivroDigital.Livro")}}">
                     {!! csrf_field() !!}
                     <div class="card">
                         @if(isset($errors) && count($errors)>0)
