@@ -44,8 +44,6 @@ class Folha extends Controller
         return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','query','query2'));
     }
     
-
-    
     public function form_folha_via_cadas_livro($livro,$sacramento){
       $tituloPagina = "Adicionar Folha";
       $dadosLivro= $this->livro->find($livro);
@@ -59,10 +57,6 @@ class Folha extends Controller
       );
       return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','dados'));
     }
-    
-    
-    
-    
     
     public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
         /*
@@ -309,8 +303,88 @@ class Folha extends Controller
     }
     
     public function salvar_folha2(Request $request,$livroSelect){
+            
+            $dadosForm = $request->except('_token');
+            $buscaFolha = $this->pagina->where('num_pagina',$dadosForm['numero_folha']);
+            if(empty($buscaFolha->id_folha)){
+                if(!empty($dadosForm['foto'])){
+                    $extencao=$dadosForm['foto']->extension();
+                    $tamanho=$dadosForm['foto']->getClientSize();
+                    $nameFile= uniqid(time()).".".extencao;
+                    $caminho="Imagens/Livro_".$dadosForm['livro']."/Folhas/";
+                    $upload=$dadosForm['foto']->storeAs($caminho,$nameFile);
+                    if($upload){
+                        $campos=['num_pagina','livro','observacao'];
+                        $valores=[];      
+                        $valores[]=['value'=>$dadosForm['numeracao_pagina'],'type'=>0];
+                        $valores[]=['value'=>$dadosForm['livro'],'type'=>0];
+                        $valores[]=['value'=>$dadosForm['obs_folha'],'type'=>0];
+                        $dadosTratados=$fn->tratamentoDados($valores, $campos);
+                        $r=$this->pagina->create($dadosTratados);
+                        $folha = $r->id_folha;
+                        
+                        if($r){
+                               $dados=[
+                                   'foto'   => $nameFile,
+                                   'tamanho'=>$tamanho,
+                                   'caminho'=>$caminho,
+                                   'folha'  =>$folha
+                               ];
+
+                               $r2=$this->fotos->create($dados);
+                               
+                               if($r2){
+                                   return redirect()
+                                           ->back()
+                                           ->with('success2','Ok! Folha cadastrada com sucess.')
+                                           ->withInput();
+                               }
+                    }else{
+                        return redirect()
+                               ->back() 
+                                ->with('erro2','Ops! Erro ao cadastrar dados referentes a imagem selecionada.')
+                                -withInput();
+                    }
+                        
+                    }else{
+                        return redirect()
+                                ->back()
+                                ->withInput()
+                                ->with('erro2','Ops! Ocorreu um erro ao fazer o upload do seu arquivo.');
+                                
+                    }
+                    
+                }
+            }else{
+                /*
+                 * Os dados digitados pelo usuário já foram cadastrados (Essa pagina já existe)
+                 */
+                ob_start();
+                echo"<div class=\"bd-example bd-example-modal\" >
+                    <div class=\"modal\" style='background:none'>
+                        <div class=\"modal-dialog\" role=\"document\">
+                            <div class=\"modal-content\">
+                                <div class=\"modal-header bg-warnning\">
+                                    <h5 class=\"modal-title\">Duplicação de dados!</h5>
+                                   
+                                </div>
+                                <div class=\"modal-body\">
+
+                                    <p><b>Ops!</b>Os dados que você inseriu já foram cadastrados no sistema, deseja sobrescrever os dados ou apenas adicionar mais uma foto 
+                                    à página em .</p>
+                                </div>
+                                <div class=\"modal-footer\">
+                                    <a href=".route('FormCadastro.Livro')." class=\"btn btn-secondary mobtn\" data-dismiss=\"modal\">Cadastrar Mais Livros</button>
+                                    <a href=".route('FormCadastro2.Folha',['livro' =>session('livro'),'sacramento'=> session('sacramento')])." class=\"btn btn-primary mobtn\">Adicionar Folhas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+                $alerta= ob_get_clean();
+            }
         
-          $dadosForm = $request->except('_token');
+          
         if(!empty($dadosForm)){
             
             $extencao=$dadosForm['foto']->extension();

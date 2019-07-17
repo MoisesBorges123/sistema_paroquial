@@ -23,31 +23,56 @@
         </div>
     </div>
     @else
-       @if(!empty($dados)) 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 passo1">
-                <label>Numero da Página</label>
-                <input type="text" maxlength="2" name="numero_folha" required="">
-            </div>
-            <div class='col-md-12 passo1'>
-                <label>Observações</label>
-                <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
-            </div>
-           <div class='col-md-12 col-sm-12 passo2'>
-              <div id='mostra-foto'><i class="icofont icofont-cloud-upload" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>
-               <div class='icon-btn fade buttons'>
-                
-                <button id='btn-deleta-foto' type='button' class="btn btn-danger btn-icon"><i class="icofont icofont-trash"></i></button>
-                <button id='btn-upload-foto' type='submit' class="btn btn-success btn-icon"><i class="icofont icofont icofont-ui-check"></i></button>
-                </div>
-              
-                <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
-                <input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>
-                </div>
-                <div class='col-md-6 col-sm-3 text-left resultado2'>
-                    <button class='btn btn-danger sair' type='button' >Cancelar</button>   
-                </div>
-        </div>
+       @if(!empty($dados)||!empty(session('erro2')))
+       <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
+            {!! csrf_field() !!}
+       <div class="row">
+           <div class="col-md-10 col-sm-10" style="margin:auto">
+               <div class="card">          
+                   <div class="card-header text-center bg-inverse m-b-20">
+                        <h4 class='text-white' id="titulo">1-Insira os dados da nova folha.</h4>
+                    </div>
+                   <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 passo1">
+                                <label>Número da Página</label>
+                                <input type="text" maxlength="2" name="numero_folha" required="">
+                            </div>
+                            <div class='col-md-12 passo1'>
+                                <label>Observações</label>
+                                <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
+                            </div>
+
+                           <div class='col-md-12 col-sm-12 passo2 fade'>
+                              <div id='mostra-foto'><i class="icofont icofont-cloud-upload" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>
+                               <div class='icon-btn fade buttons'>
+
+                                <button id='btn-deleta-foto' type='button' class="btn btn-danger btn-icon"><i class="icofont icofont-trash"></i></button>
+                                <button id='btn-upload-foto' type='submit' class="btn btn-success btn-icon"><i class="icofont icofont icofont-ui-check"></i></button>
+                                </div>
+
+                                <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
+                                <input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>
+                                </div>
+
+
+
+                        </div>               
+                   </div>
+                   <div class="card-footer">
+                       <div class="row">
+                           <div class="passo1 col-md-6 col-sm-6">
+                                <button class='btn btn-default sair' type='button' >Cancelar</button>
+                           </div>
+                           <div class="passo1 col-md-6 col-sm-6 text-right">
+                                <button class="btn btn-inverse" id="btn-avanca-passo2" type="button">Avançar</button>
+                           </div>
+                       </div>
+                   </div>
+               </div>               
+           </div>
+       </div>
+       </form>
        @else
                 <div class="row">
                     <div class="col-md-1 col-sm-1"></div>
@@ -178,8 +203,16 @@
     
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.passo2').hide();
             $(document).on('change','#sacramento',function(){
                 $('.alert').remove();
+            });
+            $(document).on('click','#btn-avanca-passo2',function(){                
+                $('.passo1').addClass("fade");
+                $('.passo1').hide();                
+                $('.passo2').show();
+                $('.passo2').removeClass('fade');
+                $('#titulo').html('2-Enviar foto da folha...');
             });
         });
         
