@@ -105,6 +105,7 @@ $(document).ready(function () {
                     $('.carregando').remove();
                     $('#step1').after(data.resultadoHTML);
                     $('#titulo').html("2-Insira os dados da nova folha.");
+                    $('#botoes').append(data.btn_avancar_HTML);
                     
                 }
             });
@@ -141,8 +142,11 @@ $(document).ready(function () {
                     if(data.resposta==1){
                         $('.resultado1').addClass('fade');
                         $("#step1").addClass('fade');
+                        $('#step1').hide();
+                        $('.resultado1').hide();
                         $('#titulo').html("3-Enviar foto da folha...");
-                        $('#step1').before(data.html);                            
+                        $('#step1').before(data.html); 
+                        $('#btn-step2').addClass('fade');
                     }else{                            
                         $('#step1').before(data.html);                            
                     }

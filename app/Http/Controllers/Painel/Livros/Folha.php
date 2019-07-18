@@ -182,15 +182,20 @@ class Folha extends Controller
                             <div class='col-md-6 col-sm-3 text-left resultado1'>
                                 <button class='btn btn-danger sair' type='button' >Cancelar</button>   
                             </div>
-                            <div class='col-md-6 col-sm-3 text-right resultado1 ' id='btn-step2'>
-                                <button class='btn btn-inverse' id='btn-salvar' type='button'>Avançar</button>
-                            </div>";
+                            ";
             $dados_folha=ob_get_clean();
+            
+            ob_start();
+            echo"<div class='col-md-6 col-sm-3 text-right resultado1 ' id='btn-step2'>
+                    <button class='btn btn-inverse' id='btn-salvar' type='button'>Avançar</button>
+                </div>";
+            $dados_btn_avancar = ob_get_clean();
             
            
         }
         $dados = array(
-                    'resultadoHTML'=>$dados_folha
+                    'resultadoHTML'=>$dados_folha,
+                    'btn_avancar_HTML' =>$dados_btn_avancar
         );
         return $dados;
     }   
@@ -199,7 +204,7 @@ class Folha extends Controller
       
         $dados_VALIDACAO=[];
         $dados_VALIDACAO[]=['value'=>$request->input("livro"),'type'=>1,'variavel'=>'livro'];
-        $dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>8,'variavel'=>'numeração da página'];
+        //$dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>8,'variavel'=>'numeração da página'];
         if(!empty($request->input("obs_folha"))){
             $dados_VALIDACAO[]=['value'=>$dataForm['obs_folha'],'type'=>8,'variavel'=>'observações'];
         }
@@ -216,10 +221,7 @@ class Folha extends Controller
                 . "<button id='btn-upload-foto' type='submit' class=\"btn btn-success btn-icon\"><i class=\"icofont icofont icofont-ui-check\"></i></button>"
                 . "</div>"
                 . "<input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>"
-                . "</div>"
-                . "<div class='col-md-6 col-sm-3 text-left resultado2'>
-                    <button class='btn btn-danger sair' type='button' >Cancelar</button>   
-                </div>";
+                . "</div>";
             $dadosHTML= ob_get_clean();
             $resposta=1;
         }else{
@@ -275,9 +277,14 @@ class Folha extends Controller
                    $r2=$this->fotos->create($dados);
 
                    if($r2){
+                       
                        return redirect()
                         ->back()
-                        ->with('success','OK! Folha adicionada com sucesso.');
+                        ->with('sucesso',"<p><b>OK!</b> A folha ".$dadosForm['numeracao_pagina']." foi adicionada com sucesso.</p>"
+                                . "<p>Para vincular outra foto a essa página clique  em <b>Adicionar Mais Fotos</b></p>")
+                       ->with('livro',$dadosForm['livro'])
+                       ->with('folha',$folha)
+                       ->with('sacramento',$dadosForm['sacramento']);
 
                    }
                 }else{
@@ -302,7 +309,22 @@ class Folha extends Controller
         
     }
     
-    public function salvar_folha2(Request $request,$livroSelect){
+    public function form_adiciona_foto(){
+        ob_start();
+                echo""
+            . "<div class='col-md-12 col-sm-12 resultado2'>"
+                . "<div id='mostra-foto'><i class=\"icofont icofont-cloud-upload\" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>"
+                . "<div class='icon-btn fade buttons'>"
+                
+                . "<button id='btn-deleta-foto' type='button' class=\"btn btn-danger btn-icon\"><i class=\"icofont icofont-trash\"></i></button>"
+                . "<button id='btn-upload-foto' type='submit' class=\"btn btn-success btn-icon\"><i class=\"icofont icofont icofont-ui-check\"></i></button>"
+                . "</div>"
+                . "<input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>"
+                . "</div>";
+            $dadosHTML= ob_get_clean();
+    }
+
+        public function salvar_folha2(Request $request,$livroSelect){
             
             $dadosForm = $request->except('_token');
             $buscaFolha = $this->pagina->where('num_pagina',$dadosForm['numero_folha']);
