@@ -15,7 +15,24 @@ $(document).ready(function () {
         $(document).on('click','#mostra-foto', function() {
           $('#foto-livro').trigger('click');
         });
-
+        
+        //Valida numero da página
+        $(document).on('input','#numeracao_pagina',function(){
+            var texto = $('#numeracao_pagina').val();
+           
+            if(texto.length==2){
+                if(texto.substr(1,1)!="v" && texto.substr(1,1)!="V"){
+                  alert('Essa numereção não é valida!');
+                  $('#numeracao_pagina').val(null);
+                }
+            }else{
+                var x=texto*1;
+                if(x!=texto){
+                  alert('Essa numereção não é valida!');
+                  $('#numeracao_pagina').val(null);
+                }
+            }
+        });
         // populate preview
         $(document).on('change','#foto-livro', function() {
             var $input = $('#foto-livro');
@@ -91,53 +108,48 @@ $(document).ready(function () {
                     
                 }
             });
-            
-            $(document).on('click','#btn-step2',function(){
-                var livro = $("#livro").val();
-                var numeracao_pagina = $("input[type=number][name=numeracao_pagina]").val();
-                var obs_folha = $("#observacoes").val();
-                $.ajax({
-                    url: "http://127.0.0.1:8000/painel/livros/ajax2/livroDigital/novaFolha",
-                    type: 'POST',
-                    data: {
-                        livro:livro,numeracao_pagina:numeracao_pagina,obs_folha:obs_folha
-                    },
-                    dataType: 'JSON',
-                    beforeSend: function () {
-                        $('.carregando').remove();
-                        $('.resultado2').remove();
-                        $('#step1').after(
-                        "<div class='text-left col-md-12 col-sm-12 carregando'>"+
-                            "<div class=\"preloader3 loader-block\">"+
-                                    "<div class=\"circ1\"></div>"+
-                                    "<div class=\"circ2\"></div>"+
-                                    "<div class=\"circ3\"></div>"+
-                                    "<div class=\"circ4\"></div>"+
-                            "</div>"+
-                        "</div>"
-                        );
-                    },
-                    success: function(data){
-                        $('.carregando').remove();
-                        $('.resultado2').remove();
-                        if(data.resposta==1){
-                            $('.resultado1').addClass('fade');
-                            $("#step1").addClass('fade');
-                            $('#titulo').html("3-Enviar foto da folha...");
-                            $('#step1').before(data.html);                            
-                        }else{                            
-                            $('#step1').before(data.html);                            
-                        }
-                        
-                    }
-                });
-            });
-            
-           
-           
         });
         
+        $(document).on('click','#btn-step2',function(){
+            var livro = $("#livro").val();
+            var numeracao_pagina = $("input[type=text][name=numeracao_pagina]").val();
+            var obs_folha = $("#observacoes").val();
+            $.ajax({
+                url: "http://127.0.0.1:8000/painel/livros/ajax2/livroDigital/novaFolha",
+                type: 'POST',
+                data: {
+                    livro:livro,numeracao_pagina:numeracao_pagina,obs_folha:obs_folha
+                },
+                dataType: 'JSON',
+                beforeSend: function () {
+                    $('.carregando').remove();
+                    $('.resultado2').remove();
+                    $('#step1').after(
+                    "<div class='text-left col-md-12 col-sm-12 carregando'>"+
+                        "<div class=\"preloader3 loader-block\">"+
+                                "<div class=\"circ1\"></div>"+
+                                "<div class=\"circ2\"></div>"+
+                                "<div class=\"circ3\"></div>"+
+                                "<div class=\"circ4\"></div>"+
+                        "</div>"+
+                    "</div>"
+                    );
+                },
+                success: function(data){
+                    $('.carregando').remove();
+                    $('.resultado2').remove();
+                    if(data.resposta==1){
+                        $('.resultado1').addClass('fade');
+                        $("#step1").addClass('fade');
+                        $('#titulo').html("3-Enviar foto da folha...");
+                        $('#step1').before(data.html);                            
+                    }else{                            
+                        $('#step1').before(data.html);                            
+                    }
+
+                }
+            });
+        });
         
-
-
+      
 });

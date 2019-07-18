@@ -171,7 +171,7 @@ class Folha extends Controller
 
                             <div class='col-md-5 resultado1'>
                                 <label>*Numero da Página</label>
-                                <input class='form-control' type='number' name='numeracao_pagina'  placeholder='Ex. 1,2,3,4,...' required=''>
+                                <input class='form-control' type='number' id='numeracao_pagina' name='numeracao_pagina'  placeholder='Ex. 1,2,3,4,...' required=''>
                             </div>
 
                             <div class='col-md-12 resultado1'>
@@ -199,7 +199,7 @@ class Folha extends Controller
       
         $dados_VALIDACAO=[];
         $dados_VALIDACAO[]=['value'=>$request->input("livro"),'type'=>1,'variavel'=>'livro'];
-        $dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>0,'variavel'=>'numeração da página'];
+        $dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>8,'variavel'=>'numeração da página'];
         if(!empty($request->input("obs_folha"))){
             $dados_VALIDACAO[]=['value'=>$dataForm['obs_folha'],'type'=>8,'variavel'=>'observações'];
         }

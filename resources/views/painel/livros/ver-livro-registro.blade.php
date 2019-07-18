@@ -26,6 +26,23 @@
        @if(!empty($dados)||!empty(session('erro2')))
        <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
             {!! csrf_field() !!}
+            @if(isset($errors) && count($errors)>0)
+                <div class="alert alert-danger">
+                    @foreach($errors->all() as $erro)
+                    <p>{{$erro}}</p>
+                    @endforeach
+                </div>
+                @endif
+                @if(session('erro'))
+                <div class="alert alert-danger">                                    
+                    <p>{!!session('erro')!!}</p>                                    
+                </div>
+                @endif
+                @if(session('success'))
+                <div class="alert alert-success">                                    
+                    <p>{!!session('success')!!}</p>                                    
+                </div>
+                @endif
        <div class="row">
            <div class="col-md-10 col-sm-10" style="margin:auto">
                <div class="card">          
@@ -34,28 +51,17 @@
                     </div>
                    <div class="card-block">
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 passo1">
-                                <label>Número da Página</label>
-                                <input type="text" maxlength="2" name="numero_folha" required="">
+                            <div class="col-md-12 col-sm-12" id="step1"></div>
+                            <div class="col-md-12 col-sm-12 resultado1" >
+                                <label>Numeração da Página</label>
+                                <input type="text" maxlength="2" name="numeracao_pagina" id="numeracao_pagina" required="">
+                                <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
+                                <input type='hidden' name='sacramento' class='form-control' value="{{$dados['sacramento']}}" id='livro'>
                             </div>
-                            <div class='col-md-12 passo1'>
+                            <div class='col-md-12 resultado1'>
                                 <label>Observações</label>
                                 <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
                             </div>
-
-                           <div class='col-md-12 col-sm-12 passo2 fade'>
-                              <div id='mostra-foto'><i class="icofont icofont-cloud-upload" style='font:35px;'></i> <div style='font:35px;'>Fazer Upload</div></div>
-                               <div class='icon-btn fade buttons'>
-
-                                <button id='btn-deleta-foto' type='button' class="btn btn-danger btn-icon"><i class="icofont icofont-trash"></i></button>
-                                <button id='btn-upload-foto' type='submit' class="btn btn-success btn-icon"><i class="icofont icofont icofont-ui-check"></i></button>
-                                </div>
-
-                                <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
-                                <input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>
-                                </div>
-
-
 
                         </div>               
                    </div>
@@ -65,7 +71,7 @@
                                 <button class='btn btn-default sair' type='button' >Cancelar</button>
                            </div>
                            <div class="passo1 col-md-6 col-sm-6 text-right">
-                                <button class="btn btn-inverse" id="btn-avanca-passo2" type="button">Avançar</button>
+                                <button class="btn btn-inverse" id="btn-step2" type="button">Avançar</button>
                            </div>
                        </div>
                    </div>
