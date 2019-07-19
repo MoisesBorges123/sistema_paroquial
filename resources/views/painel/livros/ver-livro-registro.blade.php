@@ -9,7 +9,7 @@
     <!-- Basic table card start -->
 
 
-    @if(empty($query)&& empty($dados))
+    @if(empty($query)&& empty($dados) && empty($adicionaFolha))
     <div class="card">
         <div class="card-block">
             <div class="row">
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <a href="{{route('FormCadastro2.Folha',['livro' =>session('livro'),'sacramento'=> session('sacramento')])}}" class="btn btn-secondary mobtn" data-dismiss="modal">Cadastrar Outra Folha</button>
-                                    <a href="{{route('FormCadastro2.Folha',['livro' =>session('livro'),'sacramento'=> session('sacramento')])}}" class="btn btn-primary mobtn">Adicionar Mais Fotos</a>
+                                    <a href="{{route('FormCadastro3.Folha',session('id_folha'))}}" class="btn btn-primary mobtn">Adicionar Mais Fotos</a>
                                 </div>
                             </div>
                         </div>
@@ -96,8 +96,13 @@
                                 </div>
                             </div>
                         </form>
-                @elseif(!empty(session('folha')))
-                     <form method="POST"  action="{{route("SalvarDigitalizacao.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
+                @elseif(!empty($adicionaFolha))
+                <div class='card'>
+                    <div class="card-header text-center bg-inverse">
+                        <h4 class='text-white' id="titulo">3-Enviar foto da folha...</h4>
+                    </div>
+                    <div class='card-block'>
+                        <form method="POST"  action="{{route("Salvarfoto.Folha")}}" id="form-folha-liro" enctype="multipart/form-data">
                             {!! csrf_field() !!}
                             @if(isset($errors) && count($errors)>0)
                             <div class="alert alert-danger">
@@ -111,9 +116,19 @@
                                 <p>{!!session('erro')!!}</p>                                    
                             </div>
                             @endif
-                            <input type="hidden" value="{{session('folha')}}">
-                            
+                            <input type="hidden" value="{{$adicionaFolha['id_folha']}}">
+                            {!!$adicionaFolha['dados_html']!!}
                      </form>
+                    </div>
+                    <div class='card-footer'>
+                        <div class='row'>
+                            <div class='col-md-6'>
+                                <button class='btn btn-default sair' type="button">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                     
                 @else
                         <div class="row">
                             <div class="col-md-1 col-sm-1"></div>

@@ -8,6 +8,7 @@
             <file>file:/C:/xampp/htdocs/sistema_catedral/routes/web.php</file>
             <file>file:/C:/xampp/htdocs/sistema_catedral/app/Http/Controllers/Painel/Livros/Folha.php</file>
             <file>file:/C:/xampp/htdocs/sistema_catedral/public/estilo_painel/assets/js/meus/painel-digitalizacao-folha-ajax.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_catedral/app/Models/Painel/Livros_Registros/Folhas.php</file>
             <file>file:/C:/xampp/htdocs/sistema_catedral/resources/views/painel/livros/ver-livro-registro.blade.php</file>
         </group>
     </open-files>

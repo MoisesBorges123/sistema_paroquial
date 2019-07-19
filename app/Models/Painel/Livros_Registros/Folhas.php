@@ -9,7 +9,7 @@ class Folhas extends Model
    protected $table = "folhas";
     protected $primaryKey = "id_folha";
     protected $fillable = [      
-        'num_folha',
+        
         'num_pagina',
         'livro',
         'observacao'        

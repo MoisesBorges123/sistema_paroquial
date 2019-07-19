@@ -30,6 +30,7 @@ class Folha extends Controller
         $this->fotos = $picture;
         $this->sacramento = $holyActivities;
     }
+    
     public function index(){
         
       $tituloPagina = "Livro Digital";
@@ -283,7 +284,7 @@ class Folha extends Controller
                         ->with('sucesso',"<p><b>OK!</b> A folha ".$dadosForm['numeracao_pagina']." foi adicionada com sucesso.</p>"
                                 . "<p>Para vincular outra foto a essa página clique  em <b>Adicionar Mais Fotos</b></p>")
                        ->with('livro',$dadosForm['livro'])
-                       ->with('folha',$folha)
+                       ->with('id_folha',$folha)
                        ->with('sacramento',$dadosForm['sacramento']);
 
                    }
@@ -309,7 +310,7 @@ class Folha extends Controller
         
     }
     
-    public function form_adiciona_foto(){
+    public function form_adiciona_foto($folha){
         ob_start();
                 echo""
             . "<div class='col-md-12 col-sm-12 resultado2'>"
@@ -322,9 +323,21 @@ class Folha extends Controller
                 . "<input type='file' name='foto' class='form-control fade' accept='image/*' id='foto-livro'>"
                 . "</div>";
             $dadosHTML= ob_get_clean();
+            
+         
+            
+          $tituloPagina = "Adicionar Foto";          
+          $dadosFolha = $this->pagina->find($folha);
+          $page_header = "Adicinar Fotos à Folha ".$dadosFolha->num_pagina.".";
+          $descricao_page_header=" ";
+          $adicionaFolha=array(
+              'dados_html'=>$dadosHTML,
+              'id_folha'=>$dadosFolha->id_folha
+          );
+          return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','adicionaFolha'));
     }
 
-        public function salvar_folha2(Request $request,$livroSelect){
+    public function salvar_folha2(Request $request,$livroSelect){
             
             $dadosForm = $request->except('_token');
             $buscaFolha = $this->pagina->where('num_pagina',$dadosForm['numero_folha']);
@@ -462,4 +475,42 @@ class Folha extends Controller
         }
     
     }
+    
+    public function salvar_foto(Request $request){
+        $dadosForm = $request->except('_token');
+        if(!empty($dadosForm)){
+            
+            $extencao=$dadosForm['foto']->extension();
+            $tamanho=$dadosForm['foto']->getClientSize();
+            $nameFile=uniqid(time()).".".$extencao;
+            $caminho = "Imagens/Livro_".$dadosForm['livro']."/Folhas/";
+            $upload=$dadosForm['foto']->storeAs($caminho,$nameFile);
+            
+        }
+        //APARTIR DAQUI TEM QUE ADAPTAR PARA PODER FUNCIONAR O CÓDIGO
+        if($r){
+           $dados=[
+               'foto'   => $nameFile,
+               'tamanho'=>$tamanho,
+               'caminho'=>$caminho,
+               'folha'  =>$folha
+           ];
+
+           $r2=$this->fotos->create($dados);
+
+           if($r2){
+
+               return redirect()
+                ->back()
+                ->with('sucesso',"<p><b>OK!</b> A folha ".$dadosForm['numeracao_pagina']." foi adicionada com sucesso.</p>"
+                        . "<p>Para vincular outra foto a essa página clique  em <b>Adicionar Mais Fotos</b></p>")
+               ->with('livro',$dadosForm['livro'])
+               ->with('id_folha',$folha)
+               ->with('sacramento',$dadosForm['sacramento']);
+
+           }
+        }
+    }
+        
+    
 }
