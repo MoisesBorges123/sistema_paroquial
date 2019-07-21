@@ -180,9 +180,7 @@ class Folha extends Controller
                                 <textarea class='form-control' id='observacoes'  name='obs_folha' rows='10' placeholder='Insira aqui alguma observação referente a página digitalizada, se existe algum erro, ou se está rasgada ou não está integra etc...'></textarea>
                             </div>
                             
-                            <div class='col-md-6 col-sm-3 text-left resultado1'>
-                                <button class='btn btn-danger sair' type='button' >Cancelar</button>   
-                            </div>
+                          
                             ";
             $dados_folha=ob_get_clean();
             
@@ -281,6 +279,7 @@ class Folha extends Controller
                        
                        return redirect()
                         ->back()
+                           ->with('header_sucesso','Folha Cadastrada!')  
                         ->with('sucesso',"<p><b>OK!</b> A folha ".$dadosForm['numeracao_pagina']." foi adicionada com sucesso.</p>"
                                 . "<p>Para vincular outra foto a essa página clique  em <b>Adicionar Mais Fotos</b></p>")
                        ->with('livro',$dadosForm['livro'])
@@ -310,7 +309,7 @@ class Folha extends Controller
         
     }
     
-    public function form_adiciona_foto($folha){
+    public function form_adiciona_foto($folha,$sacramento){
         ob_start();
                 echo""
             . "<div class='col-md-12 col-sm-12 resultado2'>"
@@ -332,7 +331,9 @@ class Folha extends Controller
           $descricao_page_header=" ";
           $adicionaFolha=array(
               'dados_html'=>$dadosHTML,
-              'id_folha'=>$dadosFolha->id_folha
+              'id_folha'=>$dadosFolha->id_folha,
+              'livro'=>$dadosFolha->livro,
+              'sacramento'=>$sacramento
           );
           return view('painel\livros\ver-livro-registro',compact('tituloPagina','page_header','descricao_page_header','adicionaFolha'));
     }
@@ -478,6 +479,7 @@ class Folha extends Controller
     
     public function salvar_foto(Request $request){
         $dadosForm = $request->except('_token');
+        $folha = $dadosForm['folha'];
         if(!empty($dadosForm)){
             
             $extencao=$dadosForm['foto']->extension();
@@ -488,7 +490,7 @@ class Folha extends Controller
             
         }
         //APARTIR DAQUI TEM QUE ADAPTAR PARA PODER FUNCIONAR O CÓDIGO
-        if($r){
+        if($upload){
            $dados=[
                'foto'   => $nameFile,
                'tamanho'=>$tamanho,
@@ -502,7 +504,8 @@ class Folha extends Controller
 
                return redirect()
                 ->back()
-                ->with('sucesso',"<p><b>OK!</b> A folha ".$dadosForm['numeracao_pagina']." foi adicionada com sucesso.</p>"
+                ->with('header_sucesso','Foto Salva!')       
+                ->with('sucesso',"<p><b>OK!</b> A foto foi salva com sucesso.</p>"
                         . "<p>Para vincular outra foto a essa página clique  em <b>Adicionar Mais Fotos</b></p>")
                ->with('livro',$dadosForm['livro'])
                ->with('id_folha',$folha)

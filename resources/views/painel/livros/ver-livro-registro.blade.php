@@ -29,7 +29,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header bg-success">
-                                    <h5 class="modal-title">Folha Cadastrada!</h5>
+                                    <h5 class="modal-title">{{session("header_sucesso")}}</h5>
                                    
                                 </div>
                                 <div class="modal-body">
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <a href="{{route('FormCadastro2.Folha',['livro' =>session('livro'),'sacramento'=> session('sacramento')])}}" class="btn btn-secondary mobtn" data-dismiss="modal">Cadastrar Outra Folha</button>
-                                    <a href="{{route('FormCadastro3.Folha',session('id_folha'))}}" class="btn btn-primary mobtn">Adicionar Mais Fotos</a>
+                                    <a href="{{route('FormCadastro3.Folha',['folha'=>session('id_folha'),'sacramento'=>session('sacramento')])}}" class="btn btn-primary mobtn">Adicionar Mais Fotos</a>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                                     <label>Numeração da Página</label>
                                                     <input type="text" maxlength="2" name="numeracao_pagina" id="numeracao_pagina" required="">
                                                     <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
-                                                    <input type='hidden' name='sacramento' class='form-control' value="{{$dados['sacramento']}}" id='livro'>
+                                                    <input type='hidden' name='sacramento' class='form-control' value="{{$dados['sacramento']}}" id='sacrameno'>
                                                 </div>
                                                 <div class='col-md-12 resultado1'>
                                                     <label>Observações</label>
@@ -116,7 +116,9 @@
                                 <p>{!!session('erro')!!}</p>                                    
                             </div>
                             @endif
-                            <input type="hidden" value="{{$adicionaFolha['id_folha']}}">
+                            <input type="hidden" name="folha" value="{{$adicionaFolha['id_folha']}}">
+                            <input type="hidden" name="livro" value="{{$adicionaFolha['livro']}}">
+                            <input type='hidden' name='sacramento' class='form-control' value="{{$adicionaFolha['sacramento']}}" id='sacrameno'>
                             {!!$adicionaFolha['dados_html']!!}
                      </form>
                     </div>
