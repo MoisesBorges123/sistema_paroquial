@@ -21,15 +21,19 @@ class LivrosRegistros extends Controller
     
     public function  index(){
         $tituloPagina = "Meus Livros";
-        $page_header = "Livros Catedral";
-        $descricao_page_header = "Página disponíveis apenas para administradores";
-        //$dados=$this->livros->all();    
+        $page_header = "Livros de Registro";
+        $descricao_page_header = "Página disponíveis apenas para administradores";        
         
-        $dados=DB::table('livros_registros')
-                ->join('tipos_livros_registros','livros_registros.tipo','=','tipos_livros_registros.id_tipos_livros_reg')
-                ->select('livros_registros.numero as livro','livros_registros.observacao as observacao',
-                        'tipos_livros_registros.nome as categoria','livros_registros.id_livros_registros')
-                ->orderByRaw('livros_registros.numero ASC')
+        $dados=DB::table('livros')
+                ->join('sacramento','livros.sacramento','=','sacramentos.id_sacramento')
+                ->select(
+                        'livros.numeracao as numeracao',
+                        'livros.data_inicio as inicio',
+                        'livros.data_fim as fim',
+                        'livros.descricao as descricao',
+                        'sacramentos.nome as sacramento'
+                        )
+                ->orderByRaw('livros.numeracao ASC')
                 ->get();
        
         return view("painel/livros/table-livros",compact('tituloPagina','page_header','descricao_page_header','dados'));

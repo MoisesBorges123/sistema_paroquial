@@ -402,7 +402,7 @@
                                                 <span class="pcoded-mtext">Digitalização</span>
                                             </a>
                                         </li>
-                                       
+                                       <!--
                                        <li class="pcoded-hasmenu ">
                                             <a href="javascript:void(0)">
                                                 <span class="pcoded-mtext">Registros</span>
@@ -415,118 +415,11 @@
                                                 </li>
                                                 
                                             </ul>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </li>
-                                <li class=" ">
-                                    <a href="form-picker.htm">
-                                        <span class="pcoded-micon"><i class="feather icon-edit-1"></i></span>
-                                        <span class="pcoded-mtext">Form Picker</span>
-                                        <span class="pcoded-badge label label-warning">NEW</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="form-select.htm">
-                                        <span class="pcoded-micon"><i class="feather icon-feather"></i></span>
-                                        <span class="pcoded-mtext">Form Select</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="form-masking.htm">
-                                        <span class="pcoded-micon"><i class="feather icon-shield"></i></span>
-                                        <span class="pcoded-mtext">Form Masking</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="form-wizard.htm">
-                                        <span class="pcoded-micon"><i class="feather icon-tv"></i></span>
-                                        <span class="pcoded-mtext">Form Wizard</span>
-                                    </a>
-                                </li>
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-book"></i></span>
-                                        <span class="pcoded-mtext">Ready To Use</span>
-                                        <span class="pcoded-badge label label-danger">HOT</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="ready-cloned-elements-form.htm">
-                                                <span class="pcoded-mtext">Cloned Elements Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-currency-form.htm">
-                                                <span class="pcoded-mtext">Currency Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-form-booking.htm">
-                                                <span class="pcoded-mtext">Booking Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-form-booking-multi-steps.htm">
-                                                <span class="pcoded-mtext">Booking Multi Steps Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-form-comment.htm">
-                                                <span class="pcoded-mtext">Comment Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-form-contact.htm">
-                                                <span class="pcoded-mtext">Contact Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-job-application-form.htm">
-                                                <span class="pcoded-mtext">Job Application Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-js-addition-form.htm">
-                                                <span class="pcoded-mtext">JS Addition Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-login-form.htm">
-                                                <span class="pcoded-mtext">Login Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-popup-modal-form.htm" target="_blank">
-                                                <span class="pcoded-mtext">Popup Modal Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-registration-form.htm">
-                                                <span class="pcoded-mtext">Registration Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-review-form.htm">
-                                                <span class="pcoded-mtext">Review Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-subscribe-form.htm">
-                                                <span class="pcoded-mtext">Subscribe Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-suggestion-form.htm">
-                                                <span class="pcoded-mtext">Suggestion Form</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="ready-tabs-form.htm">
-                                                <span class="pcoded-mtext">Tabs Form</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                       
+                               
                             </ul>
                             <!--Pastoriais e Movimentos
                             <div class="pcoded-navigatio-lavel">Pastorais / Movimentos</div>
@@ -746,115 +639,24 @@
                                 </li>
                             </ul>
                             -->
-                            <div class="pcoded-navigatio-lavel">Intenções e Avisos de Missa</div>
+                            <div class="pcoded-navigatio-lavel">Intenções de Missa</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
-                                        <span class="pcoded-mtext">Tipos de Intenção</span>
+                                        <span class="pcoded-mtext">Configurações</span>
                                     </a>
                                     <ul class="pcoded-submenu">
+                                      
                                         <li class="">
                                             <a href="{{route("visualizar.TipoIntencao")}}">
-                                                <span class="pcoded-mtext">Google Chart</span>
+                                                <span class="pcoded-mtext">Tipos de Inteção</span>
                                             </a>
                                         </li>
-                                        <li class="">
-                                            <a href="chart-echart.htm">
-                                                <span class="pcoded-mtext">Echarts</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-chartjs.htm">
-                                                <span class="pcoded-mtext">ChartJs</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-list.htm">
-                                                <span class="pcoded-mtext">List Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-float.htm">
-                                                <span class="pcoded-mtext">Float Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-knob.htm">
-                                                <span class="pcoded-mtext">Knob chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-morris.htm">
-                                                <span class="pcoded-mtext">Morris Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-nvd3.htm">
-                                                <span class="pcoded-mtext">Nvd3 Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-peity.htm">
-                                                <span class="pcoded-mtext">Peity Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-radial.htm">
-                                                <span class="pcoded-mtext">Radial Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-rickshaw.htm">
-                                                <span class="pcoded-mtext">Rickshaw Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-sparkline.htm">
-                                                <span class="pcoded-mtext">Sparkline Chart</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="chart-c3.htm">
-                                                <span class="pcoded-mtext">C3 Chart</span>
-                                            </a>
-                                        </li>
+                                        
                                     </ul>
                                 </li>
-                                <li class="pcoded-hasmenu ">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-map"></i></span>
-                                        <span class="pcoded-mtext">Maps</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class="">
-                                            <a href="map-google.htm">
-                                                <span class="pcoded-mtext">Google Maps</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="map-vector.htm">
-                                                <span class="pcoded-mtext">Vector Maps</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="map-api.htm">
-                                                <span class="pcoded-mtext">Google Map Search API</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="location.htm">
-                                                <span class="pcoded-mtext">Location</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="../files/extra-pages/landingpage/index.htm" target="_blank">
-                                        <span class="pcoded-micon"><i class="feather icon-navigation-2"></i></span>
-                                        <span class="pcoded-mtext">Landing Page</span>
-                                    </a>
-                                </li>
+                                
                             </ul>
                             
                             <!--Cursos

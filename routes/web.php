@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO
 Route::group(['prefix'=>'painel/livros'], function () {
+    
+                        //TRABALHANDO COM CADASTROS
+    
 //Rotas para cadastrar uma nova página    
  Route::get('/cadastro/livroDigital/novasFolhas', 'Painel\Livros\Folha@index')->name("FormCadastro.Folha");    
     Route::post('/ajax/livroDigital/novaFolha','Painel\Livros\Folha@buscar_livros')->name("BuscaLivroDititalizacao.Folha");
@@ -37,20 +40,11 @@ Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro'
     Route::post('/salvar/livroDigital/novoLivro','Painel\Livros\LivrosRegistros@salvarLivroDigital')->name("SalvarLivroDigital.Livro");
             
 
+                        //TRABALHANDO COM VISUALIZAÇÕES
+Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
+ 
 
-
-            //INICIO ROTAS PARA TRABALHAR COM LIVROS===================================================================    
-
-                //FORMULÁRIO P/ CADASTRAR LIVRO
-                Route::get('/cadastro/livroDigital/novoLivro/{sacramento}', 'Painel\Livros\LivrosRegistros@form_cadastro2')->name("FormCadastro2.Livro");    
-                //VISUALIZAR LIVROS
-                Route::get('/visualizar', 'Painel\Livros\LivrosRegistros@index')->name("Visualizar.Livro");
-                //EXCLUIR LIVROS
-                Route::get('/excluir', 'Painel\Livros\LivrosRegistros@excluir_tipo')->name("Excluir.Livro");
-                //EDITAR LIVROS
-                Route::get('/atualizar', 'Painel\Livros\LivrosRegistros@editar_tipo')->name("Atualizar.Livro");
-
-            //FIM ROTAS PARA TRABALHAR COM LIVROS===================================================================    
+     
 
 
                 
@@ -61,21 +55,7 @@ Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro'
                 
                 
 
-            //INICIO ROTAS PARA TRABALHAR COM FOLHAS LIVROS===================================================================    
-
-                //FORMULÁRIO P/ CADASTRAR FOLHA
-
-                
-                    Route::put('/cadastrar/folha/{livro}/','Painel\Livros\Folha@salvar')->name("Cadastrar.Folha");
-                //VISUALIZAR FOLHAS
-                Route::get('/ler/livroRegistro/{livro}', 'Painel\Livros\Folha@index')->name("Visualizar.Folha");
-                //EXCLUIR FOLHAS
-                Route::get('/excluir/folha', 'Painel\Livros\Folha@excluir_tipo')->name("Excluir.Folha");
-                //EDITAR FOLHAS
-                Route::get('/atualizar/folha', 'Painel\Livros\Folha@editar_tipo')->name("Atualizar.Folha");
-
-            //FIM ROTAS PARA TRABALHAR COM FOLHAS LIVROS===================================================================    
-             
+           
 });
 
 
