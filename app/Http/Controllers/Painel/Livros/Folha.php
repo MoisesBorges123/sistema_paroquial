@@ -172,7 +172,7 @@ class Folha extends Controller
 
                             <div class='col-md-5 resultado1'>
                                 <label>*Numero da Página</label>
-                                <input class='form-control' type='number' id='numeracao_pagina' name='numeracao_pagina'  placeholder='Ex. 1,2,3,4,...' required=''>
+                                <input class='form-control' type='text' id='numeracao_pagina' name='numeracao_pagina'  placeholder='Ex. 1,2,3,4,...' required=''>
                             </div>
 
                             <div class='col-md-12 resultado1'>
@@ -258,7 +258,7 @@ class Folha extends Controller
             if($upload){
                 $campos=['num_pagina','livro','observacao'];
                 $valores=[];      
-                $valores[]=['value'=>$dadosForm['numeracao_pagina'],'type'=>0];
+                $valores[]=['value'=>$fn->converter_numeracaoFolha($dadosForm['numeracao_pagina'],1) ,'type'=>0];
                 $valores[]=['value'=>$dadosForm['livro'],'type'=>0];
                 $valores[]=['value'=>$dadosForm['obs_folha'],'type'=>0];
                 $dadosTratados=$fn->tratamentoDados($valores, $campos);
@@ -514,6 +514,8 @@ class Folha extends Controller
            }
         }
     }
+    
+    
         
     
 }

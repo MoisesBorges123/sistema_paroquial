@@ -277,8 +277,7 @@ class FuncoesAdicionais extends Controller
             
         }
         return $dados;
-    }
-    
+    }    
     public function notificacao1($r, $men = 0) {
 
 
@@ -313,6 +312,31 @@ class FuncoesAdicionais extends Controller
 
 
         return $mensagem;
+    }
+    /**
+     *  Faz a converção da numeção da folha dos Livros de Registro
+     * Tipo 1: 2v = 4
+     * Tipo 2: 4 = 2v
+     * @param string|int $valor
+     * @param int $tipo
+     */
+    public function converter_numeracaoFolha($valor,$tipo){
+        if($tipo==1){
+            if(is_numeric($valor)){
+                $num = (intval($valor)*2)-1;
+            }else{
+                $num = intval(substr($valor,0, strlen($valor)-1))*2;             
+            }
+            return $num;
+            
+        }else{
+            if($valor%2==0){
+                $text = ($valor/2)."V";
+            }else{
+                $text = ($valor+1)/2;
+            }
+            return $text;
+        }
     }
 
 }
