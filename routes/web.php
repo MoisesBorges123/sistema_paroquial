@@ -42,6 +42,22 @@ Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro'
 
                         //TRABALHANDO COM VISUALIZAÇÕES
 Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
+    Route::post('/pesquisar','Painel\Livros\LivrosRegistros@pesquisa')->name('Pesquisa.Livro');
+ 
+
+     
+
+
+                
+                
+                
+                
+                
+                
+                
+
+           
+Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
  
 
      

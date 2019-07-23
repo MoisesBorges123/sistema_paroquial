@@ -162,8 +162,8 @@ class Folha extends Controller
             echo"<div class='col-md-6 col-sm-12 resultado1'>
                             <label>Digitalizar Livro:</label>
                             <select class='form-control' name='livro' id='livro'>
-                                <option value=''>Selecione um livro</option>
-                                <option value='-1'>Outro Livro</option>";
+                                <option value=''>Selecione um livro</option>";
+                                //<option value='-1'>Outro Livro</option>";
                                 foreach($livros as $livro){
                                     echo"<option value='".$livro->id_livro."'>".$livro->numeracao."</option>";
                                 }                          

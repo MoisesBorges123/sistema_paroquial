@@ -402,6 +402,12 @@
                                                 <span class="pcoded-mtext">Digitalização</span>
                                             </a>
                                         </li>
+                                        <li class="">
+                                            <a href="{{route("VisualizarTodos.Livro")}}">
+                                                <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                                <span class="pcoded-mtext">Meus Livros</span>
+                                            </a>
+                                        </li>
                                        <!--
                                        <li class="pcoded-hasmenu ">
                                             <a href="javascript:void(0)">

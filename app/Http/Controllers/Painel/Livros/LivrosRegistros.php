@@ -17,15 +17,14 @@ class LivrosRegistros extends Controller
     public function __construct(Livros $book, Sacramentos $typebook) {
         $this->livro=$book;
         $this->sacramentos = $typebook;
-    }
-    
+    }    
     public function  index(){
         $tituloPagina = "Meus Livros";
         $page_header = "Livros de Registro";
         $descricao_page_header = "Página disponíveis apenas para administradores";        
         
         $dados=DB::table('livros')
-                ->join('sacramento','livros.sacramento','=','sacramentos.id_sacramento')
+                ->join('sacramentos','livros.sacramento','=','sacramentos.id_sacramento')
                 ->select(
                         'livros.numeracao as numeracao',
                         'livros.data_inicio as inicio',
@@ -46,9 +45,8 @@ class LivrosRegistros extends Controller
         $query=$this->sacramentos->all();   
         return view("painel/livros/form-cadastro-livros",compact('tituloPagina','page_header','descricao_page_header','query'));
     }
-    
-
-public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
+    public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
+        
         /*
          * Esse Código faz o cadastramento de um novo livro e não de uma nova folha
          * Coloque ele aqui para caso o usuário tente cadastrar uma folha sem cadastrar um livro
@@ -132,6 +130,43 @@ public function salvarLivroDigital(Request $request, FuncoesAdicionais $fn){
             }
                         
             
+        
+    }
+    public function pesquisa(Request $request){
+            $livro = $request->input('livro');
+            $sacramento = $request->input('sacramento');
+            $inicio = $request->input('inicio');
+            $fim = $request->input('fim');
+            
+            $dados=DB::table('livros')
+                ->join('sacramentos','livros.sacramento','=','sacramentos.id_sacramento')                
+                ->select(
+                        'livros.numeracao as numeracao',
+                        'livros.data_inicio as inicio',
+                        'livros.data_fim as fim',
+                        'livros.descricao as descricao',
+                        'sacramentos.nome as sacramento'
+                        )
+                ->when($livro,function($query,$livro){
+                                return $query->where('livros.numeracao','=',$livro);
+                            }         
+                )
+                ->when($sacramento,function($query,$sacramento){
+                                return $query->where('livros.sacramento','=',$sacramento);
+                            }         
+                )
+                ->when($inicio,function($query,$inicio){
+                                return $query->where('livros.data_inicio','>=',$inicio);
+                            }         
+                )
+                ->when($fim,function($query,$fim){
+                                return $query->where('livros.data_fim','<=',$fim);
+                            }         
+                )
+               
+                ->orderByRaw('livros.numeracao ASC')
+                ->get();
+        
         
     }
     
