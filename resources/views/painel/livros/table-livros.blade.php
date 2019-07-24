@@ -41,58 +41,16 @@
                 </div>
             </div>
          
-        </div>
-        @if(!empty($dados->all()) && count($dados->all())>0)            
+        </div>                
             <div class="card-block z-depth-bottom-5">
               
-                <div class="row m-t-15" id='livros'>
-                    @foreach($dados->all() as $dado)
-                    <div class="col-md-2 col-sm-12">
-                        <div class="thumbnail">
-                            <div class="thumb" >
-                                <a href="{{asset('estilo_painel/assets/images/gallery-grid/1.png')}}" data-lightbox="1" data-title="My caption 1">
-                                    <figure class="text-center">
-                                        <img src="{{asset('estilo_painel/assets/images/sistema/agenda.png')}}" alt="" class="listaLivros img-fluid img-thumbnail">
-                                        <figcaption  class="listaLivros"><b>Livro: {{$dado->numeracao}}</b></figcaption>
-                                        <p>{{$dado->sacramento}}</p>
-                                        <small class='text-center' >Periodo de {{date('d/m/Y',strtotime($dado->inicio))}} a {{date('d/m/Y',strtotime($dado->fim))}}</small>
-                                    </figure>                                    
-                                </a>
-                                <div class='text-center'>
-                                <a class="mytooltip tooltip-effect-9" href="#">
-                                    <button class="btn btn-primary btn-icon"><span class="icofont icofont-eye-alt"></span></button>
-                                    <span class="tooltip-content3">Clique aqui para inserir uma nova página a este livro.</span>
-                                </a>
-                                <a class="mytooltip tooltip-effect-9" href="#">
-                                    <button class="btn btn-inverse btn-icon"><span class="icofont icofont-eye-alt"></span></button>
-                                    <span class="tooltip-content3">Ver paginas digitais desse livro.</span>
-                                </a>
-                                    <a  class="mytooltip tooltip-effect-9" href="#">
-                                <button   class="btn btn-danger btn-icon"  ><span class="ion-trash-b"></span></button>
-                                <span class="tooltip-content3"><div class="excluir">Excluir livro.</div></span>
-                                    </a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                <div class="row m-t-15 " id='livros'>
+                    
                 </div>
             </div>  
         <div class="md-overlay"></div>
          <div id="styleSelector"></div>
-        @else
-        <div class="card-block">
-            <div class="row">
-                  
-                <div class="col-lg-6 col-sm-12">
-                    <div class="alert alert-warning">
-                        <h5>Não existe nenhum livro cadastrado no sitema</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
+        
     </div>
 
 </div>

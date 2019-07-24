@@ -9,16 +9,35 @@ $(document).ready(function () {
             }
         });
         
-    
-
-    
+            
+            /*
+             * Inicializa a lista de livros
+             */
+            var sacramento  = $('#sacramento').val();
+            var livro = $('#livro').val();
+            var inicio = $('#inicio').val();
+            var fim = $('#fim').val();
+           
+           pesquisar_livro(sacramento,livro,inicio,fim);
      
+     
+     /*
+      * Executa a busca dos livros
+      */
         $(document).on('input','.pesquisa',function(){
             var sacramento  = $('#sacramento').val();
             var livro = $('#livro').val();
             var inicio = $('#inicio').val();
             var fim = $('#fim').val();
-            
+           
+           pesquisar_livro(sacramento,livro,inicio,fim);
+               
+           
+        });
+        
+       
+        function pesquisar_livro(sacramento,livro,inicio,fim){
+             
              $.ajax({
                 url: "http://127.0.0.1:8000/painel/livros/pesquisar",
                 type: 'POST',
@@ -47,8 +66,6 @@ $(document).ready(function () {
                   
                 }
             });
-        });
-       
-        
+        }
       
 });

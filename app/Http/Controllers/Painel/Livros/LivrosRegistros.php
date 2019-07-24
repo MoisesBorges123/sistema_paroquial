@@ -21,21 +21,8 @@ class LivrosRegistros extends Controller
     public function  index(){
         $tituloPagina = "Meus Livros";
         $page_header = "Livros de Registro";
-        $descricao_page_header = "Página disponíveis apenas para administradores";        
-        
-        $dados=DB::table('livros')
-                ->join('sacramentos','livros.sacramento','=','sacramentos.id_sacramento')
-                ->select(
-                        'livros.numeracao as numeracao',
-                        'livros.data_inicio as inicio',
-                        'livros.data_fim as fim',
-                        'livros.descricao as descricao',
-                        'sacramentos.nome as sacramento'
-                        )
-                ->orderByRaw('livros.numeracao ASC')
-                ->get();
-       
-        return view("painel/livros/table-livros",compact('tituloPagina','page_header','descricao_page_header','dados'));
+        $descricao_page_header = "Página disponíveis apenas para administradores";      
+        return view("painel/livros/table-livros",compact('tituloPagina','page_header','descricao_page_header'));
         
     }
     public function form_cadastro(){
@@ -170,7 +157,7 @@ class LivrosRegistros extends Controller
                 ->get();
                 
         ob_start();
-            if($dados){
+            if(!empty($dados[0]->numeracao)){
              
                 foreach ($dados as $dado){
                   
@@ -187,9 +174,17 @@ class LivrosRegistros extends Controller
                                     ."</figure>"                                    
                                 ."</a>"
                                 ."<div class='text-center'>"
-                                ."<a href='#'><button class='btn btn-warning btn-icon'><span class='icofont icofont-eye-alt'></span></button></a>"
-                                ."<a href='#'><button class='btn btn-inverse btn-icon'><span class='icofont icofont-eye-alt'></span></button></a>"
-                                ."<button   class='btn btn-danger btn-icon'  ><span class='ion-trash-b'></span></button>"
+                                ."<a class='mytooltip tooltip-effect-9 m-r-10' href='#'>"
+                                    . "<button class='btn btn-warning btn-icon'><span class='icofont icofont icofont-plus'></span></button>"
+                                    . "<span class='tooltip-content3'>Clique aqui para inserir uma nova página a este livro.</span>"
+                                . "</a>"
+                                ."<a class='mytooltip tooltip-effect-9 m-r-10' href='#'>"
+                                    . "<button class='btn btn-inverse btn-icon'><span class='icofont icofont-eye-alt'></span></button>"
+                                    . "<span class='tooltip-content3'>Ver paginas digitais desse livro.</span>"
+                                . "</a>"
+                                . "<a  class='mytooltip tooltip-effect-9 m-r-10' href='#'>"
+                                    ."<button   class='btn btn-danger btn-icon'  ><span class='ion-trash-b'></span></button>"
+                                    . "<span class='tooltip-content3'><div class='excluir'>Excluir livro.</div></span>"
                                 ."</div>" 
                                 
                             ."</div>"
@@ -198,6 +193,12 @@ class LivrosRegistros extends Controller
                     
                    
                 }
+            }else{
+                echo "<div class='col-md-12 col-sm-12'>"
+                        . "<div class='alert alert-info'>"                       
+                            . "<p class='h3'>Não foi possível encontrar nenhum registro.</p>"
+                        . "</div>"
+                    . "</div>";                
             }
                     
          
