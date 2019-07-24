@@ -44,6 +44,7 @@ Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro'
 Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
     Route::post('/pesquisar','Painel\Livros\LivrosRegistros@pesquisa')->name('Pesquisa.Livro');
  
+Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_paginas')->name('VisualizarFolhas.Folha');
 
      
 

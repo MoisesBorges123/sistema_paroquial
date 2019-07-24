@@ -20,7 +20,7 @@ class Livros extends Model
     ];
     public $timestamps=false;
     public $rules = [
-        'numeracao' =>'required|min:1|max:10|numeric',
+        'numeracao' =>'required|min:1|numeric',
         'data_inicio' =>'required',
         'data_fim' =>'required',
         'descricao' =>'max:500',

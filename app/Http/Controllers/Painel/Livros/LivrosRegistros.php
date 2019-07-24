@@ -128,6 +128,7 @@ class LivrosRegistros extends Controller
             $dados=DB::table('livros')
                 ->join('sacramentos','livros.sacramento','=','sacramentos.id_sacramento')                
                 ->select(
+                        'livros.id_livro as codigo',
                         'livros.numeracao as numeracao',
                         'livros.data_inicio as inicio',
                         'livros.data_fim as fim',
@@ -178,7 +179,7 @@ class LivrosRegistros extends Controller
                                     . "<button class='btn btn-warning btn-icon'><span class='icofont icofont icofont-plus'></span></button>"
                                     . "<span class='tooltip-content3'>Clique aqui para inserir uma nova página a este livro.</span>"
                                 . "</a>"
-                                ."<a class='mytooltip tooltip-effect-9 m-r-10' href='#'>"
+                                ."<a class='mytooltip tooltip-effect-9 m-r-10' href='". route("VisualizarFolhas.Folha",['livro'=>$dado->codigo,'paginacao'=>1])."'>"
                                     . "<button class='btn btn-inverse btn-icon'><span class='icofont icofont-eye-alt'></span></button>"
                                     . "<span class='tooltip-content3'>Ver paginas digitais desse livro.</span>"
                                 . "</a>"

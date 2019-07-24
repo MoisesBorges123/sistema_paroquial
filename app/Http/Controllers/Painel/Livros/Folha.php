@@ -23,12 +23,15 @@ class Folha extends Controller
     private $fotos;
     private $pagina;
     private $sacramento;
-    
-    public function __construct(Livros $book, Folhas $paper, Foto_folhas $picture, Sacramentos $holyActivities) {
+    private $funcoes;
+
+
+    public function __construct(Livros $book, Folhas $paper, Foto_folhas $picture, Sacramentos $holyActivities, FuncoesAdicionais $myfunctions) {
         $this->livro = $book;        
         $this->pagina =$paper;
         $this->fotos = $picture;
         $this->sacramento = $holyActivities;
+        $this->funcoes = $myfunctions;
     }
     
     public function index(){
@@ -513,6 +516,51 @@ class Folha extends Controller
 
            }
         }
+    }
+    
+    public function visualiza_paginas($livro,$pagina_atual){
+         $tituloPagina = "Adicionar Foto";
+          $page_header = "Adicinar Fotos à Folha.";
+          $descricao_page_header=" ";
+        
+        
+    
+        $dadosFolha = DB::table('folhas')
+                ->join('livros','folhas.livro','livros.id_livro')                
+                ->where('livro','=',$livro)                  
+                ->orderBy('num_pagina','asc')
+                ->get();
+        
+        $linhas=count($dadosFolha);
+        $paginacao = ceil($linhas/20);
+        $inicio = ($pagina_atual*20)-20;
+        $fim  = $inicio+20;
+        ob_start();
+            for($inicio;$inicio<$fim;$inicio++){
+
+                $folha= $this->funcoes->converter_numeracaoFolha($dadosFolha[$inicio]->num_pagina, 2);
+
+                $foto=DB::table('fotos_folhas')                        
+                        ->where('folha','=',$dadosFolha[$inicio]->id_folha)
+                        ->get();
+                //dd($foto);
+                $caminho = $foto[0]->caminho.$foto[0]->foto;
+                //$caminho = '';
+                echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
+                    ."<a href=".asset("'".$caminho."'")." data-lightbox='example-set' data-title='Folha ".$folha."'>"
+                        ."<img src=".asset("'".$caminho."'")." class='img-fluid m-b-10' alt=".$fim.">"
+                    ."</a>"
+                ."</div>";
+                
+            }
+        $fotosFolhas= ob_get_clean();
+
+        
+        $dados = array(
+            'folhas'=>$fotosFolhas
+        );
+                        
+        return view('painel\livros\table-folhas-livros',compact('tituloPagina','page_header','descricao_page_header','dados'));     
     }
     
     
