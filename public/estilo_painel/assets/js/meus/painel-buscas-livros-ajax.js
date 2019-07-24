@@ -29,8 +29,7 @@ $(document).ready(function () {
                     fim:fim,
                 },
                 dataType: 'JSON',
-                beforeSend: function () {
-                    $('.carregando').remove();             
+                beforeSend: function () {                       
                     $('#livros').html(
                     "<div class='text-left col-md-12 col-sm-12 carregando'>"+
                         "<div class=\"preloader3 loader-block\">"+
@@ -44,10 +43,8 @@ $(document).ready(function () {
                 },
                 success: function(data){
                     $('.carregando').remove();
-                    $('#step1').after(data.resultadoHTML);
-                    $('#titulo').html("2-Insira os dados da nova folha.");
-                    $('#botoes').append(data.btn_avancar_HTML);
-                    
+                    $('#livros').html(data.resultadoHtml);
+                  
                 }
             });
         });

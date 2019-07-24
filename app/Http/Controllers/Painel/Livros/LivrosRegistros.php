@@ -152,7 +152,9 @@ class LivrosRegistros extends Controller
                             }         
                 )
                 ->when($sacramento,function($query,$sacramento){
-                                return $query->where('livros.sacramento','=',$sacramento);
+                                if(intval($sacramento)<4){
+                                    return $query->where('livros.sacramento','=',$sacramento);                                    
+                                }
                             }         
                 )
                 ->when($inicio,function($query,$inicio){
@@ -166,8 +168,45 @@ class LivrosRegistros extends Controller
                
                 ->orderByRaw('livros.numeracao ASC')
                 ->get();
+                
+        ob_start();
+            if($dados){
+             
+                foreach ($dados as $dado){
+                  
+                  
+                    echo"<div class='col-md-2 col-sm-12'>"
+                        ."<div class='thumbnail'>"
+                            ."<div class='thumb' >"
+                                ."<a href='#' data-lightbox='1' data-title='My caption 1'>"
+                                    ."<figure class='text-center'>"
+                                        ."<img src='http://127.0.0.1:8000/estilo_painel/assets/images/sistema/agenda.png' alt='' class='listaLivros img-fluid img-thumbnail'>"
+                                        ."<figcaption  class='listaLivros'><b>Livro: ".$dado->numeracao."</b></figcaption>"
+                                        ."<p>".$dado->sacramento."</p>"
+                                        ."<small class='text-center' >Periodo de ".date('d/m/Y',strtotime($dado->inicio))." a ".date('d/m/Y',strtotime($dado->fim))."</small>"
+                                    ."</figure>"                                    
+                                ."</a>"
+                                ."<div class='text-center'>"
+                                ."<a href='#'><button class='btn btn-warning btn-icon'><span class='icofont icofont-eye-alt'></span></button></a>"
+                                ."<a href='#'><button class='btn btn-inverse btn-icon'><span class='icofont icofont-eye-alt'></span></button></a>"
+                                ."<button   class='btn btn-danger btn-icon'  ><span class='ion-trash-b'></span></button>"
+                                ."</div>" 
+                                
+                            ."</div>"
+                        ."</div>"
+                    ."</div>"; 
+                    
+                   
+                }
+            }
+                    
+         
+        $html= ob_get_clean();
         
-        
+       $resposta = array(
+           'resultadoHtml'=>$html
+       );
+       return $resposta;
     }
     
 }

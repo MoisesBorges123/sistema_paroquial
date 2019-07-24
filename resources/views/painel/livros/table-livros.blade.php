@@ -15,7 +15,7 @@
                 </div>
                 <div class='col-md-3 col-sm-12'>
                     <label>Sacramento</label>
-                    <select class='form-control' name='sacramento' id='sacraemnto'>
+                    <select class='form-control pesquisa' name='sacramento' id='sacramento'>
                         <option value='4'>Todos</option>
                         <option value='1'>Batismo</option>
                         <option value='2'>Crisma</option>
@@ -24,17 +24,17 @@
                 </div>
                 <div class='col-md-3 col-sm-12'>
                     <label>Livro</label>
-                    <input class='form-control' type="text" name="livro" id='livro'>
+                    <input class='form-control pesquisa' type="text" name="livro" id='livro'>
                 </div>
                 <div class='col-md-6 col-sm-12'>                   
                     <div class="row">
                         <div class='col-md-6 col-sm-12'>
                             <label>Data Início</label>
-                            <input class='form-control border-primary' type='date' name="inicio" id='inicio'>                            
+                            <input class='form-control border-primary pesquisa' type='date' name="inicio" id='inicio'>                            
                         </div>
                         <div class='col-md-6 col-sm-12'>
                             <label>Data Fim</label>
-                            <input class='form-control border-primary' type="date" name="fim" id='fim'>                            
+                            <input class='form-control border-primary pesquisa' type="date" name="fim" id='fim'>                            
                         </div>   
                        
                     </div>
@@ -45,7 +45,7 @@
         @if(!empty($dados->all()) && count($dados->all())>0)            
             <div class="card-block z-depth-bottom-5">
               
-                <div class="row" id='livros'>
+                <div class="row m-t-15" id='livros'>
                     @foreach($dados->all() as $dado)
                     <div class="col-md-2 col-sm-12">
                         <div class="thumbnail">
@@ -59,9 +59,18 @@
                                     </figure>                                    
                                 </a>
                                 <div class='text-center'>
-                                <a href="#"><button class="btn btn-warning btn-icon"><span class="icofont icofont-eye-alt"></span></button></a>
-                                <a href="#"><button class="btn btn-inverse btn-icon"><span class="icofont icofont-eye-alt"></span></button></a>
+                                <a class="mytooltip tooltip-effect-9" href="#">
+                                    <button class="btn btn-primary btn-icon"><span class="icofont icofont-eye-alt"></span></button>
+                                    <span class="tooltip-content3">Clique aqui para inserir uma nova página a este livro.</span>
+                                </a>
+                                <a class="mytooltip tooltip-effect-9" href="#">
+                                    <button class="btn btn-inverse btn-icon"><span class="icofont icofont-eye-alt"></span></button>
+                                    <span class="tooltip-content3">Ver paginas digitais desse livro.</span>
+                                </a>
+                                    <a  class="mytooltip tooltip-effect-9" href="#">
                                 <button   class="btn btn-danger btn-icon"  ><span class="ion-trash-b"></span></button>
+                                <span class="tooltip-content3"><div class="excluir">Excluir livro.</div></span>
+                                    </a>
                                 </div>
                                 
                             </div>
@@ -121,25 +130,7 @@
 @section('javascript')
 
 
-
-    <!-- i18next.min.js -->
-    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next/js/i18next.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/jquery-i18next/js/jquery-i18next.min.js')}}"></script>
-    <script src="{{asset('estilo_painel/assets/js/pcoded.min.js')}}"></script>
-   <!-- <script src="{{asset('estilo_painel/assets/js/vartical-layout.min.js')}}"></script> -->
-    <script src="{{asset('estilo_painel/assets/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-        <!-- sweet alert js -->
-    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/sweetalert/js/sweetalert.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/modal.js')}}"></script>
-    <!-- sweet alert modal.js intialize js -->
-    
-    <!-- modalEffects js nifty modal window effects -->    
-    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/modalEffects.js')}}"></script>
-    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/classie.js')}}"></script>
-    <!-- Custom js -->
-    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/script.js')}}"></script>
+    <!-- Custom js -->  
     <script src="{{asset('estilo_painel/assets/js/meus/painel-buscas-livros-ajax.js')}}"></script>
    
 @endsection
