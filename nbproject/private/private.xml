@@ -6,6 +6,8 @@
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/livros/table-livros.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/painel-buscas-livros-ajax.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/livros/table-folhas-livros.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Livros/Folha.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/livros/ver-livros.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Livros/LivrosRegistros.php</file>

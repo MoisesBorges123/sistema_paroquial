@@ -17,7 +17,7 @@
                                                     <div class="card-block">
                                                         <p> Add this code <code>data-lightbox="example-set"</code> to see roadtrip gallery in lightbox popup.</p>
                                                         <div class="row">
-                                                            {!! $dados->folhas !!}
+                                                            {!! $dados['folhas'] !!}
                                                         </div>
                                                     </div>
                                                 </div>

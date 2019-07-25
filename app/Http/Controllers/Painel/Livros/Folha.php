@@ -535,7 +535,13 @@ class Folha extends Controller
         $paginacao = ceil($linhas/20);
         $inicio = ($pagina_atual*20)-20;
         $fim  = $inicio+20;
+        if($fim>$linhas){
+            $fim=$linhas;
+        }
+        
         ob_start();
+        if($linhas>0){
+            
             for($inicio;$inicio<$fim;$inicio++){
 
                 $folha= $this->funcoes->converter_numeracaoFolha($dadosFolha[$inicio]->num_pagina, 2);
@@ -544,15 +550,18 @@ class Folha extends Controller
                         ->where('folha','=',$dadosFolha[$inicio]->id_folha)
                         ->get();
                 //dd($foto);
-                $caminho = $foto[0]->caminho.$foto[0]->foto;
+                $caminho = "storage/".$foto[0]->caminho.$foto[0]->foto;
+                $tamanho = number_format((($foto[0]->tamanho/1024)/1024),1,',','.')."M";
+                
                 //$caminho = '';
                 echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
-                    ."<a href=".asset("'".$caminho."'")." data-lightbox='example-set' data-title='Folha ".$folha."'>"
-                        ."<img src=".asset("'".$caminho."'")." class='img-fluid m-b-10' alt=".$fim.">"
+                    ."<a href=".asset($caminho)." data-lightbox='example-set' data-title='Folha ".$folha." /Tamanho ".$tamanho."'>"
+                        ."<img src=".asset($caminho)." class='img-fluid m-b-10' alt=".$fim.">"
                     ."</a>"
                 ."</div>";
                 
             }
+        }
         $fotosFolhas= ob_get_clean();
 
         
