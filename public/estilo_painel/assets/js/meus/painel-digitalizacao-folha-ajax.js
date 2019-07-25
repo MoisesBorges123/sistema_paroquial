@@ -19,19 +19,17 @@ $(document).ready(function () {
         //Valida numero da página
         $(document).on('input','#numeracao_pagina',function(){
             var texto = $('#numeracao_pagina').val();
-           
-            if(texto.length==2){
-                if(texto.substr(1,1)!="v" && texto.substr(1,1)!="V"){
-                  alert('Essa numereção não é valida!');
-                  $('#numeracao_pagina').val(null);
-                }
-            }else{
+            var ultimo = texto.substr(texto.length-1,1);
+            var primeiro = texto.substr(0,1);
+            console.log(primeiro+"\n"+ultimo);
+            
                 var x=texto*1;
-                if(x!=texto){
+                
+                if(x!=texto && ((ultimo !='v' && ultimo!='V') || (primeiro=='v' || primeiro=='V'))){
                   alert('Essa numereção não é valida!');
                   $('#numeracao_pagina').val(null);
                 }
-            }
+          
         });
         // populate preview
         $(document).on('change','#foto-livro', function() {

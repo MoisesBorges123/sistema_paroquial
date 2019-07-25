@@ -11,11 +11,11 @@
                                                 <!-- Multiple image card start -->
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Multiple Images Or Image Set (Light Box 2)</h5>
+                                                        <h5>{!! $dados['periodo'] !!}</h5>
 
                                                     </div>
                                                     <div class="card-block">
-                                                        <p> Add this code <code>data-lightbox="example-set"</code> to see roadtrip gallery in lightbox popup.</p>
+                                                        
                                                         <div class="row">
                                                             {!! $dados['folhas'] !!}
                                                         </div>

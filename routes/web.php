@@ -49,6 +49,8 @@ Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_pagi
      
 
 
+                        //TRABALHANDO COM EXCLUSÕES
+Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');
                 
                 
                 

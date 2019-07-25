@@ -519,9 +519,11 @@ class Folha extends Controller
     }
     
     public function visualiza_paginas($livro,$pagina_atual){
-         $tituloPagina = "Adicionar Foto";
-          $page_header = "Adicinar Fotos à Folha.";
-          $descricao_page_header=" ";
+          $dadosLivro=$this->livro->find($livro);
+          $dadosSacramento = $this->sacramento->find($dadosLivro->sacramento);
+          $page_header = "Folhas Livro ".$dadosLivro->numeracao." de ".$dadosSacramento->nome;
+          $tituloPagina = "Paginas Livro.";
+          $descricao_page_header="Período dos registros do livro: ".date('d/m/Y', strtotime($dadosLivro->data_inicio))." a ".date('d/m/Y', strtotime($dadosLivro->data_fim));
         
         
     
@@ -539,6 +541,8 @@ class Folha extends Controller
             $fim=$linhas;
         }
         
+        $start = $inicio+1;
+        $periodo = "Folhas $start - $fim";
         ob_start();
         if($linhas>0){
             
@@ -561,12 +565,14 @@ class Folha extends Controller
                 ."</div>";
                 
             }
+            
         }
         $fotosFolhas= ob_get_clean();
 
         
         $dados = array(
-            'folhas'=>$fotosFolhas
+            'folhas'=>$fotosFolhas,
+            'periodo'=>$periodo
         );
                         
         return view('painel\livros\table-folhas-livros',compact('tituloPagina','page_header','descricao_page_header','dados'));     

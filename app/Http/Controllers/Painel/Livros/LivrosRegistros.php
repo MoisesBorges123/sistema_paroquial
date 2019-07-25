@@ -8,15 +8,21 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Livros_Registros\Livros;
 use App\Models\Painel\Livros_Registros\Sacramentos;
+use App\Models\Painel\Livros_Registros\Foto_folhas;
+use App\Models\Painel\Livros_Registros\Folhas;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 class LivrosRegistros extends Controller
 {
     private $livro;
     private $sacramentos;
-    public function __construct(Livros $book, Sacramentos $typebook) {
+    private $fotos;
+    private $folhas;
+    public function __construct(Livros $book, Sacramentos $typebook, Foto_folhas $pictures,Folhas $pages) {
         $this->livro=$book;
         $this->sacramentos = $typebook;
+        $this->fotos = $pictures;
+        $this->folhas = $pages;
     }    
     public function  index(){
         $tituloPagina = "Meus Livros";
@@ -183,7 +189,7 @@ class LivrosRegistros extends Controller
                                     . "<button class='btn btn-inverse btn-icon'><span class='icofont icofont-eye-alt'></span></button>"
                                     . "<span class='tooltip-content3'>Ver paginas digitais desse livro.</span>"
                                 . "</a>"
-                                . "<a  class='mytooltip tooltip-effect-9 m-r-10' href='#'>"
+                                . "<a  class='mytooltip tooltip-effect-9 m-r-10' href='".route("Excluir.Livro",$dado->codigo)."'>"
                                     ."<button   class='btn btn-danger btn-icon'  ><span class='ion-trash-b'></span></button>"
                                     . "<span class='tooltip-content3'><div class='excluir'>Excluir livro.</div></span>"
                                 ."</div>" 
@@ -210,5 +216,32 @@ class LivrosRegistros extends Controller
        );
        return $resposta;
     }
+    public function deletar($livro){
+         $dadosFolha=DB::table('folhas')                                
+                ->where('livro','=',$livro)
+                 ->get();
+    if(!empty($dadosFolha)){
+        
+         foreach ($dadosFolha as $dado ){
+            $fotos=DB::table('fotos_folhas')                        
+                        ->where('folha','=',$dado->id_folha)
+                        ->get();
+                foreach ($fotos as $foto){
+                    $caminho = "storage\\".str_replace("/", "\\",$foto->caminho).$foto->foto;
+                    
+                    unlink(public_path($caminho));
+                    $this->fotos->find($foto->id_foto)->delete();
+                }
+            $this->folhas->find($dado->id_folha)->delete();
+                
+         }
+    }
+    $resposta=$this->livro->find($livro)->delete();
+    
+         
+    return redirect()->back();
+    } 
+   
+   
     
 }
