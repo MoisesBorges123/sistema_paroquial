@@ -50,30 +50,8 @@ Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_pagi
 
 
                         //TRABALHANDO COM EXCLUSÕES
-Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');
-                
-                
-                
-                
-                
-                
-                
-
-           
-Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
- 
-
-     
-
-
-                
-                
-                
-                
-                
-                
-                
-
+Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');        
+Route::get('/excluir/livro/folha/foto/{$foto}/','Painel\Livros\Folha@deletar')->name('Excluir.Folha');        
            
 });
 

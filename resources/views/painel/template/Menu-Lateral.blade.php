@@ -408,8 +408,8 @@
                                                 <span class="pcoded-mtext">Meus Livros</span>
                                             </a>
                                         </li>
-                                       <!--
-                                       <li class="pcoded-hasmenu ">
+                                      
+                                      <!-- <li class="pcoded-hasmenu ">
                                             <a href="javascript:void(0)">
                                                 <span class="pcoded-mtext">Registros</span>
                                             </a>
@@ -422,6 +422,22 @@
                                                 
                                             </ul>
                                         </li>-->
+                                    </ul>
+                                </li>
+                                <li class="pcoded-hasmenu">
+                                    <a href="javascript:void(0)">
+                                        <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                        <span class="pcoded-mtext">Registros</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="">
+                                            <a href="{{route("FormCadastro.Batizado")}}">
+                                                <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                                <span class="pcoded-mtext">Registrar Batizado</span>
+                                            </a>
+                                        </li>
+                                        
+                                      
                                     </ul>
                                 </li>
                        

@@ -522,7 +522,7 @@ class Folha extends Controller
           $dadosLivro=$this->livro->find($livro);
           $dadosSacramento = $this->sacramento->find($dadosLivro->sacramento);
           $page_header = "Folhas Livro ".$dadosLivro->numeracao." de ".$dadosSacramento->nome;
-          $tituloPagina = "Paginas Livro.";
+          $tituloPagina = "Paginas Livro";
           $descricao_page_header="Período dos registros do livro: ".date('d/m/Y', strtotime($dadosLivro->data_inicio))." a ".date('d/m/Y', strtotime($dadosLivro->data_fim));
         
         
@@ -553,7 +553,7 @@ class Folha extends Controller
                 $foto=DB::table('fotos_folhas')                        
                         ->where('folha','=',$dadosFolha[$inicio]->id_folha)
                         ->get();
-                //dd($foto);
+                
                 $caminho = "storage/".$foto[0]->caminho.$foto[0]->foto;
                 $tamanho = number_format((($foto[0]->tamanho/1024)/1024),1,',','.')."M";
                 
@@ -561,6 +561,11 @@ class Folha extends Controller
                 echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
                     ."<a href=".asset($caminho)." data-lightbox='example-set' data-title='Folha ".$folha." /Tamanho ".$tamanho."'>"
                         ."<img src=".asset($caminho)." class='img-fluid m-b-10' alt=".$fim.">"
+                        . "<div class='icon-btn text-center'>"
+                        . "<a href='".route("Excluir.Folha",$foto[0]->id_foto)."'><button  class=\"btn btn-danger btn-icon \"><i class=\"icofont icofont-trash\"></i></button></a>"
+                        . "</div>"
+                    
+                   
                     ."</a>"
                 ."</div>";
                 
@@ -578,7 +583,25 @@ class Folha extends Controller
         return view('painel\livros\table-folhas-livros',compact('tituloPagina','page_header','descricao_page_header','dados'));     
     }
     
+    public function deletar($foto){
+        /*
+         * É necessário verificar se a folha tem só essa foto se sim tem que
+         * excluir a folha tambem se não exclui só a foto
+         */
+        $dadosFoto=$this->fotos->find($foto);
+        $minhasFotos=DB::table('fotos_folhas')
+            ->where('folha','=',$dadosFoto->folha)
+            ->get();
+         $caminho = "storage\\".str_replace("/", "\\",$foto->caminho).$foto->foto;                    
+                    unlink(public_path($caminho));
+                    $this->fotos->find($foto->id_foto)->delete();
+                    
+        if(count($minhasFotos==1)){
+            
+        }
     
+        
+    }
         
     
 }
