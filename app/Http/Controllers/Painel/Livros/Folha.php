@@ -592,12 +592,12 @@ class Folha extends Controller
         $minhasFotos=DB::table('fotos_folhas')
             ->where('folha','=',$dadosFoto->folha)
             ->get();
-         $caminho = "storage\\".str_replace("/", "\\",$foto->caminho).$foto->foto;                    
-                    unlink(public_path($caminho));
-                    $this->fotos->find($foto->id_foto)->delete();
+        $caminho = "storage\\".str_replace("/", "\\",$dadosFoto->caminho).$dadosFoto->foto;                    
+        unlink(public_path($caminho));
+        $this->fotos->find($dadosFoto->id_foto)->delete();
                     
         if(count($minhasFotos==1)){
-            
+            $this->pagina->find($dadosFoto->id_foto)->delete();
         }
     
         

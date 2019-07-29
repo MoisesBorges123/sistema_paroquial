@@ -51,28 +51,33 @@ Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_pagi
 
                         //TRABALHANDO COM EXCLUSÕES
 Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');        
-Route::get('/excluir/livro/folha/foto/{$foto}/','Painel\Livros\Folha@deletar')->name('Excluir.Folha');        
+Route::get('/excluir/livro/folha/foto/{$foto}','Painel\Livros\Folha@deletar')->name('Excluir.Folha');        
            
 });
 
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO REGISTROS
 Route::group(['prefix'=>'painel/registros'], function () {  
-    //INICIO ROTAS PARA TRABALHAR COM BATIZADOS===================================================================    
+//INICIO ROTAS PARA TRABALHAR COM BATIZADOS===================================================================    
     
     //FORMULÁRIO P/ CADASTRAR BATIZADO    
     Route::get('/batizado/cadastro', 'Painel\Registros\Batizado@form_cadastro')->name("FormCadastro.Batizado");    
         Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@salvar')->name("Cadastrar.Batizado");
-        Route::get('buscar/paginas','Painel\Registros\Batizado@buscarPageLivro')->name("Buscar.PageLivroRegistro");//Consulta AJAX paginas do livro
-    //VISUALIZAR FOLHAS
-    Route::get('/ler/livroRegistro/{livro}', 'Painel\Registros\Batizado@index')->name("Visualizar.Batizado");
-    //EXCLUIR FOLHAS
-    Route::get('/excluir/folha', 'Painel\Registros\Batizado@excluir_tipo')->name("Excluir.Batizado");
-    //EDITAR FOLHAS
-    Route::get('/atualizar/folha', 'Painel\Registros\Batizado@editar_tipo')->name("Atualizar.Batizado");
+        
+    
     
 //FIM ROTAS PARA TRABALHAR COM BATIZADOS================================================================== 
 });
+
+//TRABALHANDO COM AS IGREJAS E PADRES
+Route::group(['prefix'=>'/painel/igreja'],function(){
+    Route::get('/','Painel\Igrejas\Igreja@index')->name("Mostrar.Igreja");
+        Route::post('/busca','Painel\Igrejas\Igreja@busca')->name("Busca.Igreja");
+        
+});
+
+
+
 
 Route::group(['prefix'=>'painel/missas'],function(){
     Route::get('/intencao/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");

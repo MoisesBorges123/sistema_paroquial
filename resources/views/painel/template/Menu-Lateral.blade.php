@@ -661,6 +661,25 @@
                                 </li>
                             </ul>
                             -->
+                            <div class="pcoded-navigatio-lavel">Diocese</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu ">
+                                    <a href="javascript:void(0)">
+                                        <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
+                                        <span class="pcoded-mtext">Igrejas</span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                      
+                                        <li class="">
+                                            <a href="{{route("Mostrar.Igreja")}}">
+                                                <span class="pcoded-mtext">Igrejas da Diocese</span>
+                                            </a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
+                                
+                            </ul>
                             <div class="pcoded-navigatio-lavel">Intenções de Missa</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">

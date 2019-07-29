@@ -235,6 +235,11 @@ class LivrosRegistros extends Controller
             $this->folhas->find($dado->id_folha)->delete();
                 
          }
+         //Excluir pasta do livro
+        $caminho2 = "storage\Imagens\Livro_".$livro."\Folhas";
+        rmdir(public_path($caminho2));
+        $caminho3 = "storage\Imagens\Livro_".$livro;
+        rmdir(public_path($caminho3));
     }
     $resposta=$this->livro->find($livro)->delete();
     
