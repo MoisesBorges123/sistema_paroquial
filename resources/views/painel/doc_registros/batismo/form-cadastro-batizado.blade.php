@@ -4,7 +4,7 @@
 
 
 @section('conteudo')
-<div class="row">
+<div class="row" id='fundo_folha'>
     <div class="col-sm-12 col-md-10">
         
             @if(isset($errors) && count($errors)>0)
@@ -20,7 +20,7 @@
                 <p>{!!Session::get('resposta')!!}</p>
             </div>
             @endif
-        <form method="post" class="form" action="{{route('Cadastrar.Batizado')}}">
+        <form method="post" class="form" action="">
             {!! csrf_field() !!}
             <div class="form-group row">
                 <div class="col-md-8 col-sm-12">
@@ -68,17 +68,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <label>Livro</label>
-                        <select class="form-control" name="tipo" id="choosebook">
-                            <option value="">Selecione a categoria do livro</option>
-                            @foreach($livros->all() as $livro)
-                            <option value="{{$livro->id_livros_registros}}">{{$livro->numero}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                
                 <div class="col-md-4 col-sm-12" id="pagina">
                     <div class="preloader3 loader-block load fade">
                         <div class="circ1 loader-primary loader-md"></div>
@@ -105,6 +95,13 @@
 @section('css')
     <!-- Date-Dropper css -->
     <link rel="stylesheet" type="text/css" href="..\files\bower_components\datedropper\css\datedropper.min.css">
+    <style>
+        #fundo_folha{
+            background-image: url("{{asset('estilo_painel/assets/images/sistema/folha_velha.jpg')}}");
+            background-size: 100% 100%;
+        
+        }
+    </style>
 @endsection
 
 @section('javascript')
@@ -128,7 +125,7 @@
         
         function buscarPaginas(livro){
             $.ajax({
-                    url:"{{route('Buscar.PageLivroRegistro')}}",
+                    url:",/phpfd.php",
                     type: 'GET',
                     datatype:'json',
                     data:{livro:livro},

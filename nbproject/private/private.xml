@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/igreja/table-igrejas.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Registros/Batizado.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/doc_registros/batismo/form-cadastro-batizado.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Igrejas/Igreja.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/images/sistema/folha_velha.jpg</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Livros/Folha.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/painel-table-igrejas.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Igrejas/Igreja.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Livros/LivrosRegistros.php</file>
         </group>
     </open-files>

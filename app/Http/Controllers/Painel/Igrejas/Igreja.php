@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Painel\Igrejas;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Painel\Igrejas\Igreja;
+use App\Models\Painel\Igrejas\Igrejas;
 use Illuminate\Support\Facades\DB;
 class Igreja extends Controller
 {
-    private $igrejas;
+ private $igrejas;
     public function __construct(Igrejas $church) {
         $this->igrejas = $church;
     }
     public function index(){
-        return  view('painel/igreja/table-igreja');
+        return  view('painel/igreja/table-igrejas');
     }
     public function busca(Request $request){
         $search_for = $request->input('igreja');

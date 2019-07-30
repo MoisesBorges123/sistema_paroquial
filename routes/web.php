@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 
 
-//GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO
+//GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
 Route::group(['prefix'=>'painel/livros'], function () {
     
                         //TRABALHANDO COM CADASTROS
@@ -69,7 +69,7 @@ Route::group(['prefix'=>'painel/registros'], function () {
 //FIM ROTAS PARA TRABALHAR COM BATIZADOS================================================================== 
 });
 
-//TRABALHANDO COM AS IGREJAS E PADRES
+//TRABALHANDO COM AS IGREJAS E PADRES (DIOCESE)
 Route::group(['prefix'=>'/painel/igreja'],function(){
     Route::get('/','Painel\Igrejas\Igreja@index')->name("Mostrar.Igreja");
         Route::post('/busca','Painel\Igrejas\Igreja@busca')->name("Busca.Igreja");
