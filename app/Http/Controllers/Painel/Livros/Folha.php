@@ -561,12 +561,10 @@ class Folha extends Controller
                 echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
                     ."<a href=".asset($caminho)." data-lightbox='example-set' data-title='Folha ".$folha." /Tamanho ".$tamanho."'>"
                         ."<img src=".asset($caminho)." class='img-fluid m-b-10' alt=".$fim.">"
+                    ."</a>"
                         . "<div class='icon-btn text-center'>"
                         . "<a href='".route("Excluir.Folha",$foto[0]->id_foto)."'><button  class=\"btn btn-danger btn-icon \"><i class=\"icofont icofont-trash\"></i></button></a>"
                         . "</div>"
-                    
-                   
-                    ."</a>"
                 ."</div>";
                 
             }

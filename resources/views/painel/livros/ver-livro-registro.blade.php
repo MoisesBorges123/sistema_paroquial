@@ -71,7 +71,7 @@
                                                 <div class="col-md-12 col-sm-12" id="step1"></div>
                                                 <div class="col-md-12 col-sm-12 resultado1" >
                                                     <label>Numeração da Página</label>
-                                                    <input type="text" maxlength="2" name="numeracao_pagina" id="numeracao_pagina" required="">
+                                                    <input type="text"  name="numeracao_pagina" id="numeracao_pagina" required="">
                                                     <input type='hidden' name='livro' class='form-control' value="{{$dados['livro']}}" id='livro'>
                                                     <input type='hidden' name='sacramento' class='form-control' value="{{$dados['sacramento']}}" id='sacrameno'>
                                                 </div>
