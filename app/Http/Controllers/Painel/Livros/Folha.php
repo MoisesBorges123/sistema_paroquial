@@ -534,9 +534,9 @@ class Folha extends Controller
                 ->get();
         
         $linhas=count($dadosFolha);
-        $paginacao = ceil($linhas/20);
-        $inicio = ($pagina_atual*20)-20;
-        $fim  = $inicio+20;
+        $paginacao = ceil($linhas/15);
+        $inicio = ($pagina_atual*15)-15;
+        $fim  = $inicio+15;
         if($fim>$linhas){
             $fim=$linhas;
         }
@@ -550,22 +550,23 @@ class Folha extends Controller
 
                 $folha= $this->funcoes->converter_numeracaoFolha($dadosFolha[$inicio]->num_pagina, 2);
 
-                $foto=DB::table('fotos_folhas')                        
+                $fotos=DB::table('fotos_folhas')                        
                         ->where('folha','=',$dadosFolha[$inicio]->id_folha)
                         ->get();
-                
-                $caminho = "storage/".$foto[0]->caminho.$foto[0]->foto;
-                $tamanho = number_format((($foto[0]->tamanho/1024)/1024),1,',','.')."M";
-                
-                //$caminho = '';
-                echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
-                    ."<a href=".asset($caminho)." data-lightbox='example-set' data-title='Folha ".$folha." /Tamanho ".$tamanho."'>"
-                        ."<img src=".asset($caminho)." class='img-fluid m-b-10' alt=".$fim.">"
-                    ."</a>"
-                        . "<div class='icon-btn text-center'>"
-                        . "<a href='".route("Excluir.Folha",$foto[0]->id_foto)."'><button  class=\"btn btn-danger btn-icon \"><i class=\"icofont icofont-trash\"></i></button></a>"
-                        . "</div>"
-                ."</div>";
+                foreach ($fotos as $foto){
+                    $caminho = "storage/".$foto->caminho.$foto->foto;
+                    $tamanho = number_format((($foto->tamanho/1024)/1024),1,',','.')."M";
+
+                    //$caminho = '';
+                    echo"<div class='col-xl-2 col-lg-3 col-sm-3 col-xs-12'>"
+                        ."<a href=".asset($caminho)." data-lightbox='example-set' data-title='Folha ".$folha." /Tamanho ".$tamanho."'>"
+                            ."<img src=".asset($caminho)." class='img-fluid m-b-10' alt=".$fim.">"
+                        ."</a>"
+                            . "<div class='icon-btn text-center'>"
+                            . "<a href='".route("Excluir.Folha",$foto->id_foto)."'><button  class=\"btn btn-danger btn-icon \"><i class=\"icofont icofont-trash\"></i></button></a>"
+                            . "</div>"
+                    ."</div>";                    
+                }
                 
             }
             

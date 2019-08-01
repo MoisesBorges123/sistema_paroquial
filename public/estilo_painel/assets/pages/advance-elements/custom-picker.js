@@ -257,10 +257,11 @@ $("#dropper-format").dateDropper( {
     }),
 $("#dropper-lang").dateDropper( {
         dropWidth: 200,
-        format: "F S, Y",
+        format: "(D), d de F de Y",
         dropPrimaryColor: "#1abc9c", 
+        init_animation: "bounce",
         dropBorder: "1px solid #1abc9c",
-        lang: "ar"
+        lang: "pt"
     }),
 $("#dropper-lock").dateDropper( {
         dropWidth: 200,

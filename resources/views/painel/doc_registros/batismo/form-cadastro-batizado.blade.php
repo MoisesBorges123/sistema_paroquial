@@ -5,7 +5,7 @@
 
 @section('conteudo')
 <div class="row" id='fundo_folha'>
-    <div class="col-sm-12 col-md-10">
+    <div class="col-sm-12 col-md-12">
         
             @if(isset($errors) && count($errors)>0)
                 <div class="alert alert-danger">
@@ -22,10 +22,48 @@
             @endif
         <form method="post" class="form" action="">
             {!! csrf_field() !!}
+            <div class="form-group row m-t-10">
+                <div class="col-md-1 col-sm-1 p-t-5 p-r-0 text-right">
+                    <label class='h4 '>Aos</label>                    
+                </div>
+                <div class="col-md-3 col-sm-5 p-r-0 ">
+                    <input id="dropper-lang" class="form-control" type="text" placeholder="Data do Batizado" readonly="readonly">                
+                </div>
+                <div class="col-md-1 col-sm-1 p-t-5 p-r-0 p-l-0 text-center">
+                    <label class='h4 '>na</label>                    
+                </div>
+                <div class="col-md-3 col-sm-5  p-l-0">
+                    <select class='form-control' name='capela_paroquia'>
+                        <option value='1'>Capela</option>
+                        <option value='2'>Paróquia</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12  p-l-0">
+                    <select class='form-control' name='capela_paroquia'>
+                        <option value=''>- Selecione a Capela -</option>                 
+                    </select>
+                </div>
+            </div>
             <div class="form-group row">
-                <div class="col-md-8 col-sm-12">
-                    <label>*Criança</label>
-                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome completo">
+                <div class="col-md-3 col-sm-6 p-t-6 p-r-0 text-center">
+                    <label class='h4'>Batizei solenemente</label>                    
+                </div>
+                <div class="col-md-9 col-sm-6 p-l-0">                    
+                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome da criança">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-1 col-sm-4 p-t-6 p-r-0 text-center">
+                    <label class='h4'>Filho de</label>                    
+                </div>
+                <div class="col-md-4 col-sm-6 p-l-0 p-r-0">                    
+                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome do pai">
+                </div>
+                <div class="col-md-1 col-sm-3 p-t-6 p-r-0 text-center">
+                    <label class='h4'>e de</label>                    
+                </div>
+                <div class="col-md-4 col-sm-6 p-l-0 ">                    
+                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome da mãe">
                 </div>
             </div>
             <div class="form-group row">
@@ -94,12 +132,15 @@
 
 @section('css')
     <!-- Date-Dropper css -->
-    <link rel="stylesheet" type="text/css" href="..\files\bower_components\datedropper\css\datedropper.min.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/datedropper/css/datedropper.min.css')}}">
     <style>
         #fundo_folha{
             background-image: url("{{asset('estilo_painel/assets/images/sistema/folha_velha.jpg')}}");
             background-size: 100% 100%;
         
+        }
+        #p-t-5{
+            padding-top: 5px !important;
         }
     </style>
 @endsection
@@ -112,7 +153,16 @@
     <script src="{{asset('estilo_painel/assets/js/pcoded.min.js')}}"></script>
    <!-- <script src="{{asset('estilo_painel/assets/js/vartical-layout.min.js')}}"></script> -->
     <script src="{{asset('estilo_painel/assets/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    
+     <!-- Bootstrap date-time-picker js -->
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/advance-elements/moment-with-locales.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/advance-elements/bootstrap-datetimepicker.min.js')}}"></script>
+    <!-- Date-range picker js -->
+    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/bootstrap-daterangepicker/js/daterangepicker.js')}}"></script>
+     <!-- Date-dropper js -->
+    <script type="text/javascript" src="{{asset('estilo_painel/bower_components/datedropper/js/datedropper.min.js')}}"></script>
+    <!-- Custom js -->
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/advance-elements/custom-picker.js')}}"></script
 <script>
     $(document).ready(function(){
         
