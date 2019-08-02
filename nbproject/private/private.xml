@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Registros/Batizado.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/painel-buscas-livros-ajax.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/doc_registros/batismo/form-cadastro-batizado.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Igrejas/Igreja.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/advance-elements/custom-picker.js</file>

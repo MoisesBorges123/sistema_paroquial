@@ -1,0 +1,1 @@
+ALTER TABLE `igrejas` ADD `capela_paroquia` INT NOT NULL COMMENT '1-Capela / 2-Paroquia' AFTER `endereco`;

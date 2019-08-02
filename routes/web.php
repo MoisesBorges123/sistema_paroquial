@@ -62,6 +62,7 @@ Route::group(['prefix'=>'painel/registros'], function () {
     
     //FORMULÁRIO P/ CADASTRAR BATIZADO    
     Route::get('/batizado/cadastro', 'Painel\Registros\Batizado@form_cadastro')->name("FormCadastro.Batizado");    
+        Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@busca_igreja')->name("Pesquisa_Igreja.Batizado");
         Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@salvar')->name("Cadastrar.Batizado");
         
     

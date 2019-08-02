@@ -176,6 +176,13 @@
        $('.passo10').fadeOut();
        $('.passo11').fadeOut();
        $('.passo12').fadeOut();
+       var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            }
+        });
+        rota_busca1="{{route('Pesquisa_Igreja.Batizado')}}"
        $(document).on('click','.passo1',function(){
            clearTimeout(this.interval);
            $('.passo2').fadeOut(500)
@@ -258,15 +265,24 @@
        
         
         
-        function buscarPaginas(livro){
+        function buscarIgreja(tipo){
             $.ajax({
-                    url:",/phpfd.php",
-                    type: 'GET',
+                    url:rota_busca1,
+                    type: 'POST',
                     datatype:'json',
-                    data:{livro:livro},
+                    data:{tipo:tipo},
                     beforeSend:function(){                       
                         
-                        $('.load').removeClass('fade');
+                        $('.passo2').html(
+                        "<div class='text-left col-md-12 col-sm-12 carregando'>"+
+                            "<div class=\"preloader3 loader-block\">"+
+                                    "<div class=\"circ1\"></div>"+
+                                    "<div class=\"circ2\"></div>"+
+                                    "<div class=\"circ3\"></div>"+
+                                    "<div class=\"circ4\"></div>"+
+                            "</div>"+
+                        "</div>"
+                        );
                     },
                     success:function(data){
                         $('.load').addClass('fade');

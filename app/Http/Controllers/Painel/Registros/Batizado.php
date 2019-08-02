@@ -13,4 +13,7 @@ class Batizado extends Controller
       $descricao_page_header="";
         return view('painel/doc_registros/batismo/form-cadastro-batizado',compact('tituloPagina','page_header','descricao_page_header'));
     }
+    public function busca_igreja(Request $request){
+        
+    }
 }
