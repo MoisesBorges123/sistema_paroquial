@@ -261,7 +261,17 @@ $("#dropper-lang").dateDropper( {
         dropPrimaryColor: "#1abc9c", 
         init_animation: "bounce",
         dropBorder: "1px solid #1abc9c",
-        lang: "pt"
+        lang: "pt",
+        minYear:"1800"
+    }),
+$(".data-avancada").dateDropper( {
+        dropWidth: 200,
+        format: "(D), d de F de Y",
+        dropPrimaryColor: "#1abc9c", 
+        init_animation: "bounce",
+        dropBorder: "1px solid #1abc9c",
+        lang: "pt",
+        minYear:"1800"
     }),
 $("#dropper-lock").dateDropper( {
         dropWidth: 200,
