@@ -62,7 +62,8 @@ Route::group(['prefix'=>'painel/registros'], function () {
     
     //FORMULÁRIO P/ CADASTRAR BATIZADO    
     Route::get('/batizado/cadastro', 'Painel\Registros\Batizado@form_cadastro')->name("FormCadastro.Batizado");    
-        Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@busca_igreja')->name("Pesquisa_Igreja.Batizado");
+        Route::post('/ajax/livro_folha/registro/batismo','Painel\Registros\Batizado@busca_folha')->name("Pesquisa_Folha.Batizado");
+        Route::post('/ajax/igreja_capela/registro/batismo','Painel\Registros\Batizado@busca_igreja')->name("Pesquisa_Igreja.Batizado");
         Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@salvar')->name("Cadastrar.Batizado");
         
     
@@ -74,6 +75,9 @@ Route::group(['prefix'=>'painel/registros'], function () {
 Route::group(['prefix'=>'/painel/igreja'],function(){
     Route::get('/','Painel\Igrejas\Igreja@index')->name("Mostrar.Igreja");
         Route::post('/busca','Painel\Igrejas\Igreja@busca')->name("Busca.Igreja");
+    Route::post('/igreja/ajax/cadastro/rapido/salvar','Painel\Igrejas\Igreja@cadastro_rapido')->name("CadastroRapido.Igreja");
+    Route::post('/capela/ajax/cadastro/rapido/salvar','Painel\Igrejas\Capela@cadastro_rapido')->name("CadastroRapido.Capela");
+    Route::post('/padre/ajax/cadastro/rapido/salvar','Painel\Igrejas\Capela@cadastro_rapido')->name("CadastroRapido.padre");
         
 });
 

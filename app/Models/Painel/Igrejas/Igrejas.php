@@ -12,12 +12,12 @@ class Igrejas extends Model
     protected $fillable = [      
         
         'nome',
-        'endereco',
+        'endereco'
     ];
     public $timestamps=false;
     public $rules = [
         'nome' =>'required|max:200|min:11',        
-        'endereco'=>'required'
+       
         
     ];
 }

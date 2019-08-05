@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Igrejas\Igrejas;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 class Igreja extends Controller
 {
  private $igrejas;
-    public function __construct(Igrejas $church) {
+    public function __construct(Igrejas $church ) {
         $this->igrejas = $church;
     }
     public function index(){
@@ -30,5 +31,30 @@ class Igreja extends Controller
                 
             }
         }
+    }
+    public function cadastro_rapido(Request $request, FuncoesAdicionais $fn){
+        $igreja=$request->input('nome');
+        if(!empty($igreja)){
+
+           
+                $valores=[];
+                $valores[]=['value'=>$igreja,'type'=>1];
+                $valores[]=['value'=>null,'type'=>0];
+                $campos=['nome','endereco'];
+                $dados=$fn->tratamentoDados($valores, $campos);
+                $cadastrar=$this->igrejas->create($dados);
+                if($cadastrar){
+                    $erro=0;
+                }else{
+                    
+                    $erro="<p class='text-danger'>Não foi possível salvar o registro.</p>.$cadastrar";
+                }
+           
+        }else{
+            $erro="<p class='text-warning'><b>Ops!</b> Não foi possível identificar o nome da paroquia por favor tente novamente.</p>";
+        }
+        return $resposta = array(
+            'erro'=>$erro
+            );
     }
 }

@@ -231,6 +231,13 @@ class FuncoesAdicionais extends Controller
         }
         return $r;
     }
+    
+    /**
+     * Função de tratamento de array para salvar os dados utilizando 
+     * o metodo created
+     * 1-Envia os valores('value',type) 
+     * 2-Campos da Tabela do Banco de Dados    
+     */
     public function tratamentoDados($valores,$campos){
         $dados=[]; 
         $c=0;

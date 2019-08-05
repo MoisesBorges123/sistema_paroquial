@@ -47,6 +47,7 @@ $(document).ready(function(){
         }
     });
     // Enabled/Disabled Dates
+  
     $('#datetimepicker5').datetimepicker({
         defaultDate: "11/1/2013",
         disabledDates: [
@@ -63,6 +64,7 @@ $(document).ready(function(){
             previous: "icofont icofont-rounded-left"
         }
     });
+    
     // Linked Pickers
     $('#datetimepicker6').datetimepicker({
         icons: {
@@ -264,6 +266,7 @@ $("#dropper-lang").dateDropper( {
         lang: "pt",
         minYear:"1800"
     }),
+    
 $(".data-avancada").dateDropper( {
         dropWidth: 200,
         format: "(D), d de F de Y",

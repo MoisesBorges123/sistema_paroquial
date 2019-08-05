@@ -40,19 +40,9 @@
         <!-- ion icon css -->
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/icon/ion-icon/css/ionicons.min.css')}}">
 
-        <!-- animation nifty modal window effects css -->
-        <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/component.css')}}">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-    <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
+        <!-- animation nifty modal window effects css
+        <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/component.css')}}"> -->
 
-            gtag('config', 'UA-23581568-13');
-    </script>
         <title>
             @if (!empty($tituloPagina))
             {{$tituloPagina}}
@@ -420,6 +410,7 @@
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/bootstrap-growl.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/notification/notification.js')}}"></script>
 
+    
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/mascaras.js')}}"></script> 
     <script type="text/javascript">
         $(document).ready(function () {
