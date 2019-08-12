@@ -11,7 +11,7 @@ class FuncoesAdicionais extends Controller
       /**
      * Verifica os valores de acordo com o tipo informado.
        * Ex: $valores=['value'=>"texto",'type'=>8];
-       * Retornará 23 se estiver tudo correto caso contrário x.y.k,
+       * Retornará "23" se estiver tudo correto caso contrário x.y.k,
        * sendo 
        * x = posição do valor no array, 
        * y  = tipo de erro 

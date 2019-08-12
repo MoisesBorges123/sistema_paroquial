@@ -72,13 +72,22 @@ Route::group(['prefix'=>'painel/registros'], function () {
 });
 
 //TRABALHANDO COM AS IGREJAS E PADRES (DIOCESE)
-Route::group(['prefix'=>'/painel/igreja'],function(){
-    Route::get('/','Painel\Igrejas\Igreja@index')->name("Mostrar.Igreja");
-        Route::post('/busca','Painel\Igrejas\Igreja@busca')->name("Busca.Igreja");
-    Route::post('/igreja/ajax/cadastro/rapido/salvar','Painel\Igrejas\Igreja@cadastro_rapido')->name("CadastroRapido.Igreja");
-    Route::post('/capela/ajax/cadastro/rapido/salvar','Painel\Igrejas\Capela@cadastro_rapido')->name("CadastroRapido.Capela");
-    Route::post('/padre/ajax/cadastro/rapido/salvar','Painel\Igrejas\Capela@cadastro_rapido')->name("CadastroRapido.padre");
+Route::group(['prefix'=>'/painel/diocese'],function(){
         
+    Route::group(['prefix'=>'/capelas'], function(){
+        Route::post('/capela/ajax/cadastro/rapido/salvar','Painel\Igrejas\Capela@cadastro_rapido')->name("CadastroRapido.Capela");        
+    });
+    
+    Route::group(['prefix'=>'/igrejas'], function(){
+        Route::get('/','Painel\Igrejas\Igreja@index')->name("Mostrar.Igreja");
+            Route::post('/busca','Painel\Igrejas\Igreja@busca')->name("Busca.Igreja");
+        Route::post('/igreja/ajax/cadastro/rapido/salvar','Painel\Igrejas\Igreja@cadastro_rapido')->name("CadastroRapido.Igreja");        
+    });
+    
+    Route::group(['prefix'=>'/padres'],function(){
+        Route::post('/padre/ajax/cadastro/rapido/salvar','Painel\Igrejas\Padre@cadastro_rapido')->name("CadastroRapido.Padre");
+        Route::post('/pesquisa','Painel\Igrejas\Padre@mostrar')->name("Mostrar.Padres");
+    });
 });
 
 
@@ -87,7 +96,7 @@ Route::group(['prefix'=>'/painel/igreja'],function(){
 Route::group(['prefix'=>'painel/missas'],function(){
     Route::get('/intencao/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");
     
-    Route::get('/intencao/tipo','Painel\Missa\Tipo_intencao@index')->name("visualizar.TipoIntencao");
+    Route::get('/intencao/tipo','Painel\Missa\Tipo_intencao@busca')->name("visualizar.TipoIntencao");
     Route::get('/intencao/tipo/cadastrar','Painel\Missa\Tipo_intencao@cadastro')->name("FormCadastro.TipoIntencao");
         Route::post('/intecao/tipo/salvar','Painel\Missa\Tipo_intencao@salvar')->name("Cadastrar.TipoIntencao");
 });

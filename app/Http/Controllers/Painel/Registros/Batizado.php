@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Painel\Igrejas\Igrejas;
 use App\Models\Painel\Igrejas\Capelas;
+use App\Models\Painel\Registros\Batizando;
+use App\Models\Painel\Registros\Batizado;
 use App\Models\Painel\Livros_Registros\Folhas;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 
@@ -15,10 +17,14 @@ class Batizado extends Controller
     private $igreja;
     private $capela;
     private $folha;
-    public function __construct(Igrejas $church, Capelas $subChurch, Folhas $page) {
+    private $batizando;
+    private $batizado;
+    public function __construct(Batizando $batizand, Batizado $baptismo,Igrejas $church, Capelas $subChurch, Folhas $page) {
         $this->igreja = $church;
         $this->capela = $subChurch;
         $this->folha = $page;
+        $this->batizando = $batizand;
+        $this->batizado = $baptismo;
     }
     public function form_cadastro(){
       $tituloPagina = "Livro Digital";
@@ -62,8 +68,7 @@ class Batizado extends Controller
             'resultado'=>$resultado
         );
         return $resposta;
-    }
-    
+    }    
     public function busca_folha(Request $request, FuncoesAdicionais $fn){
         $livro = $request->input('livro');
         $dadosFolhas=DB::table('folhas')
@@ -92,5 +97,27 @@ class Batizado extends Controller
             'resultado'=>$resultado
         );
         return $resposta;
+    }
+    public function salvar(Request $request,FuncoesAdicionais $fn){
+        $valores=[];
+        $valores[]=['value'=>$request->input('batizando'),'type'=>8];
+        $valores[]=['value'=>$request->input('pai'),'type'=>8];
+        $valores[]=['value'=>$request->input('mae'),'type'=>8];
+        $valores[]=['value'=>$request->input('padrinho'),'type'=>8];
+        $valores[]=['value'=>$request->input('madrinha'),'type'=>8];
+        $valores[]=['value'=>$request->input('d_nasc'),'type'=>8];
+        if($fn->validacoes($valores)=="23"){
+            $valores2=[];
+            $valores2[]=['value'=>$requst->input('batizando'),'type'=>1];
+            $valores2[]=['value'=>$requst->input('pai'),'type'=>1];
+            $valores2[]=['value'=>$requst->input('mae'),'type'=>1];
+            $valores2[]=['value'=>$requst->input('padrinho'),'type'=>1];
+            $valores2[]=['value'=>$requst->input('madrinha'),'type'=>1];
+            $valores2[]=['value'=>$requst->input('d_nasc'),'type'=>0];
+            $valores2[]=['value'=>$requst->input('sexo'),'type'=>0];
+            $campos2=['nome','pai','mae','padrinho','madrinha','data_nasc','sexo'];
+            $dadosBatizando = $fn->tratamentoDados($valores, $campos);
+        }
+        
     }
 }

@@ -42,12 +42,13 @@ class Igreja extends Controller
                 $valores[]=['value'=>null,'type'=>0];
                 $campos=['nome','endereco'];
                 $dados=$fn->tratamentoDados($valores, $campos);
+              
                 $cadastrar=$this->igrejas->create($dados);
                 if($cadastrar){
                     $erro=0;
                 }else{
                     
-                    $erro="<p class='text-danger'>Não foi possível salvar o registro.</p>.$cadastrar";
+                    $erro="<p class='text-danger'>Não foi possível salvar o registro.</p>.";
                 }
            
         }else{

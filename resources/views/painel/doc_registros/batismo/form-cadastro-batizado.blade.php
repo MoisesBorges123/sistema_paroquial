@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-md-2 col-sm-5  p-l-0 passo2">
                     <select class='form-control' name='capela_paroquia' id="tipo">
-                        <option value=''>- Selecione o local -</option>
+                        <option value=''>Pároquia/Capela</option>
                         <option value='1'>Capela</option>
                         <option value='2'>Paróquia</option>
                     </select>
@@ -67,13 +67,13 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-4 col-sm-5 p-r-0 passo5">
-                    <input class="form-control data-avancada" type="text" placeholder="Data do Nascimento" readonly="readonly">                
+                    <input name="d_nasc" class="form-control data-avancada" type="text" placeholder="Data do Nascimento" readonly="readonly">                
                 </div>                
                 <div class="col-md-2 col-sm-4 p-t-6 p-r-0 text-left passo6">
                     <label class='h4'>, filho de</label>                    
                 </div>
                 <div class="col-md-6 col-sm-6 p-r-0 passo6">                    
-                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome do pai">
+                    <input type="text" name='pai' class="form-control form-control-md" placeholder="Nome do pai">
                 </div>
             </div>
             <div class="form-group row">
@@ -81,7 +81,7 @@
                     <label class='h4'>e de</label>                    
                 </div>
                 <div class="col-md-6 col-sm-6 p-l-0 passo7">                    
-                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome da mãe">
+                    <input type="text" name='mae' class="form-control form-control-md" placeholder="Nome da mãe">
                 </div>
                 <div class="col-md-3 col-sm-4 p-t-6 p-r-0 text-center passo8">
                     <label class='h4'>Foram padrinhos</label>                    
@@ -89,13 +89,13 @@
             </div>
             <div class="form-group row">
                 <div class="col-md-5 col-sm-6  p-r-0 passo8">                    
-                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome do padrinho">
+                    <input type="text" name='padrinho' class="form-control form-control-md" placeholder="Nome do padrinho">
                 </div>
                 <div class="col-md-1 col-sm-3 p-t-6 p-r-0 text-center passo9">
                     <label class='h4'>e</label>                    
                 </div>               
                 <div class="col-md-5 col-sm-6 passo9">                    
-                    <input type="text" name='batizando' class="form-control form-control-md" placeholder="Nome da madrinha">.
+                    <input type="text" name='madrinha' class="form-control form-control-md" placeholder="Nome da madrinha">.
                 </div>
             </div>
             <div class="form-group row">
@@ -107,10 +107,10 @@
                 <div class="col-md-2 col-sm-2 p-r-0 text-center passo10">                    
                     <label class="h4">O padre</label>
                 </div>
-                <div class="col-md-10 col-sm-10 p-l-0 passo10">                    
+                <div class="col-md-10 col-sm-10 p-l-0 passo10 " id="camp10">                    
                     <select class="form-control" id="padre" name="padre">
                         <option>- Selecione o Padre Celebrante -</option>
-                        <option>Não está na Lista</option>
+                        <option value='-1'>Não está na Lista</option>
 
                     </select>
                 </div>
@@ -121,13 +121,13 @@
 
             <div class="form-group row passo11">
                 <div class="col-md-12 col-sm-12">
-                    <textarea name="observacao" class="form-control" placeholder="Insira aqui algumas observações sobre esse registro" rows="8"></textarea>
+                    <textarea name="observacao" id="editor" class="form-control" rows="8">Insira aqui algumas observações sobre esse registro</textarea>
                 </div>
             </div>
             <div class="form-group row passo12">
                 <div class="col-md-12 col-sm-12 text-center">
-                    <button type="button" class='btn btn-info md-effect-13'>Salvar</button> 
                     <button type="button" id='cadastra_igreja' class="fade hidden btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="modal-13">Cadastra Igreja</button>
+                    <button type="submit" class='btn btn-info md-effect-13'>Salvar</button> 
                     
                 </div>
             </div>
@@ -215,6 +215,11 @@
 <!-- modalEffects js nifty modal window effects -->
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/modalEffects.js')}}"></script>
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/classie.js')}}"></script>
+    
+    <script type="text/javascript" src="{{asset('frameworks-plugins/ckeditor/ckeditor.js')}}"></script>
+    
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/meus/painel-cadastrar-batismo-ajax.js')}}"></script>
+    <script type="text/javascript" src="{{asset('estilo_painel/assets/js/meus/painel-cadastrar-batismo-passos.js')}}"></script>
 <script>
 $(document).ready(function () {
     $('.passo2').fadeOut();
@@ -234,10 +239,12 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': _token
         }
     });
+    rota_busca2 = "{{route('Mostrar.Padres')}}";
     rota_busca1 = "{{route('Pesquisa_Igreja.Batizado')}}";
     rota_busca0 = "{{route('Pesquisa_Folha.Batizado')}}";
     rota_salva_igreja = "{{route('CadastroRapido.Igreja')}}";
     rota_salva_capela = "{{route('CadastroRapido.Capela')}}";
+    rota_salva_padre = "{{route('CadastroRapido.Padre')}}";
     $(document).on('change','#livro',function(){
         buscarFolhas_deLivro($('#livro').val());
     });
@@ -247,244 +254,14 @@ $(document).ready(function () {
     $(document).on('click','#salva-capela',function(){
         cadastrarCapela($('#nome-igreja').val());
     }); 
-     
-    ////////// PASSO 01 (INSERE A DATA E MOSTRA O CAMPO PARA COLOCAR CAPELA OU IGREJA)
-    $(document).on('click', '.passo1', function () {
-        clearTimeout(this.interval);
-        $('.passo2').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo2').fadeIn(500)
-        }, 3000);
-    });
-    
-    
-    ////////// PASSO 02 (INSERE CAPELA OU IGREJA E PEDE PRAR SELECIONAR QUAL FOI)
-    $(document).on('change', '.passo2', function () {
-        clearTimeout(this.interval);
-        $('.passo3').fadeOut(500);
-         buscarIgreja($('#tipo').val());
-        this.interval = setTimeout(function () {
-            $('.passo3').fadeIn(500);           
-        },
-                1500//Tempo de Espera para executar a função
-                );
-    });
-   
-    
-    ////////// PASSO 03 (SELECIONA A IGREJA)
-    $(document).on('change', '.passo3', function () {
-        clearTimeout(this.interval);
-        if($('#igreja').val()==-1){
-            $('#modal-13-titulo').html("<h3>Nova Igreja</h3>");
-            $('#modal-13-texto').html("<h5>Cadastro rápido</h5><p>Para adicionar uma nova igreja a LISTA por favor insira o nome no campo abaixo.<br><b>Ex.:Paróquia Catedral Imaculada Conceição.</b></p>");
-            $('#cadastra_igreja').trigger('click');
-            $('#salva-capela').attr('id','salva-igreja');
-        }else if($('#capela').val()==-1){
-            $('#modal-13-titulo').html("<h3>Nova Capela</h3>");
-            $('#modal-13-texto').html("<h5>Cadastro rápido</h5><p>Para adicionar uma nova capela a LISTA por favor insira o nome no campo abaixo.<br><b>Ex.:Capela Sagrado Coração.</b></p>");
-            $('#cadastra_igreja').trigger('click');   
-            $('#salva-igreja').attr('id','salva-capela');
-        }else{
-            $('.passo4').fadeOut(500)
-            this.interval = setTimeout(function () {
-                $('.passo4').fadeIn(500)
-            },
-                    1500//Tempo de Espera para executar a função
-                    );            
-        }
-    });
-    $(document).on('input', '.passo4', function () {
-        clearTimeout(this.interval);
-        $('.passo5').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo5').fadeIn(500)
-        }, 2000);
-    });
-    $(document).on('click', '.passo5', function () {
-        clearTimeout(this.interval);
-        $('.passo6').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo6').fadeIn(500)
-        },
-                3000//Tempo de Espera para executar a função
-                );
-    });
-    
-    ////////////PASSO 06
-    
-    $(document).on('input', '.passo6', function () {
-        clearTimeout(this.interval);
-        $('.passo7').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo7').fadeIn(500)
-        },
-                2000//Tempo de Espera para executar a função
-                );
-    });
-    $(document).on('input', '.passo7', function () {
-        clearTimeout(this.interval);
-        $('.passo8').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo8').fadeIn(500)
-        },
-                2000//Tempo de Espera para executar a função
-                );
-    });
-
-    $(document).on('input', '.passo8', function () {
-        clearTimeout(this.interval);
-        $('.passo9').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo9').fadeIn(500)
-        },
-                3000//Tempo de Espera para executar a função
-                );
-    });
-    $(document).on('input', '.passo9', function () {
-        clearTimeout(this.interval);
-        $('.passo10').fadeOut(500)
-        this.interval = setTimeout(function () {
-            $('.passo10').fadeIn(500)
-        },
-                3000//Tempo de Espera para executar a função
-                );
-    });
-
-    $(document).on('change', '.passo10', function () {
-        clearTimeout(this.interval);
-        $('.passo11').fadeOut(500);
-        if($('#padre').val()==-1){
-            $('#modal-13-titulo').html("<h3>Novo Padre</h3>");
-            $('#modal-13-texto').html("<h5>Cadastro rápido</h5><p>Para adicionar um novo padre a LISTA por favor insira o nome no campo abaixo.<br><b>Ex.:Paróquia Catedral Imaculada Conceição.</b></p>");
-            $('#cadastra_igreja').trigger('click');
-            $('#salva-capela').attr('id','salva-igreja');
-        }else{
-        }
-        
-        this.interval = setTimeout(function () {
-            $('.passo11').fadeIn(500);
-            $('.passo12').fadeIn(500);
-        },
-                1500//Tempo de Espera para executar a função
-                );
-    });
-
-
-
-
-
-    function cadastrarIgreja(nome) {
-        $.ajax({
-            url: rota_salva_igreja,
-            type: 'POST',
-            data: {nome: nome},
-            datatype: 'JSON',
-            beforeSend: function () {
-                $('.cadastrando').remove();                
-                $('#modal-13-texto').after(
-                        "<div class='cadastrando'><div class=\"preloader3 loader-block\">" +
-                        "<div class=\"circ1\"></div>" +
-                        "<div class=\"circ2\"></div>" +
-                        "<div class=\"circ3\"></div>" +
-                        "<div class=\"circ4\"></div>" +
-                        "</div></div>"
-                        );
-            },
-            success: function (data) {
-                $('.cadastrando').remove();
-                if(data.erro==0){
-                      buscarIgreja($('#tipo').val());                    
-                    $('#nome-igreja').val(null);
-                      $('.md-close').trigger('click');
-                }else{
-                    $('#modal-13-texto').after("<div class='cadastrando'>"+data.erro+"</div>");
-                }
-            }
-
-        });
-    }
-    function cadastrarCapela(nome) {
-        $.ajax({
-            url: rota_salva_capela,
-            type: 'POST',
-            data: {nome: nome},
-            datatype: 'JSON',
-            beforeSend: function () {
-                $('.cadastrando').remove();                
-                $('#modal-13-texto').after(
-                        "<div class='cadastrando'><div class=\"preloader3 loader-block\">" +
-                        "<div class=\"circ1\"></div>" +
-                        "<div class=\"circ2\"></div>" +
-                        "<div class=\"circ3\"></div>" +
-                        "<div class=\"circ4\"></div>" +
-                        "</div></div>"
-                        );
-            },
-            success: function (data) {
-                $('.cadastrando').remove();
-                if(data.erro==0){
-                      buscarIgreja($('#tipo').val());                    
-                    $('#nome-igreja').val(null);
-                      $('.md-close').trigger('click');
-                }else{
-                    $('#modal-13-texto').after("<div class='cadastrando'>"+data.erro+"</div>");
-                }
-            }
-
-        });
-    }
-    function buscarIgreja(tipo) {
-        $.ajax({
-            url: rota_busca1,
-            type: 'POST',
-            data: {tipo: tipo},
-            datatype: 'JSON',
-            beforeSend: function () {
-
-                $('.passo3').html(
-                        "<div class=\"preloader3 loader-block\">" +
-                        "<div class=\"circ1\"></div>" +
-                        "<div class=\"circ2\"></div>" +
-                        "<div class=\"circ3\"></div>" +
-                        "<div class=\"circ4\"></div>" +
-                        "</div>"
-                        );
-            },
-            success: function (data) {
-                $('.passo3').html(data.resultado);
-            }
-
-        });
-    }
-    function buscarFolhas_deLivro(livro) {
-        $.ajax({
-            url: rota_busca0,
-            type: 'POST',
-            data: {livro: livro},
-            datatype: 'JSON',
-            beforeSend: function () {
-                $('.carregando').remove();
-                $('.resultado0').remove();
-                $('.pesquisa_livro').after(
-                        "<div class=\"col-md-3 col-sm-12 ml-auto carregando\">" +
-                        "<div class=\"preloader3 loader-block\">" +
-                        "<div class=\"circ1\"></div>" +
-                        "<div class=\"circ2\"></div>" +
-                        "<div class=\"circ3\"></div>" +
-                        "<div class=\"circ4\"></div>" +
-                        "</div>"+
-                        "</div>"
-                        );
-            },
-            success: function (data) {
-                $('.carregando').remove();
-                $('.pesquisa_livro').after(data.resultado);
-              
-            }
-
-        });
-    }
-
+    $(document).on('click','#salva-padre',function(){
+        cadastrarPadre($('#nome-igreja').val());
+    }); 
+    CKEDITOR.replace('editor', {
+    language: 'pt-br',
+    uiColor: '#e5ce92'
+});
 });
 </script>
+
 @endsection
