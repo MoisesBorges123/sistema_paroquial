@@ -90,13 +90,15 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
     });
 });
 
-
-
-
 Route::group(['prefix'=>'painel/missas'],function(){
     Route::get('/intencao/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");
     
     Route::get('/intencao/tipo','Painel\Missa\Tipo_intencao@busca')->name("visualizar.TipoIntencao");
     Route::get('/intencao/tipo/cadastrar','Painel\Missa\Tipo_intencao@cadastro')->name("FormCadastro.TipoIntencao");
         Route::post('/intecao/tipo/salvar','Painel\Missa\Tipo_intencao@salvar')->name("Cadastrar.TipoIntencao");
+});
+
+//ESTACIONAMENTO
+Route::group(['prefix'=>'painel/estacionamento'],function(){
+   Route::get('/clientes','Painel/Estacionamento/Cliente@index')->name("Estacionamento-Clientes.index");
 });
