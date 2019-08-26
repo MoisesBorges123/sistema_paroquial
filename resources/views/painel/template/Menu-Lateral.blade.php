@@ -691,9 +691,10 @@
                                       
                                         <li class="">
                                             <a href="{{route("visualizar.TipoIntencao")}}">
-                                                <span class="pcoded-mtext">Tipos de Inteção</span>
+                                                <span class="pcoded-mtext">Intenção</span>
                                             </a>
                                         </li>
+                                      
                                         
                                     </ul>
                                 </li>
@@ -1141,72 +1142,20 @@
                                 </li>
                             </ul>
                             -->
-                            <!--Outros
-                            <div class="pcoded-navigatio-lavel">Other</div>
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu ">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-list"></i></span>
-                                        <span class="pcoded-mtext">Menu Levels</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class="">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-mtext">Menu Level 2.1</span>
-                                            </a>
-                                        </li>
-                                        <li class="pcoded-hasmenu ">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-mtext">Menu Level 2.2</span>
-                                            </a>
-                                            <ul class="pcoded-submenu">
-                                                <li class="">
-                                                    <a href="javascript:void(0)">
-                                                        <span class="pcoded-mtext">Menu Level 3.1</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-mtext">Menu Level 2.3</span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                                <li class="">
-                                    <a href="javascript:void(0)" class="disabled">
-                                        <span class="pcoded-micon"><i class="feather icon-power"></i></span>
-                                        <span class="pcoded-mtext">Disabled Menu</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="sample-page.htm">
-                                        <span class="pcoded-micon"><i class="feather icon-watch"></i></span>
-                                        <span class="pcoded-mtext">Sample Page</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            -->
-                            <!--Suport
-                            <div class="pcoded-navigatio-lavel">Support</div>
+                         
+                            <div class="pcoded-navigatio-lavel">Configurações do Sistema</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
-                                    <a href="http://html.codedthemes.com/Adminty/doc" target="_blank">
+                                    <a href="{{route("visualizar.Situacoes")}}">
                                         <span class="pcoded-micon"><i class="feather icon-monitor"></i></span>
-                                        <span class="pcoded-mtext">Documentation</span>
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href="#" target="_blank">
-                                        <span class="pcoded-micon"><i class="feather icon-help-circle"></i></span>
-                                        <span class="pcoded-mtext">Submit Issue</span>
+                                        <span class="pcoded-mtext">Tabela de Status</span>
                                     </a>
                                 </li>
                             </ul>
-                            
-                            -->
+                         
+                     
+                       
+                
                         </div>
                     </nav>
 

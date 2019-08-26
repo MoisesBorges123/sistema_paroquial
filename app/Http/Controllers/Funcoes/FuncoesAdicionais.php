@@ -250,7 +250,7 @@ class FuncoesAdicionais extends Controller
                     
                     
                 //Tratamento Nome Próprio
-                }else if($type==1){
+                }else if($type==1 || $type==6){
                     $texto = explode(" ", $value);
                     $i=0;
                     foreach ($texto as $t){
@@ -277,6 +277,8 @@ class FuncoesAdicionais extends Controller
                 //Texto Minusculo    
                 elseif($type==3){
                     $dado = strtolower($value);
+                }else{
+                    $dado = $value;
                 }
             
                 $dados["$campos[$c]"] = $dado;

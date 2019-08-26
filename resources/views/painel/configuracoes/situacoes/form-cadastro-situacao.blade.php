@@ -18,25 +18,21 @@
                 </div>
             @endif
             @if(isset($tipoIntencao))
-                <form method="post" class="form" action="{{route('update.TipoIntencao',$tipoIntencao->id_tipo)}}">
+                <form method="post" class="form" action="{{route('update.Situacoes',$tipoIntencao->id_tipo)}}">
                 {!! method_field('PUT') !!}
             @else
-                <form method="post" class="form" action="{{route('Cadastrar.TipoIntencao')}}">
+                <form method="post" class="form" action="{{route('insert.Situacoes')}}">
             @endif
             {!! csrf_field() !!}
             <div class="form-group row">
                 <div class="col-md-6 col-sm-12">
-                    <input type="text" name='tipo' value="{{$tipoIntencao->nome or old('tipo')}}" class="form-control form-control-md" placeholder="*Novo Tipo">
+                    <input type="number" name='codigo' value="{{$status->id_situacao or old('codigo')}}" class="form-control form-control-md" placeholder="*Código">
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-4 col-sm-12">
-                    <input class="form-control form-control-md" value="{{$tipoIntencao->linhas_a_mais or old('linhas')}}" placeholder="*Linhas em Branco" name="linhas" type="text">
-                </div>
-            </div>
+           
             <div class="form-group row">
                 <div class="col-md-6 col-sm-12">
-                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$tipoIntencao->descricao or old('descricao')}}</textarea>
+                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$status->descricao or old('descricao')}}</textarea>
                 </div>
             </div>
             <button type="submit" class='btn btn-inverse'>

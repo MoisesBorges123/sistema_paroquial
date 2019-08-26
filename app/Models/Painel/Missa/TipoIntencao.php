@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class TipoIntencao extends Model
 {
     //
-    protected $table = "tipos_intencoes";
+    protected $primaryKey = "id_tipo";
+    protected $table = "tipos_intencao";
     protected  $fillable = [                            
-                            'tipo',
-                            'linhas',
-                            'descricao'
+                            'nome',
+                            'descricao',
+                            'linhas_a_mais',
+                            'situacao'
                         ];
     public  $timestamps =false;
 }
