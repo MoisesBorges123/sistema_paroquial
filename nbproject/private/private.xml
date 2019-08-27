@@ -3,15 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Missa/Intenção.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Funcoes/FuncoesAdicionais.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Registros/Batizado.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/doc_registros/batismo/form-cadastro-batizado.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Missa/Intencao.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Missa/Tipo_intencao.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/configuracoes/situacoes/form-cadastro-situacao.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/configuracoes/situacoes/tbl-situacao.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/missas/intencoes/form-cadastro-tipo-intencao.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Configuracoes/Status.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Configuracoes/Situacao.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Missa/TipoIntencao.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/missas/intencoes/tbl-tipo-intencao.blade.php</file>
         </group>

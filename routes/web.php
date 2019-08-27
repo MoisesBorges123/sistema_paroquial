@@ -117,6 +117,6 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
         Route::post('/tipos_de_status\cadastrar','Painel\Configuracoes\Situacao@insert')->name("insert.Situacoes");
     Route::get('/status/edita/{id}','Painel\Configuracoes\Situacao@editar')->name("Editar.Situacoes");
         Route::put('/status/editar/{id}','Painel\Configuracoes\Situacao@update')->name("update.Situacoes");
-    Route::get('/status','Painel\Configuracoes\Situacao@delete')->name("Excluir.Situacoes");
+    Route::get('/status/excluir/{id}','Painel\Configuracoes\Situacao@delete')->name("Excluir.Situacoes");
 });
 

@@ -40,7 +40,7 @@
                 </div>
             </div>
             <button type="submit" class='btn btn-inverse'>
-                @if(isset($tipoIntecao)) 
+                @if(!isset($tipoIntecao)) 
                 Cadastrar 
                 @else 
                 Editar 

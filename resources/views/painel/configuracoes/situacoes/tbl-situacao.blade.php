@@ -37,15 +37,14 @@
                             @foreach($query->all() as $dados)
                             <tr>                               
                                 <td>{{$dados->id_situacao}}</td>
-                                <td class="text-center">{{$dados->descricao}}</td>
-                                <td>{{$dados->descricao}}</td>
+                                <td class="text-center">{{$dados->descricao}}</td>                               
                                 <td class="text-center">
-                                    <a href="{{route("Editar.Situacao",$dados->id_situacao)}}" class="icon-btn">
+                                    <a href="{{route("Editar.Situacoes",$dados->id_situacao)}}" class="icon-btn">
                                         <button class="btn btn-info btn-icon">
                                             <i class="icofont icofont-refresh"></i>
                                         </button>
                                     </a>
-                                    <a href="{{route("Excluir.Situacao",$dados->id_tipo)}}" class="icon-btn">
+                                    <a href="{{route("Excluir.Situacoes",$dados->id_situacao)}}" class="icon-btn">
                                         <button class="btn btn-danger btn-icon" href=" ">
                                             <i class="icofont icofont-trash"></i>
                                         </button>

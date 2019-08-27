@@ -17,8 +17,8 @@
                 <p>{{session('erro')}}</p>            
                 </div>
             @endif
-            @if(isset($tipoIntencao))
-                <form method="post" class="form" action="{{route('update.Situacoes',$tipoIntencao->id_tipo)}}">
+            @if(isset($situacao))
+                <form method="post" class="form" action="{{route('update.Situacoes',$situacao->id_situacao)}}">
                 {!! method_field('PUT') !!}
             @else
                 <form method="post" class="form" action="{{route('insert.Situacoes')}}">
@@ -26,17 +26,17 @@
             {!! csrf_field() !!}
             <div class="form-group row">
                 <div class="col-md-6 col-sm-12">
-                    <input type="number" name='codigo' value="{{$status->id_situacao or old('codigo')}}" class="form-control form-control-md" placeholder="*Código">
+                    <input type="number" name='id_situacao' value="{{$situacao->id_situacao or old('id_situacao')}}" class="form-control form-control-md" placeholder="*Código">
                 </div>
             </div>
            
             <div class="form-group row">
                 <div class="col-md-6 col-sm-12">
-                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$status->descricao or old('descricao')}}</textarea>
+                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$situacao->descricao or old('descricao')}}</textarea>
                 </div>
             </div>
             <button type="submit" class='btn btn-inverse'>
-                @if(isset($tipoIntecao)) 
+                @if(!isset($situacao)) 
                 Cadastrar 
                 @else 
                 Editar 
