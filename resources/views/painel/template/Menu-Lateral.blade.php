@@ -682,6 +682,12 @@
                             </ul>
                             <div class="pcoded-navigatio-lavel">Intenções de Missa</div>
                             <ul class="pcoded-item pcoded-left-item">
+                                <li class="">
+                                <a href="navbar-light.htm">
+                                    <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+                                    <span class="pcoded-mtext">Intenções</span>
+                                </a>
+                            </li>
                                 <li class="pcoded-hasmenu ">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>

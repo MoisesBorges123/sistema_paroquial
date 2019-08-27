@@ -22,6 +22,7 @@
                 {!! method_field('PUT') !!}
             @else
                 <form method="post" class="form" action="{{route('Cadastrar.TipoIntencao')}}">
+                    <input type="hidden" value="1" name="situacao">
             @endif
             {!! csrf_field() !!}
             <div class="form-group row">

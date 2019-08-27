@@ -15,18 +15,18 @@ class Tipo_intencao extends Controller
     }
     
     public function index(){
-        $query=$this->tipo_intencao->all();                
+        $query=$this->tipo_intencao->all()->where('situacao','=','1');                
         $tituloPagina="Tipos de Intenção";
         $page_header="Meus Tipos de Inteção";
         $descricao_page_header="";
-        return view('painel\missas\intencoes\tbl-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header','query'));
+        return view('painel\missas\tipo_intencoes\tbl-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header','query'));
     }
 
     public function cadastro(){
         $tituloPagina="Configurações - Tipo de Inteção";
         $page_header="Cadastrar Tipo de Inteção";
         $descricao_page_header="Os campos com * são de preenchimento obrigatório.";
-        return view('painel\missas\intencoes\form-cadastro-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header'));
+        return view('painel\missas\tipo_intencoes\form-cadastro-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header'));
     }
     public function salvar(Request $request, FuncoesAdicionais $fn){
         
@@ -34,12 +34,13 @@ class Tipo_intencao extends Controller
        $valores[]=['value'=>$request->input('tipo'),'type'=>6];       
        if(!empty($request->input('descricao'))){
            $valores[]=['value'=>$request->input('descricao'),'type'=>8];
-           $campos=['nome','descricao','linhas_a_mais'];
+           $campos=['nome','descricao','linhas_a_mais','situacao'];
        }else{
-           $campos=['nome','linhas_a_mais'];
+           $campos=['nome','linhas_a_mais','situacao'];
            
        }
        $valores[]=['value'=>$request->input('linhas'),'type'=>0];
+       $valores[]=['value'=>$request->input('situacao'),'type'=>0];
        $verificacao=$fn->validacoes($valores);
         if($verificacao=="23"){
             $dados=$fn->tratamentoDados($valores, $campos);
@@ -69,6 +70,9 @@ class Tipo_intencao extends Controller
             ->back();            
         }else{
             
+            $update=$this->tipo_intencao->find($id)->update(['situacao'=>0]);
+            return redirect()
+            ->back(); 
         }
         
       
@@ -78,7 +82,7 @@ class Tipo_intencao extends Controller
         $tituloPagina="Configurações - Tipo de Inteção";
         $page_header="Editar Intenção: ".$tipoIntencao->nome;
         $descricao_page_header="Os campos com * são de preenchimento obrigatório.";
-        return view('painel\missas\intencoes\form-cadastro-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header','tipoIntencao' ));
+        return view('painel\missas\tipo_intencoes\form-cadastro-tipo-intencao',compact('tituloPagina','page_header','descricao_page_header','tipoIntencao' ));
     }
     public function update(Request $request, $id, FuncoesAdicionais $fn){
           
