@@ -93,7 +93,17 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
 
 //TRABALHANDO COM MISSAS
 Route::group(['prefix'=>'painel/missas'],function(){
-    Route::get('/intencao/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");
+    Route::group(['prefix'=>'/intecoes'],function(){
+        Route::get('/minhas_intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
+        Route::get('/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");        
+        Route::get('/excluir/{id}','Painel\Missa\Intenção@delete')->name("Delete.Intencao");        
+        Route::get('/intencao/edicao/{id}','Painel\Missa\Intenção@editar')->name("FormEditar.Intencao");        
+            Route::post('/cadastrar','Painel\Missa\Intenção@insert')->name("Insert.Intencao");        
+        Route::put('/editar/{id}','Painel\Missa\Intenção@update')->name("Update.Intencao");        
+    });
+    
+    
+    
     
     
     Route::get('/intencao/tipo','Painel\Missa\Tipo_intencao@index')->name("visualizar.TipoIntencao");    

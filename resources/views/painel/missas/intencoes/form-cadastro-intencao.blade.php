@@ -22,22 +22,45 @@
                 {!! method_field('PUT') !!}
             @else
                 <form method="post" class="form" action="{{route('Cadastrar.TipoIntencao')}}">
-                    <input type="hidden" value="1" name="situacao">
+                   
             @endif
             {!! csrf_field() !!}
             <div class="form-group row">
-                <div class="col-md-6 col-sm-12">
-                    <input type="text" name='tipo' value="{{$tipoIntencao->nome or old('tipo')}}" class="form-control form-control-md" placeholder="*Novo Tipo">
+                <div class="col-md-8 col-sm-12">
+                    <input type="text" name='falecido' value="{{$intencao->falecido or old('falecido')}}" class="form-control form-control-md" placeholder="*Intenção" required="">
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-4 col-sm-12">
-                    <input class="form-control form-control-md" value="{{$tipoIntencao->linhas_a_mais or old('linhas')}}" placeholder="*Linhas em Branco" name="linhas" type="text">
+                <div class="col-md-7 col-sm-12">
+                    <input class="form-control form-control-md" value="{{$intencao->solicitante or old('solicitante')}}" placeholder="*Nome do Solicitante" name="solicitante" type="text" required=" ">
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <input class="form-control form-control-md" value="{{$intencao->telefone or old('telefone')}}" placeholder="*Telefone" name="telefone" type="text" required="">                    
+                </div>
+            </div>           
+            
+            <div class="form-group row">
+                <div class="col-md-6 col-sm-6">
+                    <input class="form-control form-control-md" value="{{$intencao->programada or old('programada')}}" name="programada" type="checkbox">                    
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Intenção Programada</label>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-6 col-sm-12">
-                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$tipoIntencao->descricao or old('descricao')}}</textarea>
+                    <input class="form-control form-control-md" value="{{$intencao->data_inicio or old('data_inicio')}}"  name="data_inicio" type="date" required="">                    
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6 col-sm-12">
+                    <input class="form-control form-control-md" value="{{$intencao->data_inicio or old('data_fim')}}"  name="data_fim" type="date" required="">                    
+                </div>
+            </div>
+           
+            <div class="form-group row">
+                <div class="col-md-6 col-sm-12">
+                    <input class="form-control form-control-md" value="{{$intencao->telefone or old('telefone')}}" placeholder="*Telefone" name="telefone" type="date" required="">                    
                 </div>
             </div>
             <button type="submit" class='btn btn-inverse'>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Intencao extends Model
 {
     //
-    protected $table = "intencoes";
+    protected $table = "intencao";
     protected  $fillable=[
                         'intencao',
                         'data_inicio',

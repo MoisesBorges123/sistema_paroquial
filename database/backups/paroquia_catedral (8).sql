@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31-Jul-2019 às 23:06
+-- Tempo de geração: 28-Ago-2019 às 23:04
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -52,7 +52,8 @@ CREATE TABLE `batizando` (
   `data_nasc` date NOT NULL,
   `padrinho` varchar(255) DEFAULT NULL,
   `madrinha` varchar(255) DEFAULT NULL,
-  `sexo` int(11) NOT NULL
+  `sexo` int(11) NOT NULL,
+  `capela` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -65,6 +66,27 @@ CREATE TABLE `batizando_telefone` (
   `batizando` int(11) NOT NULL,
   `telefone` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `capelas`
+--
+
+CREATE TABLE `capelas` (
+  `id_capela` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `criada_em` date DEFAULT NULL,
+  `fim` date DEFAULT NULL,
+  `igreja` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `capelas`
+--
+
+INSERT INTO `capelas` (`id_capela`, `nome`, `criada_em`, `fim`, `igreja`) VALUES
+(1, 'Tete', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -118,30 +140,29 @@ CREATE TABLE `catequisando` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `catequista`
---
-
-CREATE TABLE `catequista` (
-  `id_catequista` int(11) NOT NULL,
-  `formacao` text NOT NULL,
-  `observacoes` varchar(300) NOT NULL,
-  `etapa_favorita` int(11) NOT NULL,
-  `componente_pastor` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `clero`
 --
 
 CREATE TABLE `clero` (
   `id_clero` int(11) NOT NULL,
-  `pessoa` int(11) NOT NULL,
+  `pessoa` int(11) DEFAULT NULL,
   `carro` int(11) DEFAULT NULL,
   `titulo` int(11) NOT NULL,
-  `observacao` varchar(500) DEFAULT NULL
+  `observacao` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `clero`
+--
+
+INSERT INTO `clero` (`id_clero`, `pessoa`, `carro`, `titulo`, `observacao`) VALUES
+(1, NULL, NULL, 1, NULL),
+(2, NULL, NULL, 1, NULL),
+(3, NULL, NULL, 1, NULL),
+(4, 14, NULL, 1, NULL),
+(5, 15, NULL, 1, NULL),
+(6, 16, NULL, 1, NULL),
+(7, 17, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1052,7 +1073,7 @@ INSERT INTO `fotos_folhas` (`id_foto`, `observacao`, `foto`, `tamanho`, `caminho
 CREATE TABLE `igrejas` (
   `id_igreja` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `endereco` int(11) NOT NULL
+  `endereco` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1060,7 +1081,12 @@ CREATE TABLE `igrejas` (
 --
 
 INSERT INTO `igrejas` (`id_igreja`, `nome`, `endereco`) VALUES
-(1, 'Paróquia Catedral Imaculada Conceição', 1);
+(1, 'Paróquia Catedral Imaculada Conceição', 1),
+(3, 'Paróquia São Francisco de Assis', NULL),
+(4, 'Paróquia Santo Antônio', NULL),
+(5, 'Paróquia São Benedito', NULL),
+(6, 'Teste Testando', NULL),
+(7, 'tesfd', NULL);
 
 -- --------------------------------------------------------
 
@@ -1090,23 +1116,6 @@ CREATE TABLE `inscricoes_cursos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `intecoes`
---
-
-CREATE TABLE `intecoes` (
-  `id_intencao` int(11) NOT NULL,
-  `nome_falecido` varchar(255) NOT NULL,
-  `solicitante` int(11) NOT NULL,
-  `marcado_por` int(11) NOT NULL,
-  `telefone` varchar(50) NOT NULL,
-  `data_inicio` date NOT NULL,
-  `data_fim` int(11) NOT NULL,
-  `tipo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `intencao`
 --
 
@@ -1118,7 +1127,8 @@ CREATE TABLE `intencao` (
   `telefone` varchar(50) NOT NULL,
   `data_inicio` date NOT NULL,
   `data_fim` date NOT NULL,
-  `tipo` int(11) NOT NULL
+  `tipo` int(11) NOT NULL,
+  `horario` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1157,7 +1167,7 @@ CREATE TABLE `lista_presenca_cursos` (
 
 CREATE TABLE `livros` (
   `id_livro` int(11) NOT NULL,
-  `numeracao` varchar(10) NOT NULL,
+  `numeracao` int(10) NOT NULL,
   `data_inicio` date NOT NULL,
   `data_fim` date NOT NULL,
   `descricao` varchar(500) NOT NULL,
@@ -1171,7 +1181,7 @@ CREATE TABLE `livros` (
 --
 
 INSERT INTO `livros` (`id_livro`, `numeracao`, `data_inicio`, `data_fim`, `descricao`, `quant_paginas`, `sacramento`, `igreja`) VALUES
-(12, '70', '1951-09-23', '1952-08-26', 'Livro de batismo 70B, está com o estado de conservação relativamente bom, sendo que a letra da secretária que fez os registros não é muito legível.', 400, 1, 1);
+(12, 70, '1951-09-23', '1952-08-26', 'Livro de batismo 70B, está com o estado de conservação relativamente bom, sendo que a letra da secretária que fez os registros não é muito legível.', 400, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1248,22 +1258,33 @@ CREATE TABLE `pastorais_movimentos_grupos` (
 CREATE TABLE `pessoas` (
   `id_pessoa` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `endereco` int(11) NOT NULL,
-  `d_nasc` date NOT NULL,
-  `email` varchar(300) NOT NULL,
-  `sexo` int(11) NOT NULL
+  `endereco` int(11) DEFAULT NULL,
+  `d_nasc` int(11) DEFAULT NULL,
+  `email` int(11) DEFAULT NULL,
+  `sexo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Estrutura da tabela `pessoa_telefone`
+-- Extraindo dados da tabela `pessoas`
 --
 
-CREATE TABLE `pessoa_telefone` (
-  `pessoa` int(11) NOT NULL,
-  `telefone` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `pessoas` (`id_pessoa`, `nome`, `endereco`, `d_nasc`, `email`, `sexo`) VALUES
+(2, 'tesfd', NULL, NULL, NULL, NULL),
+(3, 'tesfd', NULL, NULL, NULL, NULL),
+(4, 'Serafim Magalhães', NULL, NULL, NULL, 1),
+(5, 'Paróquia Santo Antônio', NULL, NULL, NULL, 1),
+(6, 'Teste', NULL, NULL, NULL, 1),
+(7, 'Teste', NULL, NULL, NULL, 1),
+(8, 'Teste', NULL, NULL, NULL, 1),
+(9, 'Teste', NULL, NULL, NULL, 1),
+(10, 'Teste2', NULL, NULL, NULL, 1),
+(11, 'Teste3', NULL, NULL, NULL, 1),
+(12, 'Teste3', NULL, NULL, NULL, 1),
+(13, 'Teste3', NULL, NULL, NULL, 1),
+(14, 'Teste3', NULL, NULL, NULL, 1),
+(15, 'Serafim Magalhães', NULL, NULL, NULL, 1),
+(16, 'Teste', NULL, NULL, NULL, 1),
+(17, 'Teste', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1297,6 +1318,14 @@ CREATE TABLE `sexos` (
   `sexo` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `sexos`
+--
+
+INSERT INTO `sexos` (`id_sexo`, `sexo`) VALUES
+(1, 'Masculino'),
+(2, 'Feminino');
+
 -- --------------------------------------------------------
 
 --
@@ -1305,8 +1334,16 @@ CREATE TABLE `sexos` (
 
 CREATE TABLE `situacoes` (
   `id_situacao` int(11) NOT NULL,
-  `descricao` int(11) NOT NULL
+  `descricao` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `situacoes`
+--
+
+INSERT INTO `situacoes` (`id_situacao`, `descricao`) VALUES
+(0, 'Registro Inativo'),
+(1, 'Registro Ativo');
 
 -- --------------------------------------------------------
 
@@ -1330,20 +1367,17 @@ CREATE TABLE `telefones` (
 CREATE TABLE `tipos_intencao` (
   `id_tipo` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `descricao` varchar(500) NOT NULL
+  `descricao` varchar(500) DEFAULT NULL,
+  `linhas_a_mais` int(11) DEFAULT NULL,
+  `situacao` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Estrutura da tabela `tipo_intencoes`
+-- Extraindo dados da tabela `tipos_intencao`
 --
 
-CREATE TABLE `tipo_intencoes` (
-  `id_intencao` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `descricao` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `tipos_intencao` (`id_tipo`, `nome`, `descricao`, `linhas_a_mais`, `situacao`) VALUES
+(3, '7° Dia', '7° Dia de Falecimento', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -1354,8 +1388,15 @@ CREATE TABLE `tipo_intencoes` (
 CREATE TABLE `titulos_clero` (
   `id_titulo` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `descricao` varchar(500) NOT NULL
+  `descricao` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `titulos_clero`
+--
+
+INSERT INTO `titulos_clero` (`id_titulo`, `nome`, `descricao`) VALUES
+(1, 'Padre', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -1372,6 +1413,13 @@ ALTER TABLE `batizado`
 --
 ALTER TABLE `batizando`
   ADD PRIMARY KEY (`id_batizando`);
+
+--
+-- Índices para tabela `capelas`
+--
+ALTER TABLE `capelas`
+  ADD PRIMARY KEY (`id_capela`),
+  ADD KEY `fk_capelas__igrejas` (`igreja`);
 
 --
 -- Índices para tabela `casamentos`
@@ -1392,18 +1440,10 @@ ALTER TABLE `catequisando`
   ADD PRIMARY KEY (`matricula_catequisado`);
 
 --
--- Índices para tabela `catequista`
---
-ALTER TABLE `catequista`
-  ADD PRIMARY KEY (`id_catequista`);
-
---
 -- Índices para tabela `clero`
 --
 ALTER TABLE `clero`
-  ADD PRIMARY KEY (`id_clero`),
-  ADD KEY `fk_titulo__titulos_clero` (`titulo`),
-  ADD KEY `fk_pessoa__pessoas` (`pessoa`);
+  ADD PRIMARY KEY (`id_clero`);
 
 --
 -- Índices para tabela `clero_igreja`
@@ -1548,13 +1588,6 @@ ALTER TABLE `pessoas`
   ADD PRIMARY KEY (`id_pessoa`);
 
 --
--- Índices para tabela `pessoa_telefone`
---
-ALTER TABLE `pessoa_telefone`
-  ADD KEY `fk_pessoa_telefone__telefones` (`telefone`),
-  ADD KEY `fk_pessoa_telefone__pessoas` (`pessoa`);
-
---
 -- Índices para tabela `sacramentos`
 --
 ALTER TABLE `sacramentos`
@@ -1582,13 +1615,8 @@ ALTER TABLE `telefones`
 -- Índices para tabela `tipos_intencao`
 --
 ALTER TABLE `tipos_intencao`
-  ADD PRIMARY KEY (`id_tipo`);
-
---
--- Índices para tabela `tipo_intencoes`
---
-ALTER TABLE `tipo_intencoes`
-  ADD PRIMARY KEY (`id_intencao`);
+  ADD PRIMARY KEY (`id_tipo`),
+  ADD KEY `fk_tipos_intencao__situacao` (`situacao`);
 
 --
 -- Índices para tabela `titulos_clero`
@@ -1613,6 +1641,12 @@ ALTER TABLE `batizando`
   MODIFY `id_batizando` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `capelas`
+--
+ALTER TABLE `capelas`
+  MODIFY `id_capela` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `casamentos`
 --
 ALTER TABLE `casamentos`
@@ -1629,6 +1663,12 @@ ALTER TABLE `catequese_inscricoes`
 --
 ALTER TABLE `catequisando`
   MODIFY `matricula_catequisado` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `clero`
+--
+ALTER TABLE `clero`
+  MODIFY `id_clero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `componentes_pastorais`
@@ -1700,7 +1740,7 @@ ALTER TABLE `fotos_folhas`
 -- AUTO_INCREMENT de tabela `igrejas`
 --
 ALTER TABLE `igrejas`
-  MODIFY `id_igreja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_igreja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `intencao`
@@ -1748,7 +1788,7 @@ ALTER TABLE `pastorais_movimentos_grupos`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id_pessoa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pessoa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `sacramentos`
@@ -1760,13 +1800,7 @@ ALTER TABLE `sacramentos`
 -- AUTO_INCREMENT de tabela `sexos`
 --
 ALTER TABLE `sexos`
-  MODIFY `id_sexo` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `situacoes`
---
-ALTER TABLE `situacoes`
-  MODIFY `id_situacao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sexo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `telefones`
@@ -1778,30 +1812,23 @@ ALTER TABLE `telefones`
 -- AUTO_INCREMENT de tabela `tipos_intencao`
 --
 ALTER TABLE `tipos_intencao`
-  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tipo_intencoes`
---
-ALTER TABLE `tipo_intencoes`
-  MODIFY `id_intencao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `titulos_clero`
 --
 ALTER TABLE `titulos_clero`
-  MODIFY `id_titulo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_titulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para despejos de tabelas
 --
 
 --
--- Limitadores para a tabela `clero`
+-- Limitadores para a tabela `capelas`
 --
-ALTER TABLE `clero`
-  ADD CONSTRAINT `fk_pessoa__pessoas` FOREIGN KEY (`pessoa`) REFERENCES `pessoas` (`id_pessoa`),
-  ADD CONSTRAINT `fk_titulo__titulos_clero` FOREIGN KEY (`titulo`) REFERENCES `titulos_clero` (`id_titulo`);
+ALTER TABLE `capelas`
+  ADD CONSTRAINT `fk_capelas__igrejas` FOREIGN KEY (`igreja`) REFERENCES `igrejas` (`id_igreja`);
 
 --
 -- Limitadores para a tabela `clero_igreja`
@@ -1855,11 +1882,10 @@ ALTER TABLE `logradouros`
   ADD CONSTRAINT `fk_estado__estados` FOREIGN KEY (`estado`) REFERENCES `estado` (`id_estado`);
 
 --
--- Limitadores para a tabela `pessoa_telefone`
+-- Limitadores para a tabela `tipos_intencao`
 --
-ALTER TABLE `pessoa_telefone`
-  ADD CONSTRAINT `fk_pessoa_telefone__pessoas` FOREIGN KEY (`pessoa`) REFERENCES `pessoas` (`id_pessoa`),
-  ADD CONSTRAINT `fk_pessoa_telefone__telefones` FOREIGN KEY (`telefone`) REFERENCES `telefones` (`id_telefone`);
+ALTER TABLE `tipos_intencao`
+  ADD CONSTRAINT `fk_tipos_intencao__situacao` FOREIGN KEY (`situacao`) REFERENCES `situacoes` (`id_situacao`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
