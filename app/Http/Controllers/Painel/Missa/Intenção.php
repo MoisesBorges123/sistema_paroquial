@@ -41,8 +41,8 @@ class Intenção extends Controller
         
     }
     public function cadastro(){
-        $tituloPagina="Inteção";
-        $page_header="Nova Inteção";
+        $tituloPagina="Intenção";
+        $page_header="Nova Intenção";
         $descricao_page_header="Os campos com * são de preenchimento obrigatório.";
         return view('painel\missas\intencoes\form-cadastro-intencao',compact('tituloPagina','page_header','descricao_page_header'));
     }

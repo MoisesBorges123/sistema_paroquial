@@ -415,11 +415,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.date').mask('00/00/0000');
-            $('.time').mask('00:00:00');
+            $('.time').mask('00:00');
             $('.date_time').mask('00/00/0000 00:00:00');
             $('.cep').mask('00000-000');
             $('.phone').mask('0000-0000');
-            $('.phone_with_ddd').mask('(00) 0000-0000');
+            $('.phone_area-code').mask('(00) 0000-0000');
             $('.phone_us').mask('(000) 000-0000');
             $('.mixed').mask('AAA 000-S0S');
             $('.cpf').mask('000.000.000-00', {reverse: true});
@@ -482,6 +482,59 @@
                 });
                 $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
             });
+            
+            $(document).on('input','.time',function(){
+                timerValidate($(this));
+            });
+            $(document).on('input','.phone_area-code',function(){
+                phoneValidate($(this));
+                
+            });
+            
+            function phoneValidate(telefone){
+                caracteres = telefone.val().length;
+                if(caracteres>=5){
+                    var x = telefone.val();
+                   var y=x.substr(5,1);
+                   console.log(y);
+                    if(y==9){
+                        //Montar Função para o telefone funcionar tanto com celular como fixo
+                        $('.phone_area-code').mask('(00) 00000-0000');
+                    }else{
+                        $('.phone_area-code').mask('(00) 0000-0000');
+                    }
+                }
+            }
+            
+            function timerValidate(horario){
+              
+                 caracteres=horario.val().length;
+            //alert(caracteres);
+            if(caracteres==1){
+                if(horario.val()>2){
+                    horario.val(null);
+                }
+            }else if(caracteres==2){
+                if(horario.val()>23){
+                    horario.val(null);
+                }
+            }else if(caracteres==4){
+                x=horario.val();
+                y=x.substring(3,4);
+             
+                if(y>6){
+                    horario.val(x.substring(0,3));
+                }
+            }else if(caracteres==5){
+                x=horario.val();
+                y=x.substring(3,5);
+             
+                if(y>59){
+                    horario.val(x.substring(0,3));
+                }
+            }
+
+            }
         });
     </script>
     @yield('javascript')
