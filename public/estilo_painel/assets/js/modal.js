@@ -28,21 +28,28 @@ $(document).ready(function () {
 	//Success or cancel alert
 	document.querySelector('.alert-success-cancel').onclick = function(){
 		swal({
-					title: "Are you sure?",
-					text: "You will not be able to recover this imaginary file!",
+					title: "Excluir esse registro?",
+					text: "Se você excluir esse registro não será possível recupera-lo! Tem certeza que deseja excluir?",
 					type: "warning",
 					showCancelButton: true,
 					confirmButtonClass: "btn-danger",
-					confirmButtonText: "Yes, delete it!",
-					cancelButtonText: "No, cancel plx!",
+					confirmButtonText: "Yes, desejo excluir!",
+					cancelButtonText: "No, cancel exclusão!",
 					closeOnConfirm: false,
 					closeOnCancel: false
 				},
 				function(isConfirm) {
 					if (isConfirm) {
-						swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                                            /*
+                                                var x=  excluir_registro($(this).data('url'));
+                                                if(x==true){
+                                                    swal("Excluido!", "Your imaginary file has been deleted.", "success");                                                    
+                                                }else{
+                                                    swal("Problema", "Não foi possível excluir esse registro", "error");                                                    
+                                                }
+                                                */
 					} else {
-						swal("Cancelled", "Your imaginary file is safe :)", "error");
+						swal("Cancelado!", "Exclusão cancelada.", "error");
 					}
 				});
 	};

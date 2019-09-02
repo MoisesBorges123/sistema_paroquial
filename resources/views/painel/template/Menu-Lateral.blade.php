@@ -385,7 +385,7 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-book"></i></span>
                                         <span class="pcoded-mtext">Livros</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -426,7 +426,7 @@
                                 </li>
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-paper"></i></span>
                                         <span class="pcoded-mtext">Registros</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -665,7 +665,7 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu ">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-castle"></i></span>
                                         <span class="pcoded-mtext">Igrejas</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -684,13 +684,13 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
                                 <a href="{{route('visualiza.Intencao')}}">
-                                    <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+                                    <span class="pcoded-micon"><i class="icofont icofont-ui-file"></i></span>
                                     <span class="pcoded-mtext">Intenções</span>
                                 </a>
                             </li>
                                 <li class="pcoded-hasmenu ">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-wheel"></i></span>
                                         <span class="pcoded-mtext">Configurações</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -1153,7 +1153,7 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
                                     <a href="{{route("visualizar.Situacoes")}}">
-                                        <span class="pcoded-micon"><i class="feather icon-monitor"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
                                         <span class="pcoded-mtext">Tabela de Status</span>
                                     </a>
                                 </li>

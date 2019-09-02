@@ -87,7 +87,11 @@
 
 @section('javascript')
 
-
+    <script>
+        $(document).ready(function(){
+            _urlPesquisaLivro="{{route('Pesquisa.Livro')}}";
+        });
+    </script>
     <!-- Custom js -->  
     <script src="{{asset('estilo_painel/assets/js/meus/painel-buscas-livros-ajax.js')}}"></script>
    

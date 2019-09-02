@@ -72,15 +72,16 @@ $(document).ready(function () {
            $('.buttons').addClass('fade');
         });
         $(document).on('click','.sair',function(){
-            window.location.href="http://127.0.0.1:8000/";
+            window.location.href=_urldashboard;
         });
         
         $(document).on('change','#sacramento',function(){
             var sacramento  = $('#sacramento').val();
             
              $.ajax({
-                url: "http://127.0.0.1:8000/painel/livros/ajax/livroDigital/novaFolha",
+                url: _urlNovaFolhaAjax,
                 type: 'POST',
+             
                 data: {
                     sacramento:sacramento,
                 },
@@ -114,7 +115,7 @@ $(document).ready(function () {
             var numeracao_pagina = $("input[type=text][name=numeracao_pagina]").val();
             var obs_folha = $("#observacoes").val();
             $.ajax({
-                url: "http://127.0.0.1:8000/painel/livros/ajax2/livroDigital/novaFolha",
+                url: _urlNovaFolhaAjax2,
                 type: 'POST',
                 data: {
                     livro:livro,numeracao_pagina:numeracao_pagina,obs_folha:obs_folha

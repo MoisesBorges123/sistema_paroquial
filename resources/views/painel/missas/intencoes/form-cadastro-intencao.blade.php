@@ -12,22 +12,38 @@
                 @endforeach
                 </div>
             @endif
-            @if(isset($errors) && count($errors)>0)
+            @if(!empty(session('erro')) )
                 <div class="alert alert-danger">                
                 <p>{{session('erro')}}</p>            
                 </div>
             @endif
-            @if(isset($tipoIntencao))
-                <form method="post" class="form" action="{{route('update.TipoIntencao',$tipoIntencao->id_tipo)}}">
+            @if(isset($intencao))
+                <form method="post" class="form" action="{{route('Update.Intencao',$intencao->id_intencao)}}">
                 {!! method_field('PUT') !!}
             @else
-                <form method="post" class="form" action="{{route('Cadastrar.TipoIntencao')}}">
-                   
+                <form method="post" class="form" action="{{route('Insert.Intencao')}}">
+                    
             @endif
             {!! csrf_field() !!}
             <div class="form-group row">
                 <div class="col-md-12 col-sm-12">
-                    <input type="text" name='falecido' value="{{$intencao->falecido or old('falecido')}}" class="form-control form-control-md" placeholder="*Intenção" required="">
+                    <input type="text" name='intencao' value="{{$intencao->intencao or old('intencao')}}" class="form-control form-control-md" placeholder="*Intenção" required="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12 col-sm-12">
+                    <select class="form-control-md form-control" name="tipo">
+                        <option value="">Selecione o tipo de intenção</option>
+                    @foreach($tipos->all() as $tipoIntencao)
+                        @if( (isset($intencao) && $intencao->tipo == $tipoIntencao->id_tipo))
+                        <option selected="" value="{{$tipoIntencao->id_tipo}}">{{$tipoIntencao->nome}}</option>                        
+                        @elseif(old('tipo')==$tipoIntencao->id_tipo)
+                            <option selected="" value="{{$tipoIntencao->id_tipo}}">{{$tipoIntencao->nome}}</option>       
+                        @else
+                            <option  value="{{$tipoIntencao->id_tipo}}">{{$tipoIntencao->nome}}</option>       
+                        @endif
+                    @endforeach
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
@@ -41,7 +57,11 @@
             
             <div class="form-group row">
                 <div class="col-md-1 col-sm-1 text-right">
-                    <input class="form-control form-control-md" id='programacao' value="{{$intencao->programada or old('programada')}}" name="programada" type="checkbox">                    
+                    @if(isset($intencao->data_fim) && $intencao->data_fim!=$intencao->data_inicio)
+                    <input class="form-control form-control-md" id='programacao' checked="true" name="programada" type="checkbox">                    
+                    @else
+                        <input class="form-control form-control-md" id='programacao'  value="{{old('programada')}}" name="programada" type="checkbox">                    
+                    @endif
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <label>Intenção Programada</label>
@@ -54,16 +74,16 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <label>Dia da Missa </label>
-                    <input class="form-control form-control-md" value="{{$intencao->data_inicio or old('data_inicio')}}"  name="data_inicio" type="date" required="">                    
+                    <input class="form-control form-control-md" id='data_inicio' value="{{$intencao->data_inicio or old('data_inicio')}}"  name="data_inicio" type="date" required="">                    
                 </div>
                 <div class="col-md-4 col-sm-12 fade" id='dt-fim'>
                     <label>Celebrar até o dia</label>
-                    <input class="form-control form-control-md" value="{{$intencao->data_fim or old('data_fim')}}"  name="data_fim" type="date" >                    
+                    <input class="form-control form-control-md" id='data_fim' value="{{$intencao->data_fim or old('data_fim')}}"  name="data_fim" type="date" >                    
                 </div>
             </div>
             <div class='col-md-12 col-sm-12 m-t-15'>
             <button type="submit" class='btn btn-inverse'>
-                @if(!isset($tipoIntecao)) 
+                @if(!isset($intencao)) 
                 Cadastrar 
                 @else 
                 Editar 
@@ -79,12 +99,18 @@
 @section('javascript')
     <script>
         $(document).ready(function(){
+            if($('#programacao').is(":checked") == true){
+                    $('#dt-fim').removeClass('fade');
+                }else{
+                    $('#dt-fim').addClass('fade');
+                    
+                }
             $(document).on('change','#programacao',function(){
                 if($('#programacao').is(":checked") == true){
                     $('#dt-fim').removeClass('fade');
                 }else{
                     $('#dt-fim').addClass('fade');
-                    
+                    $('#data_fim').val(null);
                 }
             });
         });

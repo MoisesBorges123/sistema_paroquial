@@ -39,7 +39,7 @@ $(document).ready(function () {
         function pesquisar_livro(sacramento,livro,inicio,fim){
              
              $.ajax({
-                url: "http://127.0.0.1:8000/painel/livros/pesquisar",
+                url: _urlPesquisaLivro,
                 type: 'POST',
                 data: {
                     sacramento:sacramento,

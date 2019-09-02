@@ -243,6 +243,13 @@
 @endsection
 
 @section('javascript')
+<script>
+        $(document).ready(function(){
+            _urlNovaFolhaAjax2="{{route('VerificaStep1.Folha')}}";
+            _urlNovaFolhaAjax="{{route('BuscaLivroDititalizacao.Folha')}}";
+            _urldashboard="{{route('dashboard')}}";
+        });
+    </script>
 <!-- jquery funções AJAX -->
 <script src="{{asset('estilo_painel/assets/js/jquery.form.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/meus/painel-digitalizacao-folha-ajax.js')}}"></script>

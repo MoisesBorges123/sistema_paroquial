@@ -43,7 +43,11 @@
 @endsection
 
 @section('javascript')
-
+    <script>
+        $(document).ready(function(){
+            _urlPesquisaLivro="{{route('Pesquisa.Livro')}}";
+        });
+    </script>
     <!-- light-box js -->
     <script type="text/javascript" src="{{asset('estilo_painel/bower_components/ekko-lightbox/js/ekko-lightbox.js')}}"></script>
     <script type="text/javascript" src="{{asset('estilo_painel/bower_components/lightbox2/js/lightbox.js')}}"></script>

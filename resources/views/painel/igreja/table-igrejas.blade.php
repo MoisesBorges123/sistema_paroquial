@@ -546,7 +546,11 @@
 @endsection
 
 @section('javascript')
-
+    <script>
+        $(document).ready(function(){
+            _urlIgrejaBusca = "{{route('Busca.Igreja')}}";
+        });
+    </script>
     <!-- task board js -->
     <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/task-board/task-board.js')}}"></script>
     <!-- Custom js -->  

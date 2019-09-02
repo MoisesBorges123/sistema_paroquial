@@ -8,15 +8,25 @@ class Intencao extends Model
 {
     //
     protected $table = "intencao";
+    protected $primaryKey = "id_intencao";
+    public $timestamps=true;
     protected  $fillable=[
                         'intencao',
                         'data_inicio',
                         'data_fim',
                         'horario',
-                        'tipo',
-                        'situacao',
-                        'solicitado_por',
-                        'marcado_por'
+                        'tipo',                    
+                        'solicitante',
+                        'marcado_por',
+                        'telefone'
                         ];
+    public $rules=[
+                    'intencao'=>'required|min:3',
+                    'data_inicio'=>'required',
+                    'horario'=>'required|min:4|max:6',
+                    'tipo'=>'required|numeric',                    
+                    'solicitante'=>'required|string|min:3',        
+                    'telefone'=>'required|string|min:12'        
+                   ];
     
 }

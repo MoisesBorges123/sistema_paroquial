@@ -16,6 +16,11 @@ Route::get('/', function () {
     return view('painel\dashboard');
 })->name('dashboard');
 
+//Route::get('/pdf','Painel\Missa\Intenção@printer'); 
+
+    
+
+
 
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
@@ -93,12 +98,16 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
 
 //TRABALHANDO COM MISSAS
 Route::group(['prefix'=>'painel/missas'],function(){
+    
     Route::group(['prefix'=>'/intecoes'],function(){
         Route::get('/minhas_intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
         Route::get('/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");        
-        Route::get('/excluir/{id}','Painel\Missa\Intenção@delete')->name("Delete.Intencao");        
-        Route::get('/intencao/edicao/{id}','Painel\Missa\Intenção@editar')->name("FormEditar.Intencao");        
-            Route::post('/cadastrar','Painel\Missa\Intenção@insert')->name("Insert.Intencao");        
+        Route::get('/editar/{id}','Painel\Missa\Intenção@editar')->name("Editar.Intencao");        
+        Route::get('/imprimir/','Painel\Missa\Intenção@imprimir')->name("Imprimir.Intencao");        
+        Route::post('/printer/','Painel\Missa\Intenção@printer')->name("Printer.Intencao");        
+        Route::post('/excluir/','Painel\Missa\Intenção@delete')->name("Delete.Intencao");        
+        Route::post('/buscar/','Painel\Missa\Intenção@search')->name("Search.Intencao");                
+        Route::post('/cadastrar','Painel\Missa\Intenção@insert')->name("Insert.Intencao");        
         Route::put('/editar/{id}','Painel\Missa\Intenção@update')->name("Update.Intencao");        
     });
     

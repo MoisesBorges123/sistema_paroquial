@@ -9,7 +9,7 @@ $(document).ready(function () {
         
     function busca_igreja(igreja){
          $.ajax({
-                url: "http://127.0.0.1:8000/painel/igreja/busca",
+                url: _urlIgrejaBusca,
                 type: 'POST',
                 data: {
                     igreja:igreja,
