@@ -115,9 +115,15 @@ class Intenção extends Controller
                     ->where('data_fim','>=',$data)
                     ->sortBy('horario');            
         
+            
         if(count($dados->all())>0){
             ob_start();
-            echo" <thead>
+            $data = ucfirst(strftime('%A, %d de %B de %Y',strtotime($data)));
+            echo"<script> $(document).ready(function () {"
+                . "$('.data').html(\"". utf8_encode($data)."\");"
+            . "});"
+            . "</script>";
+            echo"<table  class='table' > <thead>
                             <tr >
                            
                                 <th>Nome</th>
@@ -154,10 +160,15 @@ class Intenção extends Controller
                 </tr>
                 ";
             }
-            echo"</tbody>";
+            echo"</tbody></table>";
             $html = ob_get_clean();
         }else{
             ob_start();
+            $data = ucfirst(strftime('%A, %d de %B de %Y',strtotime($data)));
+            echo"<script> $(document).ready(function () {"
+                . "$('.data').html(\"".utf8_encode($data)."\");"
+            . "});"
+            . "</script>";
             echo"<div class=\"alert\">
                             <div class=\"alert-default\">
                                 <h5 class=\"text-inverse\">Você não possui nenhuma intenção cadastrada.</h5>
@@ -165,8 +176,8 @@ class Intenção extends Controller
                         </div>";
             $html = ob_get_clean();
         }
-        $data = ucfirst(strftime('%A, %d de %B de %Y',strtotime($data)));
-        return array('html'=>$html,'date'=>$data,'pagina'=>$pagina);
+        
+        return $html;
     }
     public function printer(Request $request, Fpdf $pdf){
         $data = ucfirst(strftime('%A, %d de %B de %Y',strtotime($request->input('data'))));

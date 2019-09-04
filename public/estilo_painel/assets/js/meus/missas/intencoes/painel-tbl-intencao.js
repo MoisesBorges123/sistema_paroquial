@@ -70,7 +70,7 @@ $(document).ready(function () {
             data: {
                 posicao: posicao,
             },
-            dataType: 'JSON',
+            dataType: 'html',
             beforeSend: function () {
                 $('.alert').remove();
                 $('table').html(
@@ -87,8 +87,9 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('.alert').remove();
-                $('table').html(data.html);
-                $('.data').html(data.date);
+                $('table').remove();
+                $('#busca').html(data);
+                
             }
         });
 

@@ -42,7 +42,7 @@
                         @endif
                     </h3>
                 </div>
-                <div class="table-responsive">
+                <div id="busca" class="table-responsive">
                     <table class="table">
                         @if(empty($query->all()))
                         <div class="alert">
