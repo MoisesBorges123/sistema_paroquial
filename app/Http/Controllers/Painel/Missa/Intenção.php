@@ -188,7 +188,7 @@ class Intenção extends Controller
         $pdf::SetFont("Arial","B",18);
         $pdf::Cell(190,20,utf8_decode("Paróquia Catedral Imaculada Conceição"),0,1,"C");
         $pdf::SetFont("Arial","B",12);
-        $pdf::Cell(190,5,utf8_decode("Inteções $data"),0,1,"C");
+        $pdf::Cell(190,5,utf8_decode("Inteções ").$data,0,1,"C");
         $pdf::Ln(10);
         $pdf::Cell(190,5,utf8_decode("Celebração das $horario"),0,1,"L");
         $pdf::Ln(15);
