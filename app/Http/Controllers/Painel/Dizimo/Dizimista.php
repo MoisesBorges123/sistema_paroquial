@@ -172,6 +172,8 @@ class Dizimista extends Controller
               $endereco = $this->insert_endereco($dataForm);
           }
           if(!empty($endereco->id_endereco)){//Se o endereço foi salvo na tabela endereços insira seu ID na tabela pessoasssss
+              $registroPESSOA = $this->pessoas->find($pessoa);
+              $registroPESSOA->update(['endereco'=>$endereco]);
               
           }
         }
