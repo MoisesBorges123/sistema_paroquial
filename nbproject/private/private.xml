@@ -3,9 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/sistema_catedral/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_catedral/app/Http/Controllers/Painel/Missa/Intenção.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_catedral/resources/views/painel/template/Menu-Lateral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/tbl-dizimistas.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Estado.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Q_meus_dizimistas.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Enderecos.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Dizimistas.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Dizimista.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Logradouros.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/form-cadastro-dizimista.blade.php</file>
         </group>
     </open-files>
 </project-private>

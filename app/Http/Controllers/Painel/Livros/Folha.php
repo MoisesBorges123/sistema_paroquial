@@ -203,7 +203,7 @@ class Folha extends Controller
     }   
     
     public function validaStep1(Request $request, FuncoesAdicionais $fn){
-      
+        $dataForm=$request->except('_token');
         $dados_VALIDACAO=[];
         $dados_VALIDACAO[]=['value'=>$request->input("livro"),'type'=>1,'variavel'=>'livro'];
         //$dados_VALIDACAO[]=['value'=>$request->input("numeracao_pagina"),'type'=>8,'variavel'=>'numeração da página'];
@@ -534,9 +534,9 @@ class Folha extends Controller
                 ->get();
         
         $linhas=count($dadosFolha);
-        $paginacao = ceil($linhas/15);
-        $inicio = ($pagina_atual*15)-15;
-        $fim  = $inicio+15;
+        $paginacao = ceil($linhas/6);
+        $inicio = ($pagina_atual*6)-6;
+        $fim  = $inicio+6;
         if($fim>$linhas){
             $fim=$linhas;
         }

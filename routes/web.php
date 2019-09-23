@@ -20,8 +20,16 @@ Route::get('/', function () {
 
     
 
-
-
+//GRUPO DE ROTAS PARA TRABALHAR COM A AREA DE DÍZIMO
+Route::group(['prefix'=>'painel/dizimo'],function(){
+    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
+    Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
+    /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('FormEditar.Dizimista');
+    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
+    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Search.Dizimista');
+    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Insert.Dizimista');
+    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Update.Dizimista');*/
+});
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
 Route::group(['prefix'=>'painel/livros'], function () {
@@ -100,7 +108,7 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
 Route::group(['prefix'=>'painel/missas'],function(){
     
     Route::group(['prefix'=>'/intecoes'],function(){
-        Route::get('/minhas_intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
+        Route::get('/minhas-intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
         Route::get('/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");        
         Route::get('/editar/{id}','Painel\Missa\Intenção@editar')->name("Editar.Intencao");        
         Route::get('/imprimir/','Painel\Missa\Intenção@imprimir')->name("Imprimir.Intencao");        
