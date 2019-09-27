@@ -47,10 +47,10 @@ class Dizimista extends Controller
         $descricao_page_header="";
      
         return view('painel\dizimo\tbl-dizimistas',compact('tituloPagina','page_header','descricao_page_header','query'));
-    }
+    }//AO INICIAR EXECUTE ESSA FUNÇÃO
     public function update(){
         
-    }
+    }//ATUALIZAR UM REGISTRO
     public function search_adress($dado){
         /*
          * Essa função irá pesquisar se o logradouro inserido já existe na base
@@ -77,31 +77,35 @@ class Dizimista extends Controller
             $registro = false;
         }
         return $registro;
-    }
+    }//PROCURAR ENDERÇOS
     private function getSituacaoID($situacao){
         $estado = $this->situacao->all()->where('descricao',$situacao);
         return $estado->id_situacao;
-    }
-    private function insert_telefone($pessoa, $dadosBRUTOS, FuncoesAdicionais $fn){
+    }//BUSCA O ID DE UMA SITUAÇÃO NA TABELA STATUS
+    private function insert_telefone($pessoa, $dadosBRUTOS){
+        $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
         $contador = 0;
         $numerosCadastrados=[];
-        foreach($numero as $fone){
+        foreach($fone as $telefone){
             $valores=[];
-            $valores =['value'=>$dd[$contador],'type'=>0];            
-            $valores =['value'=>$fone,'type'=>0];
-            $valores =['value'=>$pessoa,'type'=>0];
-            $dadosTRATADOS=$fn->tratamentoDados($valores,['dd','numero','pessoa']);
+            $campos =['dd','numero','pessoa'];
+            $valores[] =['value'=>$dd[$contador],'type'=>0];            
+            $valores[] =['value'=>$telefone,'type'=>0];
+            $valores[] =['value'=>$pessoa,'type'=>0];
+            $dadosTRATADOS=$fn->tratamentoDados($valores,$campos);
             $insert = $this->telefone->create($dadosTRATADOS);
             array_push($insert,$numerosCadastrados);
             $contador++;
             unset($valores);
+            unset($campos);
             unset($dadosTRATADOS);
         }
         
         return $numerosCadastrados;
-    }
-    private function insert_logradouro($dadosBRUTOS, FuncoesAdicionais $fn){
+    }//CADASTRAR UM TELEFONE
+    private function insert_logradouro($dadosBRUTOS){
+        $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
         if(!empty($cep)){
             $busca = $this->search_adress($cep);
@@ -124,7 +128,7 @@ class Dizimista extends Controller
         
         return $insert;
         
-    }
+    }//CADASTRAR UMA LOCALIDADE
     private function insert_endereco($dadosBRUTOS){
         $logradouro = $this->insert_logradouro($dadosBRUTOS);
         extract($dadosBRUTOS);
@@ -145,8 +149,9 @@ class Dizimista extends Controller
         $dadosTRATADOS = $fn->tratamentoDados($valores, $campos);
         $insert = $this->endereco->create($dadosTRATADOS);
         return $insert;
-    }
-    private function insert_pessoa($dadosBRUTOS, FuncoesAdicionais $fn){
+    }//CADASTRA UM ENDEREÇO
+    private function insert_pessoa($dadosBRUTOS){
+        $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
         $campos=['nome','d_nasc','email','sexo'];
         $valores=[];
@@ -164,13 +169,13 @@ class Dizimista extends Controller
         $dadosTRATADOS = $fn->tratamentoDados($valores, $campos);
         $insert = $this->pessoas->create($dadosTRATADOS);        
         return $insert;
-    }
+    }//CADASTRAR UMA PESSOA
     private function insert_dizimista($pessoa){
         $data=date('Y-m-d',time());
         $situacao = $this->getSituacaoID("Registro Ativo");
         $insert = $this->dizimistas->create(['pessoa'=>$pessoa,'d_cadastro'=>$data,'situacao'=>$situacao]);
         return $insert;
-    }
+    }//CADASTRA UM DIZIMISTA
     public function salva_dizimista(Request $request, FuncoesAdicionais $fn){
         $dataForm = $request->except("_token");
         $validacaoPessoa = validator($dataForm,$this->pessoas->rules);
@@ -201,7 +206,7 @@ class Dizimista extends Controller
               }
           }
         }
-    }
+    }//RESPONSÁVEL POR CADASTRAR TODOS OS DADOS PARA INSERIR UM NOVO DIZIMISTA NO SISTEMA
     public function delete(){
         
     }
@@ -211,5 +216,5 @@ class Dizimista extends Controller
         $descricao_page_header="";
         $estados = $this->estado->all()->sortBy('nome_estado');
         return view('painel\dizimo\form-cadastro-dizimista',compact('tituloPagina','page_header','descricao_page_header','estados'));
-    }
+    }//DIRECIONA O FORMULARIO PARA CADASTRAR UM NOVO DIZIMISTA
 }

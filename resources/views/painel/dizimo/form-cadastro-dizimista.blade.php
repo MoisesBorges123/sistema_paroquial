@@ -32,7 +32,8 @@
                     <div class="col-md-12">
                         <div id="wizard2">
                             <section>
-                                <form class="wizard-form" id="form-dizimista" action="#">
+                                <h2 id='teste'></h2>
+                                <form ajax="true" method="post" class="wizard-form" id="form-dizimista" action="{{route('Insert.Dizimista')}}">
                                     <h3> Dados Pessoais </h3>
                                     <fieldset>
                                         <div class="form-group row">
@@ -99,8 +100,9 @@
                                         </div>
                                     </fieldset>
                                     <h3> Contato</h3>
-                                    <fieldset id='form-contato'>
-                                         <div class="form-group row">
+                                    <fieldset>
+                                        
+                                        <div class="form-group row" id='form-contato'>
                                             <div class="col-sm-11">
                                                 <label for="email-2" class="block">Email</label>
                                             </div>
@@ -108,9 +110,9 @@
                                                 <input id="email-22" name="email" type="email" class=" form-control">
                                             </div>
                                         </div>
-                                        <div class="form-group row linha-telefone" data-linha=1>
+                                        <div class="form-group row linha-telefone" id='linha1' >
                                             <div class="col-sm-12">
-                                                <label for="telefone-2" class="block">Telefone(1)</label>
+                                                <label for="telefone-2" class="block">Telefone</label>
                                             </div>
                                             <div class="col-sm-2" >
                                                 <input id="dd-22" name="dd[]" type="text" class="form-control dd" maxlength="2">

@@ -24,10 +24,10 @@ Route::get('/', function () {
 Route::group(['prefix'=>'painel/dizimo'],function(){
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
     Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
+    Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
     /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('FormEditar.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Search.Dizimista');
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Insert.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Update.Dizimista');*/
 });
 

@@ -9,7 +9,13 @@
       //                time: false,
       //                clearButton: true
       //            });
-
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            }
+        });
+        
       $("#basic-forms").steps({
           headerTag: "h3",
           bodyTag: "fieldset",
@@ -133,14 +139,31 @@
           },
           onFinishing: function(event, currentIndex) {
 
-              formDizimista.validate().settings.ignore = ":disabled";
+              formDizimista.validate().settings.ignore = ":disabled";   
               return formDizimista.valid();
           },
           onFinished: function(event, currentIndex) {
-              alert("Submitted!");
-              $('.content input[type="text"]').val('');
-              $('.content input[type="email"]').val('');
-              $('.content input[type="password"]').val('');
+              alert("Enviando...");
+               var form_data = $(this).serialize();
+                    var form_url = $(this).attr("action");
+                    var form_method = $(this).attr("method").toUpperCase();
+
+                    $("#loadingimg").show();
+
+                    $.ajax({
+                        url: form_url, 
+                        type: form_method,      
+                        data: form_data,     
+                        cache: false,
+                        success: function(returnhtml){                          
+                            if(returnhtml)
+                            $("#teste").html(returnhtml); 
+
+                        }           
+                    }); 
+              //$('.content input[type="text"]').val('');
+              //$('.content input[type="email"]').val('');
+             // $('.content input[type="password"]').val('');
           }
       }).validate({
           errorPlacement: function errorPlacement(error, element) {
