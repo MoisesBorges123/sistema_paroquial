@@ -12,6 +12,7 @@ use App\Models\Painel\Pessoa\Pessoas;
 use App\Models\Painel\Enderecos\Logradouros;
 use App\Models\Painel\Enderecos\Enderecos;
 use App\Models\Painel\Telefone\Telefones;
+use App\Models\Painel\Enderecos\Estado;
 class Dizimista extends Controller
 {
     //
@@ -23,8 +24,10 @@ class Dizimista extends Controller
     private $logradouro;
     private $telefone;
     private $endereco;
+    private $estado;
     
-    public function __construct(Dizimistas $tithing, Q_meus_dizimistas $query_dizimistas, Status $status, FuncoesAdicionais $my_functions, Pessoas $people, Logradouros $adress, Telefones $phones, Enderecos $location) {
+    
+    public function __construct(Dizimistas $tithing, Q_meus_dizimistas $query_dizimistas, Status $status, FuncoesAdicionais $my_functions, Pessoas $people, Logradouros $adress, Telefones $phone, Enderecos $location, Estado $state) {
         $this->dizimistas = $tithing;
         $this->meus_dizimistas = $query_dizimistas;
         $this->situacao = $status;
@@ -32,7 +35,8 @@ class Dizimista extends Controller
         $this->pessoas = $people;
         $this->logradouro = $adress;
         $this->telefone = $phone;
-        $this->endereco = $location;
+        $this->endereco = $location;        
+        $this->estado = $state;
     }
     
     public function index(){
@@ -73,6 +77,10 @@ class Dizimista extends Controller
             $registro = false;
         }
         return $registro;
+    }
+    private function getSituacaoID($situacao){
+        $estado = $this->situacao->all()->where('descricao',$situacao);
+        return $estado->id_situacao;
     }
     private function insert_telefone($pessoa, $dadosBRUTOS, FuncoesAdicionais $fn){
         extract($dadosBRUTOS);
@@ -154,11 +162,16 @@ class Dizimista extends Controller
             
         
         $dadosTRATADOS = $fn->tratamentoDados($valores, $campos);
-        $insert = $this->pessoas->create($dadosTRATADOS);
+        $insert = $this->pessoas->create($dadosTRATADOS);        
         return $insert;
     }
-
-    public function insert_dizimista(Request $request, FuncoesAdicionais $fn){
+    private function insert_dizimista($pessoa){
+        $data=date('Y-m-d',time());
+        $situacao = $this->getSituacaoID("Registro Ativo");
+        $insert = $this->dizimistas->create(['pessoa'=>$pessoa,'d_cadastro'=>$data,'situacao'=>$situacao]);
+        return $insert;
+    }
+    public function salva_dizimista(Request $request, FuncoesAdicionais $fn){
         $dataForm = $request->except("_token");
         $validacaoPessoa = validator($dataForm,$this->pessoas->rules);
         $validacaoEndreco= validator($dataForm,$this->logradouro->rules);
@@ -171,10 +184,21 @@ class Dizimista extends Controller
           if(!empty($telefone)){//Se cadastrou telefone cadastre o endereço
               $endereco = $this->insert_endereco($dataForm);
           }
-          if(!empty($endereco->id_endereco)){//Se o endereço foi salvo na tabela endereços insira seu ID na tabela pessoasssss
+          if(!empty($endereco->id_endereco)){//Se o endereço foi salvo na tabela endereços insira seu ID na tabela pessoas
               $registroPESSOA = $this->pessoas->find($pessoa);
               $registroPESSOA->update(['endereco'=>$endereco]);
-              
+              $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
+              if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
+                      $resutado = array(    //verificado pe javascript o que foi cadastrado e o que não foi                                            
+                      'pessoa'=> $pessoa->id_pessoa,
+                      'telefone'=>$telefone->id_telefone,
+                      'endereco'=>$endereco->id_endereco,
+                      'dizimista'=>$dizimista->id_dizimista
+                  );
+                  return $resutado;
+              }else{
+                  return false;
+              }
           }
         }
     }
@@ -185,7 +209,7 @@ class Dizimista extends Controller
         $tituloPagina = "Novo Dizimista";
         $page_header = "Cadastrar Dizimista";
         $descricao_page_header="";
-     
-        return view('painel\dizimo\form-cadastro-dizimista',compact('tituloPagina','page_header','descricao_page_header'));
+        $estados = $this->estado->all()->sortBy('nome_estado');
+        return view('painel\dizimo\form-cadastro-dizimista',compact('tituloPagina','page_header','descricao_page_header','estados'));
     }
 }

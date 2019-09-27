@@ -11,10 +11,10 @@ class Dizimistas extends Model
     protected $table="dizimistas";
     
     protected $primaryKey = "id_dizimista";
-    protected $fillable = [      
+    protected $fillable = [  
         
-        'd_cadastro',
         'pessoa',
+        'd_cadastro',        
         'situacao'        
     ];
     public $timestamps=false;

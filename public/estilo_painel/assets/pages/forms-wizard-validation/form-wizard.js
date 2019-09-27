@@ -39,7 +39,9 @@
       form.steps({
           headerTag: "h3",
           bodyTag: "fieldset",
-          transitionEffect: "slideLeft",
+          transitionEffect: "slide",
+          stepsOrientation: "vertical",
+          autoFocus: true,
           onStepChanging: function(event, currentIndex, newIndex) {
 
               // Allways allow previous action even if the current form is not valid!
@@ -63,17 +65,76 @@
 
               // Used to skip the "Warning" step if the user is old enough.
               if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
-                  form.steps("next");
+                  form.steps("Próximo");
               }
               // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
               if (currentIndex === 2 && priorIndex === 3) {
-                  form.steps("previous");
+                  form.steps("Anterior");
               }
           },
           onFinishing: function(event, currentIndex) {
 
               form.validate().settings.ignore = ":disabled";
               return form.valid();
+          },
+          onFinished: function(event, currentIndex) {
+              alert("Submitted!");
+              $('.content input[type="text"]').val('');
+              $('.content input[type="email"]').val('');
+              $('.content input[type="password"]').val('');
+          }
+      }).validate({
+          errorPlacement: function errorPlacement(error, element) {
+
+              element.before(error);
+          },
+          rules: {
+              confirm: {
+                  equalTo: "#password-2"
+              }
+          }
+      });
+      
+      var formDizimista = $("#form-dizimista").show();
+
+      formDizimista.steps({
+          headerTag: "h3",
+          bodyTag: "fieldset",
+          transitionEffect: "slideLeft",
+          onStepChanging: function(event, currentIndex, newIndex) {
+
+              // Allways allow previous action even if the current formDizimista is not valid!
+              if (currentIndex > newIndex) {
+                  return true;
+              }
+              // Forbid next action on "Warning" step if the user is to young
+              if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                  return false;
+              }
+              // Needed in some cases if the user went back (clean up)
+              if (currentIndex < newIndex) {
+                  // To remove error styles
+                  formDizimista.find(".body:eq(" + newIndex + ") label.error").remove();
+                  formDizimista.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+              }
+              formDizimista.validate().settings.ignore = ":disabled,:hidden";
+              return formDizimista.valid();
+          },
+          onStepChanged: function(event, currentIndex, priorIndex) {
+
+              // Used to skip the "Warning" step if the user is old enough.
+              if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                  formDizimista.steps("Próximo");
+              }
+              // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+              if (currentIndex === 2 && priorIndex === 3) {
+                  formDizimista.steps("Anterior");
+              }
+          },
+          onFinishing: function(event, currentIndex) {
+
+              formDizimista.validate().settings.ignore = ":disabled";
+              return formDizimista.valid();
           },
           onFinished: function(event, currentIndex) {
               alert("Submitted!");

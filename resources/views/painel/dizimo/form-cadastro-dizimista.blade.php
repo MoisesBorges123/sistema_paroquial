@@ -3,47 +3,168 @@
 
 @section('conteudo')
 <div class="row">
-    <div class="col-sm-8">
-        
-            @if(isset($errors) && count($errors)>0)
-                <div class="alert alert-danger">
-                @foreach($errors->all() as $erro)
-                <p>{{$erro}}</p>
-                @endforeach
-                </div>
-            @endif
-            @if(isset($errors) && count($errors)>0)
-                <div class="alert alert-danger">                
-                <p>{{session('erro')}}</p>            
-                </div>
-            @endif
-            @if(isset($situacao))
-                <form method="post" class="form" action="{{route('update.Situacoes',$situacao->id_situacao)}}">
-                {!! method_field('PUT') !!}
-            @else
-                <form method="post" class="form" action="{{route('insert.Situacoes')}}">
-            @endif
-            {!! csrf_field() !!}
-            <div class="form-group row">
-                <div class="col-md-6 col-sm-12">
-                    <input type="number" name='id_situacao' value="{{$situacao->id_situacao or old('id_situacao')}}" class="form-control form-control-md" placeholder="*Código">
+    <div class="col-sm-12">
+
+        <!--INICIO MOSTRA ERROS -->
+        @if(isset($errors) && count($errors)>0)
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $erro)
+            <p>{{$erro}}</p>
+            @endforeach
+        </div>
+        @endif
+        @if(isset($errors) && count($errors)>0)
+        <div class="alert alert-danger">                
+            <p>{{session('erro')}}</p>            
+        </div>
+        @endif
+        <!--FIM MOSTRA ERROS -->           
+
+
+        <!-- Verticle Wizard card start -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Insira os dados do novo dizimista</h5>              
+
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="wizard2">
+                            <section>
+                                <form class="wizard-form" id="form-dizimista" action="#">
+                                    <h3> Dados Pessoais </h3>
+                                    <fieldset>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="nome-2" class="block">Nome Completo *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="userName-22" name="nome" type="text" class=" form-control" required="">
+                                            </div>
+                                        </div>                                       
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="d_nasc-2" class="block">Data de Nascimento</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="d_nasc-22" name="d_nasc" type="date" class="form-control ">
+                                            </div>
+                                        </div>                                        
+                                    </fieldset>
+                                    <h3> Endereço </h3>
+                                    <fieldset>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="cep-2" class="block">CEP *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="cep-22" name="cep" type="text" minlength="9" class="form-control cep" required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="rua-2" class="block">Rua *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="rua-22" name="rua" type="text" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="bairro-2" class="block">Bairro *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="bairro-22" name="bairro" type="text" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="cidade" class="block">Cidade *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="cidade22" name="cidade" type="text" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">Estado *</div>
+                                            <div class="col-sm-12">
+                                                <select class="form-control required">
+                                                    <option value="">Selecione seu Estado</option>
+                                                    @foreach($estados as $uf)
+                                                    <option value="{{$uf->id_estado}}">{{$uf->nome_estado}}</option>
+                                                    @endforeach                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <h3> Contato</h3>
+                                    <fieldset id='form-contato'>
+                                         <div class="form-group row">
+                                            <div class="col-sm-11">
+                                                <label for="email-2" class="block">Email</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="email-22" name="email" type="email" class=" form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row linha-telefone" data-linha=1>
+                                            <div class="col-sm-12">
+                                                <label for="telefone-2" class="block">Telefone(1)</label>
+                                            </div>
+                                            <div class="col-sm-2" >
+                                                <input id="dd-22" name="dd[]" type="text" class="form-control dd" maxlength="2">
+                                              
+                                            </div>
+                                            <div class="col-sm-8">                                              
+                                                <input id="telefone-22" name="fone[]" type="text" class="form-control phone">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button class='btn btn-warning adiciona-telefone' data-linha=1  type='button'>+</button>
+                                            </div>
+                                        </div>
+                                       
+                                    </fieldset>
+                                    
+                                </form>
+                            </section>
+                        </div>
+                    </div>
                 </div>
             </div>
-           
-            <div class="form-group row">
-                <div class="col-md-6 col-sm-12">
-                    <textarea name="descricao" class="form-control" placeholder="Descrição" rows="5">{{$situacao->descricao or old('descricao')}}</textarea>
-                </div>
-            </div>
-            <button type="submit" class='btn btn-inverse'>
-                @if(!isset($situacao)) 
-                Cadastrar 
-                @else 
-                Editar 
-                @endif
-            </button>
-        </form>
+        </div>
+        <!-- Verticle Wizard card end -->
+
+
+
+
+
+
+
     </div>
-    
+
 </div>
+@endsection
+@section('css')
+<!--forms-wizard css-->
+<link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/jquery.steps/css/jquery.steps.css')}}">
+@endsection
+@section('javascript')
+<!-- i18next.min.js -->
+<script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next/js/i18next.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('estilo_painel/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('estilo_painel/bower_components/jquery-i18next/js/jquery-i18next.min.js')}}"></script>
+
+<!--Forms - Wizard js-->
+<script src="{{asset('estilo_painel/bower_components/jquery.cookie/js/jquery.cookie.js')}}"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery.steps/js/jquery.steps.js')}}"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-validation/js/jquery.validate.js')}}"></script>
+<!-- Validation js -->
+<script src="{{asset('estilo_painel/assets/js/form-wizard/underscore-min.js')}}"></script>
+<script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
+<!-- Custom js -->
+<script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>
+<script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-cadastro-novo-dizimista.js')}}"></script>
 @endsection

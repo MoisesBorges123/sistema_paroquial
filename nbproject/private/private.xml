@@ -5,13 +5,14 @@
         <group>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/tbl-dizimistas.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Estado.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Q_meus_dizimistas.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Enderecos.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Dizimistas.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/bower_components/jquery-validation/js/jquery.validate.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/bower_components/jquery.steps/js/jquery.steps.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Dizimista.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/form-validation/form-validation.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Logradouros.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-cadastro-novo-dizimista.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Painel-Master.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/forms-wizard-validation/form-wizard.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/form-cadastro-dizimista.blade.php</file>
         </group>
     </open-files>
