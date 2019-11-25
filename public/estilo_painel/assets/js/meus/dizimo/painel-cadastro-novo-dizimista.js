@@ -51,7 +51,46 @@ $(document).ready(function(){
             
         });
     }); // Enviar dados para o Controller
-    
+    $(document).on('input','.phone', function(){
+        var telefone = $(this).val();
+        if(telefone.substr(0,1)=='9'){
+            $(this).mask('00000-0000');
+        }else{
+            $(this).mask('0000-0000');            
+        }
+    }); //Coloca a mascara no telefone de acordo se for um celular ou telefone fixo
+    $(document).on('input','.cep',function(){
+        var cep = $(this).val();
+        
+        if(cep.length==9){
+            alert(cep);
+            $.ajax({
+                url:busca_cep,
+                type: 'POST',
+                data:{ cep:cep },
+                dataType:'JSON',
+                beforeSend: function(){
+                    $('.carregando').remove();
+                    $('#load_cep').html(
+                    "<div class='text-left col-md-12 col-sm-12 carregando'>"+
+                        "<div class=\"preloader3 loader-block\">"+
+                                "<div class=\"circ1\"></div>"+
+                                "<div class=\"circ2\"></div>"+
+                                "<div class=\"circ3\"></div>"+
+                                "<div class=\"circ4\"></div>"+
+                        "</div>"+
+                    "</div>"
+                    );
+                },
+                success: function(data){
+                    $('.carregando').remove();
+                    if(data!=false){
+                        console.log(data);
+                    }
+                }
+            });
+        }
+    });
 });
 
 $(document).ready(function(e) {

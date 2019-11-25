@@ -59,8 +59,11 @@
                                             <div class="col-sm-12">
                                                 <label for="cep-2" class="block">CEP *</label>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-10">
                                                 <input id="cep-22" name="cep" type="text" minlength="9" class="form-control cep" required="">
+                                            </div>
+                                            <div class="col-sm-2" id="load_cep">
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -167,6 +170,11 @@
 <script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
 <!-- Custom js -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        busca_cep = "{{route('BuscaCep.Dizimista')}}";
+    });
+</script>
 <script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>
 <script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-cadastro-novo-dizimista.js')}}"></script>
 @endsection

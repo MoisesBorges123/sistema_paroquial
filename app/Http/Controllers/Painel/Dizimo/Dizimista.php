@@ -51,14 +51,28 @@ class Dizimista extends Controller
     public function update(){
         
     }//ATUALIZAR UM REGISTRO
-    public function search_adress($dado){
+    public function pesquisar_endereco(Request $request){
+        $cep = $request->input('cep');
+        $endereco = $this->search_adress($cep);
+        if($endereco==false){
+            $endereco=$this->minhas_funcoes->getEndereco($cep);
+            if(!empty($endereco)){
+                return $endereco;
+            }else{
+                return $endereco = array('resposta'=>false);
+            }
+        }else{
+            return $endereco;
+        }
+    }
+    private function search_adress($dado){
         /*
          * Essa função irá pesquisar se o logradouro inserido já existe na base
          * de dados, caso positivo irá retornar o id do logradouro caso negativo
          * a função retornará false, essa função consegure pesquisar uma rua ou 
          * um cep.
          */
-        if(strlen($dado)==9 && preg_match('-', $dado)){
+        if(strlen($dado)==9 && preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}$/",'-', $dado)){
             $logradouro = $this->logradouro->all()->where('cep',$dado);
         }else{
             $logradouro = $this->logradouro->all()->where('rua',$dado);            
@@ -73,8 +87,8 @@ class Dizimista extends Controller
                 'cidade'=>$logradouro->cidade,
                 'estado'=>$logradouro->estado
             );
-        }else{
-            $registro = false;
+        }else{            
+            $registro =false;
         }
         return $registro;
     }//PROCURAR ENDERÇOS
@@ -194,13 +208,13 @@ class Dizimista extends Controller
               $registroPESSOA->update(['endereco'=>$endereco]);
               $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
               if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
-                      $resutado = array(    //verificado pe javascript o que foi cadastrado e o que não foi                                            
+                      $resutado = array(    //verificado pelo javascript o que foi cadastrado e o que não foi                                            
                       'pessoa'=> $pessoa->id_pessoa,
                       'telefone'=>$telefone->id_telefone,
                       'endereco'=>$endereco->id_endereco,
                       'dizimista'=>$dizimista->id_dizimista
                   );
-                  return $resutado;
+                  return $resutado =false;
               }else{
                   return false;
               }
