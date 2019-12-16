@@ -107,6 +107,9 @@
           headerTag: "h3",
           bodyTag: "fieldset",
           transitionEffect: "slideLeft",
+          enableKeyNavigation: true,
+          enablePagination: true,
+    
           onStepChanging: function(event, currentIndex, newIndex) {
 
               // Allways allow previous action even if the current formDizimista is not valid!

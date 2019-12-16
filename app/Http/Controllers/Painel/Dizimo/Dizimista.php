@@ -56,8 +56,20 @@ class Dizimista extends Controller
         $endereco = $this->search_adress($cep);
         if($endereco==false){
             $endereco=$this->minhas_funcoes->getEndereco($cep);
+            
+            //$this->estado
+                    //->where(''); //Pesquisar 
+            
             if(!empty($endereco)){
-                return $endereco;
+                $localidade = [ 
+                    'cep'=>$endereco->cep,
+                    'logradouro'=>$endereco->logradouro,
+                    'bairro'=>$endereco->bairro,
+                    'cidade'=>$endereco->localidade,
+                    'estado'=>$endereco->uf,
+                    'complemento'=>$endereco->complemento
+                    ];
+                return $localidade;
             }else{
                 return $endereco = array('resposta'=>false);
             }

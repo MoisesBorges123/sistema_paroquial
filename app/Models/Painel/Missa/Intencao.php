@@ -21,7 +21,7 @@ class Intencao extends Model
                         'telefone'
                         ];
     public $rules=[
-                    'intencao'=>'required|min:3',
+                    'intencao'=>'required|min:3|max:50',
                     'data_inicio'=>'required',
                     'horario'=>'required|min:4|max:6',
                     'tipo'=>'required|numeric',                    

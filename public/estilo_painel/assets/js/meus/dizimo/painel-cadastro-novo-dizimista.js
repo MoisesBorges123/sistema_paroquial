@@ -63,7 +63,7 @@ $(document).ready(function(){
         var cep = $(this).val();
         
         if(cep.length==9){
-            alert(cep);
+            //alert(cep);
             $.ajax({
                 url:busca_cep,
                 type: 'POST',
@@ -84,8 +84,12 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     $('.carregando').remove();
+
                     if(data!=false){
-                        console.log(data);
+                        $('#rua-22').val(data['logradouro']);
+                        $('#bairro-22').val(data['bairro']);
+                        $('#cidade22').val(data['cidade']);
+                        console.log(data['cep']);
                     }
                 }
             });

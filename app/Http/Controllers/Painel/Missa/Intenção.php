@@ -191,7 +191,7 @@ class Intenção extends Controller
         $pdf::Cell(190,5,utf8_decode("Intenções ").$data,0,1,"C");
         $pdf::Ln(10);
         $pdf::Cell(190,5,utf8_decode("Celebração das $horario"),0,1,"L");
-        $pdf::Ln(15);
+        $pdf::Ln(10);
         foreach ($tipo_de_intencoes as $tipo){
             $intencoes = $this->intentions->all()
                     ->where('tipo','=',$tipo->id_tipo)
@@ -208,14 +208,14 @@ class Intenção extends Controller
                     foreach ($intencoes as $intencao){                
                         $pdf::Cell(50,5,'',0,1,"L");
                         $pdf::Cell(190,5, utf8_decode($intencao->intencao),0,1,"L");  
-                        $pdf::Ln(8);
 
                     }                    
+                        $pdf::Ln(5);
                 }
                 if($tipo->linhas_a_mais>0){
                     for($i=0;$i<$tipo->linhas_a_mais;$i++){
                         $pdf::Cell(190,1,'','T',1,"L");                
-                        $pdf::Ln(8);                    
+                        $pdf::Ln(7);                    
                     }
                 }
             }

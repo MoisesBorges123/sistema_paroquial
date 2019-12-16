@@ -107,6 +107,7 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
 //TRABALHANDO COM MISSAS
 Route::group(['prefix'=>'painel/missas'],function(){
     
+    //INTENÇÕES
     Route::group(['prefix'=>'/intecoes'],function(){
         Route::get('/minhas-intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
         Route::get('/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");        
