@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('.phone').mask('0000-0000');
     //CAMPOS DO CADASTRO DE TELEFONE
     var linha_telefone = 1;
-    
+    $('.clearfix').addClass('bg-inverse');
     $(document).on('input','.dd',function(){
         if($(this).val().length==2){
             id = linha_telefone+22;
@@ -46,11 +46,6 @@ $(document).ready(function(){
         var linha=$(this).data('linha');
         $("#linha"+linha).remove();
     });// Removoer campos telefone inseridos
-    $(document).on('click','#btn-salvar',function(){
-        $.ajax({
-            
-        });
-    }); // Enviar dados para o Controller
     $(document).on('input','.phone', function(){
         var telefone = $(this).val();
         if(telefone.substr(0,1)=='9'){
@@ -71,25 +66,26 @@ $(document).ready(function(){
                 dataType:'JSON',
                 beforeSend: function(){
                     $('.carregando').remove();
-                    $('#load_cep').html(
-                    "<div class='text-left col-md-12 col-sm-12 carregando'>"+
-                        "<div class=\"preloader3 loader-block\">"+
+                    $('#load_cep').html(                   
+                        "<div class=\"preloader3 loader-block carregando\">"+
                                 "<div class=\"circ1\"></div>"+
                                 "<div class=\"circ2\"></div>"+
                                 "<div class=\"circ3\"></div>"+
                                 "<div class=\"circ4\"></div>"+
-                        "</div>"+
-                    "</div>"
+                        "</div>"                   
                     );
                 },
                 success: function(data){
                     $('.carregando').remove();
-
+                    
+                    console.log(data)
                     if(data!=false){
-                        $('#rua-22').val(data['logradouro']);
-                        $('#bairro-22').val(data['bairro']);
-                        $('#cidade22').val(data['cidade']);
-                        console.log(data['cep']);
+                        
+                        $('#rua-22').val(data['logradouro'][0]);
+                        $('#bairro-22').val(data['bairro'][0]);
+                        $('#cidade22').val(data['cidade'][0]);
+                        $('#txt_estados').val(data['estado']);
+                        
                     }
                 }
             });
@@ -98,7 +94,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(e) {
-    
+    /*
     $("form[ajax=true]").submit(function(e) {
         
         e.preventDefault();
@@ -122,5 +118,5 @@ $(document).ready(function(e) {
         });    
         
     });
-    
+    */
 });

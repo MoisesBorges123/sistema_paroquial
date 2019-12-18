@@ -56,9 +56,10 @@ class Dizimista extends Controller
         $endereco = $this->search_adress($cep);
         if($endereco==false){
             $endereco=$this->minhas_funcoes->getEndereco($cep);
-            
-            //$this->estado
-                    //->where(''); //Pesquisar 
+            //var_dump($endereco);echo"\n <br>";
+            $estado = $this->estado                   
+                    ->where('sigla',$endereco->uf)
+                    ->first();   
             
             if(!empty($endereco)){
                 $localidade = [ 
@@ -66,7 +67,7 @@ class Dizimista extends Controller
                     'logradouro'=>$endereco->logradouro,
                     'bairro'=>$endereco->bairro,
                     'cidade'=>$endereco->localidade,
-                    'estado'=>$endereco->uf,
+                    'estado'=>$estado->id_estado,
                     'complemento'=>$endereco->complemento
                     ];
                 return $localidade;
@@ -84,15 +85,15 @@ class Dizimista extends Controller
          * a função retornará false, essa função consegure pesquisar uma rua ou 
          * um cep.
          */
-        if(strlen($dado)==9 && preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,3}$/",'-', $dado)){
-            $logradouro = $this->logradouro->all()->where('cep',$dado);
+        if(strlen($dado)==9 && strstr($dado, '-',true)){
+            $logradouro = $this->logradouro->all()->where('cep',$dado)->first();
         }else{
-            $logradouro = $this->logradouro->all()->where('rua',$dado);            
+            $logradouro = $this->logradouro->all()->where('rua',$dado)->first();            
         }
         
         if(!empty($logradouro->id_logradouro)){
             $registro = array(
-                'id'=>$logradouro->id_logradouro,
+                'id_logradouro'=>$logradouro->id_logradouro,
                 'rua'=>$logradouro->rua,
                 'bairro'=>$logradouro->bairro,
                 'cep'=>$logradouro->cep,
@@ -105,7 +106,7 @@ class Dizimista extends Controller
         return $registro;
     }//PROCURAR ENDERÇOS
     private function getSituacaoID($situacao){
-        $estado = $this->situacao->all()->where('descricao',$situacao);
+        $estado = $this->situacao->all()->where('descricao',$situacao)->first();
         return $estado->id_situacao;
     }//BUSCA O ID DE UMA SITUAÇÃO NA TABELA STATUS
     private function insert_telefone($pessoa, $dadosBRUTOS){
@@ -115,14 +116,20 @@ class Dizimista extends Controller
         $numerosCadastrados=[];
         foreach($fone as $telefone){
             $valores=[];
-            $campos =['dd','numero','pessoa'];
+            $campos =['dd','numero','pessoa','obs'];
             $valores[] =['value'=>$dd[$contador],'type'=>0];            
             $valores[] =['value'=>$telefone,'type'=>0];
             $valores[] =['value'=>$pessoa,'type'=>0];
+            
+            if(!empty($obs_telefone))
+                $valores[] =['value'=>$obs_telefone,'type'=>0];
+            else
+                $valores[] =['value'=>null,'type'=>0];
+            
             $dadosTRATADOS=$fn->tratamentoDados($valores,$campos);
             $insert = $this->telefone->create($dadosTRATADOS);
-            array_push($insert,$numerosCadastrados);
             $contador++;
+            $numerosCadastrados[]=['id'=>$insert->id_telefne,'telefone'=>$telefone,'posicao'=>$contador];            
             unset($valores);
             unset($campos);
             unset($dadosTRATADOS);
@@ -132,14 +139,16 @@ class Dizimista extends Controller
     }//CADASTRAR UM TELEFONE
     private function insert_logradouro($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
+
         extract($dadosBRUTOS);
         if(!empty($cep)){
             $busca = $this->search_adress($cep);
         }else{
             $busca = $this->search_adress($rua);
         }
+        
         if($busca!=false){
-            $insert = $busca['id'];
+            $logradouro = $busca['id_logradouro'];
         }else{
             $valores = [];
             $valores[]=['value'=>$rua,'type'=>6];
@@ -149,13 +158,15 @@ class Dizimista extends Controller
             $valores[]=['value'=>$estado,'type'=>0];
             $campos=['rua','bairro','cep','cidade','estado'];
             $dadosTRATADOS=$fn->tratamentoDados($valores, $campos);
-            $insert=$this->logradouro->create($dadosLogradouro);             
+            $insert=$this->logradouro->create($dadosTRATADOS);  
+            $logradouro=$insert->id_logradouro;
         }
         
-        return $insert;
+        return $logradouro;
         
     }//CADASTRAR UMA LOCALIDADE
     private function insert_endereco($dadosBRUTOS){
+        $fn = new FuncoesAdicionais();
         $logradouro = $this->insert_logradouro($dadosBRUTOS);
         extract($dadosBRUTOS);
         $campos=['logradouro','num_casa','apartamento','complemento','obsercacoes'];
@@ -179,6 +190,7 @@ class Dizimista extends Controller
     private function insert_pessoa($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
+        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->get();
         $campos=['nome','d_nasc','email','sexo'];
         $valores=[];
         $valores[]=['value'=>$nome,'type'=>6];
@@ -209,24 +221,24 @@ class Dizimista extends Controller
         $validacaoTelefone = validator($dataForm,$this->pessoas->rules);
         if($validacaoPessoa && $validacaoEndreco && $validacaoTelefone){            
           $pessoa = $this->insert_pessoa($dataForm);
+          
           if(!empty($pessoa->id_pessoa)){//Se cadastrou pessoa cadastre seu telefone
-              $telefone = $this->insert_telefone($pessoa, $dataForm);
+              $telefone = $this->insert_telefone($pessoa->id_pessoa, $dataForm);
           }
           if(!empty($telefone)){//Se cadastrou telefone cadastre o endereço
               $endereco = $this->insert_endereco($dataForm);
           }
           if(!empty($endereco->id_endereco)){//Se o endereço foi salvo na tabela endereços insira seu ID na tabela pessoas
-              $registroPESSOA = $this->pessoas->find($pessoa);
-              $registroPESSOA->update(['endereco'=>$endereco]);
+              $this->pessoas->where('id_pessoa',$pessoa->id_pessoa)
+                      ->update(['endereco'=>$endereco->id_endereco]);
               $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
               if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
                       $resutado = array(    //verificado pelo javascript o que foi cadastrado e o que não foi                                            
                       'pessoa'=> $pessoa->id_pessoa,
-                      'telefone'=>$telefone->id_telefone,
-                      'endereco'=>$endereco->id_endereco,
+                      'nome'=>$dataForm['nome'],                      
                       'dizimista'=>$dizimista->id_dizimista
                   );
-                  return $resutado =false;
+                  return $resutado;
               }else{
                   return false;
               }

@@ -146,21 +146,27 @@
               return formDizimista.valid();
           },
           onFinished: function(event, currentIndex) {
-              alert("Enviando...");
+            
                var form_data = $(this).serialize();
                     var form_url = $(this).attr("action");
                     var form_method = $(this).attr("method").toUpperCase();
 
-                    $("#loadingimg").show();
-
+    
+                    
                     $.ajax({
                         url: form_url, 
                         type: form_method,      
-                        data: form_data,     
+                        data: form_data, 
+                        dataType:'JSON',
                         cache: false,
-                        success: function(returnhtml){                          
-                            if(returnhtml)
-                            $("#teste").html(returnhtml); 
+                        beforeSend:function(){
+                            alert('entrou');
+                        },
+                        success: function(data){                          
+                            console.log(data)
+                        if(data){
+                            swal("Parabens!", "Agora "+data.nome+" é um dizimista!", "success");
+                        }
 
                         }           
                     }); 

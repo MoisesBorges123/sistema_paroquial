@@ -27,8 +27,8 @@
                 <h5>Insira os dados do novo dizimista</h5>              
 
             </div>
-            <div class="card-block">
-                <div class="row">
+            <div class="card-block bg-inverse">
+                <div class="row m-auto">
                     <div class="col-md-12">
                         <div id="wizard2">
                             <section>
@@ -51,7 +51,10 @@
                                             <div class="col-sm-12">
                                                 <input id="d_nasc-22" name="d_nasc" type="date" class="form-control ">
                                             </div>
-                                        </div>                                        
+                                        </div> 
+                                        <div class="form-group row m-auto">
+                                            <img id='bem_vindo' src="{{asset('imagens/bem_vindo.png')}}">
+                                        </div>
                                     </fieldset>
                                     <h3> Endereço </h3>
                                     <fieldset>
@@ -64,6 +67,14 @@
                                             </div>
                                             <div class="col-sm-2" id="load_cep">
                                                 
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="numero" class="block">Número *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="numero" name="num_casa" type="text" class="form-control" required="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -93,7 +104,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">Estado *</div>
                                             <div class="col-sm-12">
-                                                <select class="form-control required">
+                                                <select class="form-control required" name="estado" id='txt_estados'>
                                                     <option value="">Selecione seu Estado</option>
                                                     @foreach($estados as $uf)
                                                     <option value="{{$uf->id_estado}}">{{$uf->nome_estado}}</option>
@@ -128,6 +139,15 @@
                                                 <button class='btn btn-warning adiciona-telefone' data-linha=1  type='button'>+</button>
                                             </div>
                                         </div>
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-md-12 col-sm-12">
+                                                
+                                                <textarea class="form-control" rows="4" name="obs_telefone" placeholder="Melhor horário para efetuar ligações">
+                                                
+                                                </textarea>
+                                            </div>                                            
+                                        </div>
                                        
                                     </fieldset>
                                     
@@ -153,6 +173,15 @@
 @section('css')
 <!--forms-wizard css-->
 <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/jquery.steps/css/jquery.steps.css')}}">
+<link href="{{asset('estilo_painel/bower_components/sweetalert/css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+<style>
+    #bem_vindo{
+        width: 83%;
+    }
+    .error{
+        background: antiquewhite;
+    }
+</style>
 @endsection
 @section('javascript')
 <!-- i18next.min.js -->
@@ -169,6 +198,7 @@
 <script src="{{asset('estilo_painel/assets/js/form-wizard/underscore-min.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
+<script src="{{asset('estilo_painel/bower_components/sweetalert/js/sweetalert.min.js')}}" type="text/javascript"></script>
 <!-- Custom js -->
 <script type="text/javascript">
     $(document).ready(function(){
