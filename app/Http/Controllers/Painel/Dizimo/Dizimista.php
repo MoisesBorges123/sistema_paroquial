@@ -190,7 +190,7 @@ class Dizimista extends Controller
     private function insert_pessoa($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
-        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->get();
+        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->first();
         $campos=['nome','d_nasc','email','sexo'];
         $valores=[];
         $valores[]=['value'=>$nome,'type'=>6];

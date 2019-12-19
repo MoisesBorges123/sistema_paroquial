@@ -141,7 +141,19 @@
               }
           },
           onFinishing: function(event, currentIndex) {
-
+              nome_validate = $(this).data("nome_validate");
+              $.ajax({
+                  url:nome_validate,
+                  type:"POST",
+                  dataType:"JSON",
+                  cache:false,
+                  beforeSend:function(){
+                      
+                  },
+                  success:function(){
+                      
+                  }
+              });
               formDizimista.validate().settings.ignore = ":disabled";   
               return formDizimista.valid();
           },
