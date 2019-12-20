@@ -5,6 +5,11 @@ $(document).ready(function(){
     //CAMPOS DO CADASTRO DE TELEFONE
     var linha_telefone = 1;
     $('.clearfix').addClass('bg-inverse');
+    $(document).on('input','#userName-22',function(){
+        settimeout(function(){
+            
+        },2000);
+    });
     $(document).on('input','.dd',function(){
         if($(this).val().length==2){
             id = linha_telefone+22;

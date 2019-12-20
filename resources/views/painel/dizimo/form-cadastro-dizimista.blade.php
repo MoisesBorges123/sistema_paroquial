@@ -42,6 +42,7 @@
                                             </div>
                                             <div class="col-sm-12">
                                                 <input id="userName-22" name="nome" type="text" class=" form-control" required="">
+                                                <input id="existe" name="exite" type="hidden" value="0">
                                             </div>
                                         </div>                                       
                                         <div class="form-group row">
