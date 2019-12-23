@@ -51,6 +51,23 @@ class Dizimista extends Controller
     public function update(){
         
     }//ATUALIZAR UM REGISTRO
+    public function pessoas_iguais(Request $request){
+        extract($request->except('_token'));
+        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->first();        
+        if(!empty($existe_pessoa->nome)){
+            $resposta = array(
+                'nome'=>$existe_pessoa->nome,
+                'id'=>$existe_pessoa->id_pessoa,
+                'data_nascimento'=>$existe_pessoa->d_nasc
+            );
+        }else{
+            $resposta = array(
+                'nome'=>'Não Existe',
+                'id'=>0
+            );
+        }
+        return $resposta;
+    }
     public function pesquisar_endereco(Request $request){
         $cep = $request->input('cep');
         $endereco = $this->search_adress($cep);
@@ -190,7 +207,7 @@ class Dizimista extends Controller
     private function insert_pessoa($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
         extract($dadosBRUTOS);
-        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->first();
+        
         $campos=['nome','d_nasc','email','sexo'];
         $valores=[];
         $valores[]=['value'=>$nome,'type'=>6];

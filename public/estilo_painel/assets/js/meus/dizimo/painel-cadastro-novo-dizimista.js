@@ -7,7 +7,21 @@ $(document).ready(function(){
     $('.clearfix').addClass('bg-inverse');
     $(document).on('input','#userName-22',function(){
         settimeout(function(){
-            
+            var nome = $('#userName-22').val();
+            $.ajax({
+                url:nome_duplicidade,
+                type: 'POST',
+                data:{ nome:nome },
+                dataType:'JSON',
+                beforeSend: function(){
+                  
+                },
+                success: function(data){
+                   if(data.id>0){
+                       swap('OPS!','','warning');
+                   }
+                }
+            });
         },2000);
     });
     $(document).on('input','.dd',function(){
