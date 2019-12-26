@@ -148,24 +148,28 @@ class Dizimista extends Controller
         $contador = 0;
         $numerosCadastrados=[];
         foreach($fone as $telefone){
-            $valores=[];
-            $campos =['dd','numero','pessoa','obs'];
-            $valores[] =['value'=>$dd[$contador],'type'=>0];            
-            $valores[] =['value'=>$telefone,'type'=>0];
-            $valores[] =['value'=>$pessoa,'type'=>0];
+            if(!empty($telefone) && !empty($dd[$contador])){
+                $valores=[];
+                $campos =['dd','numero','pessoa','obs'];
+                $valores[] =['value'=>$dd[$contador],'type'=>0];            
+                $valores[] =['value'=>$telefone,'type'=>0];
+                $valores[] =['value'=>$pessoa,'type'=>0];
+
+                if(!empty($obs_telefone))
+                    $valores[] =['value'=>$obs_telefone,'type'=>0];
+                else
+                    $valores[] =['value'=>null,'type'=>0];
+
+                $dadosTRATADOS=$fn->tratamentoDados($valores,$campos);
+                $insert = $this->telefone->create($dadosTRATADOS);
+                $contador++;
+                $numerosCadastrados[]=['id'=>$insert->id_telefne,'telefone'=>$telefone,'posicao'=>$contador];            
+                unset($valores);
+                unset($campos);
+                unset($dadosTRATADOS);
             
-            if(!empty($obs_telefone))
-                $valores[] =['value'=>$obs_telefone,'type'=>0];
-            else
-                $valores[] =['value'=>null,'type'=>0];
+            }
             
-            $dadosTRATADOS=$fn->tratamentoDados($valores,$campos);
-            $insert = $this->telefone->create($dadosTRATADOS);
-            $contador++;
-            $numerosCadastrados[]=['id'=>$insert->id_telefne,'telefone'=>$telefone,'posicao'=>$contador];            
-            unset($valores);
-            unset($campos);
-            unset($dadosTRATADOS);
         }
         
         return $numerosCadastrados;
