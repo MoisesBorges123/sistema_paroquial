@@ -119,19 +119,19 @@ class Dizimista extends Controller
          * um cep.
          */
         if(strlen($dado)==9 && strstr($dado, '-',true)){
-            $logradouro = $this->logradouro->all()->where('cep',$dado)->first();
+            $logradouro = $this->logradouro->all()->where('cep',$dado);
         }else{
-            $logradouro = $this->logradouro->all()->where('rua',$dado)->first();            
+            $logradouro = $this->logradouro->all()->where('rua',$dado);            
         }
         
         if(!empty($logradouro->id_logradouro)){
             $registro = array(
-                'id_logradouro'=>$logradouro->id_logradouro,
-                'rua'=>$logradouro->rua,
-                'bairro'=>$logradouro->bairro,
-                'cep'=>$logradouro->cep,
-                'cidade'=>$logradouro->cidade,
-                'estado'=>$logradouro->estado
+                'id_logradouro'=>$logradouro[0]->id_logradouro,
+                'rua'=>$logradouro[0]->rua,
+                'bairro'=>$logradouro[0]->bairro,
+                'cep'=>$logradouro[0]->cep,
+                'cidade'=>$logradouro[0]->cidade,
+                'estado'=>$logradouro[0]->estado
             );
         }else{            
             $registro =false;

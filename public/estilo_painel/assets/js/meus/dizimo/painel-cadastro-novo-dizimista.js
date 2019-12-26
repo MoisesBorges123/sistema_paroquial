@@ -28,13 +28,22 @@ $(document).ready(function(){
                            cancelButtonText:"Não, é outra pessoa",
                            cancelButtonColor: '#d33',
                            //confirmButtonColor: '#43b51a',
-                      });
+                           icon:'question'
+                      }).then((result) => {
+                          if (result.value) {
+                            Swal.fire(
+                              'Deleted!',
+                              'Your file has been deleted.',
+                              'success'
+                            )
+                          }
+});
                        
                    }else if(data.id > 0 && data.dizimista==1){
                         Swal.fire({
                           title:'Woli',                         
                           html:"Ops! Esse dizimista já existe!",
-                          icon:'error',                                                          
+                          icon:'warning',                                                          
                       }).then((result) => {
                           if (result.value) {
                             $('#userName-22').val(null);
@@ -50,7 +59,7 @@ $(document).ready(function(){
     $(document).on('input','.dd',function(){
         if($(this).val().length==2){
             id = linha_telefone+22;
-            $('telefone-'+id).focus();
+            $('#telefone-'+id).focus();
         }
     }); //Após digitar o DD altere o foco para o telefone
     $(document).on('click','.adiciona-telefone',function(){
@@ -119,9 +128,9 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     $('.carregando').remove();
-                    
+                
                     console.log(data)
-                    if(data!=false){
+                    if(data['logradouro'][0]){
                         
                         $('#rua-22').val(data['logradouro'][0]);
                         $('#bairro-22').val(data['bairro'][0]);

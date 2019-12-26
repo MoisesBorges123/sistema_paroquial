@@ -143,8 +143,8 @@
                                         
                                         <div class="form-group row">
                                             <div class="col-md-12 col-sm-12">
-                                                
-                                                <textarea class="form-control" rows="4" name="obs_telefone" placeholder="Melhor horário para efetuar ligações">
+                                                <label>Melhor horário para efetuar ligações</label>
+                                                <textarea class="form-control" rows="4" name="obs_telefone" placeholder="">
                                                 
                                                 </textarea>
                                             </div>                                            
