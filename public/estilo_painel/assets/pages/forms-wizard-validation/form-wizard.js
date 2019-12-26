@@ -9,7 +9,13 @@
       //                time: false,
       //                clearButton: true
       //            });
-
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': _token
+            }
+        });
+        
       $("#basic-forms").steps({
           headerTag: "h3",
           bodyTag: "fieldset",
@@ -101,6 +107,9 @@
           headerTag: "h3",
           bodyTag: "fieldset",
           transitionEffect: "slideLeft",
+          enableKeyNavigation: true,
+          enablePagination: true,
+    
           onStepChanging: function(event, currentIndex, newIndex) {
 
               // Allways allow previous action even if the current formDizimista is not valid!
@@ -132,15 +141,50 @@
               }
           },
           onFinishing: function(event, currentIndex) {
-
-              formDizimista.validate().settings.ignore = ":disabled";
+             /* nome_validate = $(this).data("nome_validate");
+              $.ajax({
+                  url:nome_validate,
+                  type:"POST",
+                  dataType:"JSON",
+                  cache:false,
+                  beforeSend:function(){
+                      
+                  },
+                  success:function(){
+                      
+                  }
+              });*/
+              formDizimista.validate().settings.ignore = ":disabled";   
               return formDizimista.valid();
           },
           onFinished: function(event, currentIndex) {
-              alert("Submitted!");
-              $('.content input[type="text"]').val('');
-              $('.content input[type="email"]').val('');
-              $('.content input[type="password"]').val('');
+            
+               var form_data = $(this).serialize();
+                    var form_url = $(this).attr("action");
+                    var form_method = $(this).attr("method").toUpperCase();
+
+    
+                    
+                    $.ajax({
+                        url: form_url, 
+                        type: form_method,      
+                        data: form_data, 
+                        dataType:'JSON',
+                        cache: false,
+                        beforeSend:function(){
+                            alert('entrou');
+                        },
+                        success: function(data){                          
+                            console.log(data)
+                        if(data){
+                            swal("Parabens!", "Agora "+data.nome+" é um dizimista!", "success");
+                        }
+
+                        }           
+                    }); 
+              //$('.content input[type="text"]').val('');
+              //$('.content input[type="email"]').val('');
+             // $('.content input[type="password"]').val('');
           }
       }).validate({
           errorPlacement: function errorPlacement(error, element) {
@@ -148,6 +192,11 @@
               element.before(error);
           },
           rules: {
+              
+              d_nasc:{
+                required:true,
+                date:true
+              },
               confirm: {
                   equalTo: "#password-2"
               }

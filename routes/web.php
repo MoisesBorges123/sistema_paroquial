@@ -24,10 +24,11 @@ Route::get('/', function () {
 Route::group(['prefix'=>'painel/dizimo'],function(){
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
     Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
-    /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('FormEditar.Dizimista');
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
+    Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
+    Route::post('/busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
+    Route::post('/valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
+    /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Search.Dizimista');
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Insert.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Update.Dizimista');*/
 });
 
@@ -107,6 +108,7 @@ Route::group(['prefix'=>'/painel/diocese'],function(){
 //TRABALHANDO COM MISSAS
 Route::group(['prefix'=>'painel/missas'],function(){
     
+    //INTENÇÕES
     Route::group(['prefix'=>'/intecoes'],function(){
         Route::get('/minhas-intencoes','Painel\Missa\Intenção@index')->name("visualiza.Intencao");        
         Route::get('/cadastrar','Painel\Missa\Intenção@cadastro')->name("FormCadastro.Intencao");        

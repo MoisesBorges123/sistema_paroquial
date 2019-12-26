@@ -27,12 +27,13 @@
                 <h5>Insira os dados do novo dizimista</h5>              
 
             </div>
-            <div class="card-block">
-                <div class="row">
+            <div class="card-block bg-inverse">
+                <div class="row m-auto">
                     <div class="col-md-12">
                         <div id="wizard2">
                             <section>
-                                <form class="wizard-form" id="form-dizimista" action="#">
+                                <h2 id='teste'></h2>
+                                <form ajax="true" method="post" class="wizard-form" id="form-dizimista" action="{{route('Insert.Dizimista')}}">
                                     <h3> Dados Pessoais </h3>
                                     <fieldset>
                                         <div class="form-group row">
@@ -41,6 +42,7 @@
                                             </div>
                                             <div class="col-sm-12">
                                                 <input id="userName-22" name="nome" type="text" class=" form-control" required="">
+                                                <input id="existe" name="exite" type="hidden" value="0">
                                             </div>
                                         </div>                                       
                                         <div class="form-group row">
@@ -50,7 +52,10 @@
                                             <div class="col-sm-12">
                                                 <input id="d_nasc-22" name="d_nasc" type="date" class="form-control ">
                                             </div>
-                                        </div>                                        
+                                        </div> 
+                                        <div class="form-group row m-auto">
+                                            <img id='bem_vindo' src="{{asset('imagens/bem_vindo.png')}}">
+                                        </div>
                                     </fieldset>
                                     <h3> Endereço </h3>
                                     <fieldset>
@@ -58,8 +63,19 @@
                                             <div class="col-sm-12">
                                                 <label for="cep-2" class="block">CEP *</label>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-10">
                                                 <input id="cep-22" name="cep" type="text" minlength="9" class="form-control cep" required="">
+                                            </div>
+                                            <div class="col-sm-2" id="load_cep">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <label for="numero" class="block">Número *</label>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <input id="numero" name="num_casa" type="text" class="form-control" required="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -89,7 +105,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">Estado *</div>
                                             <div class="col-sm-12">
-                                                <select class="form-control required">
+                                                <select class="form-control required" name="estado" id='txt_estados'>
                                                     <option value="">Selecione seu Estado</option>
                                                     @foreach($estados as $uf)
                                                     <option value="{{$uf->id_estado}}">{{$uf->nome_estado}}</option>
@@ -99,8 +115,9 @@
                                         </div>
                                     </fieldset>
                                     <h3> Contato</h3>
-                                    <fieldset id='form-contato'>
-                                         <div class="form-group row">
+                                    <fieldset>
+                                        
+                                        <div class="form-group row" id='form-contato'>
                                             <div class="col-sm-11">
                                                 <label for="email-2" class="block">Email</label>
                                             </div>
@@ -108,9 +125,9 @@
                                                 <input id="email-22" name="email" type="email" class=" form-control">
                                             </div>
                                         </div>
-                                        <div class="form-group row linha-telefone" data-linha=1>
+                                        <div class="form-group row linha-telefone" id='linha1' >
                                             <div class="col-sm-12">
-                                                <label for="telefone-2" class="block">Telefone(1)</label>
+                                                <label for="telefone-2" class="block">Telefone</label>
                                             </div>
                                             <div class="col-sm-2" >
                                                 <input id="dd-22" name="dd[]" type="text" class="form-control dd" maxlength="2">
@@ -122,6 +139,15 @@
                                             <div class="col-sm-2">
                                                 <button class='btn btn-warning adiciona-telefone' data-linha=1  type='button'>+</button>
                                             </div>
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-md-12 col-sm-12">
+                                                
+                                                <textarea class="form-control" rows="4" name="obs_telefone" placeholder="Melhor horário para efetuar ligações">
+                                                
+                                                </textarea>
+                                            </div>                                            
                                         </div>
                                        
                                     </fieldset>
@@ -148,6 +174,21 @@
 @section('css')
 <!--forms-wizard css-->
 <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/jquery.steps/css/jquery.steps.css')}}">
+<link href="{{asset('estilo_painel/bower_components/sweetalert/css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('estilo_painel/bower_components/jquery-sweetalert2/css/sweetalert2.css')}}" rel="stylesheet" type="text/css"/>
+
+<style>
+    #bem_vindo{
+        width: 83%;
+    }
+    .error{
+        background: antiquewhite;
+    }
+    .negrito{
+        font-weight: 800;
+        color:#000000;
+    }
+</style>
 @endsection
 @section('javascript')
 <!-- i18next.min.js -->
@@ -164,7 +205,15 @@
 <script src="{{asset('estilo_painel/assets/js/form-wizard/underscore-min.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
 <!-- Custom js -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        busca_cep = "{{route('BuscaCep.Dizimista')}}";
+        nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
+    });
+</script>
 <script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>
 <script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-cadastro-novo-dizimista.js')}}"></script>
 @endsection
