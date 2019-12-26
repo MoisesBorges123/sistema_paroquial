@@ -175,12 +175,18 @@
 <!--forms-wizard css-->
 <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/jquery.steps/css/jquery.steps.css')}}">
 <link href="{{asset('estilo_painel/bower_components/sweetalert/css/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('estilo_painel/bower_components/jquery-sweetalert2/css/sweetalert2.css')}}" rel="stylesheet" type="text/css"/>
+
 <style>
     #bem_vindo{
         width: 83%;
     }
     .error{
         background: antiquewhite;
+    }
+    .negrito{
+        font-weight: 800;
+        color:#000000;
     }
 </style>
 @endsection
@@ -199,11 +205,13 @@
 <script src="{{asset('estilo_painel/assets/js/form-wizard/underscore-min.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
-<script src="{{asset('estilo_painel/bower_components/sweetalert/js/sweetalert.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
 <!-- Custom js -->
 <script type="text/javascript">
     $(document).ready(function(){
         busca_cep = "{{route('BuscaCep.Dizimista')}}";
+        nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
     });
 </script>
 <script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>

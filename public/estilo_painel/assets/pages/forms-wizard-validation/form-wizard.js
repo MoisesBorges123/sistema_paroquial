@@ -192,6 +192,11 @@
               element.before(error);
           },
           rules: {
+              
+              d_nasc:{
+                required:true,
+                date:true
+              },
               confirm: {
                   equalTo: "#password-2"
               }

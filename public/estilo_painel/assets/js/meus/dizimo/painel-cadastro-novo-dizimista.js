@@ -5,8 +5,8 @@ $(document).ready(function(){
     //CAMPOS DO CADASTRO DE TELEFONE
     var linha_telefone = 1;
     $('.clearfix').addClass('bg-inverse');
-    $(document).on('input','#userName-22',function(){
-        settimeout(function(){
+    $(document).on('blur','#userName-22',function(){
+        
             var nome = $('#userName-22').val();
             $.ajax({
                 url:nome_duplicidade,
@@ -17,12 +17,35 @@ $(document).ready(function(){
                   
                 },
                 success: function(data){
-                   if(data.id>0){
-                       swap('OPS!','','warning');
+                   if(data.id>0 && data.dizimista==0){
+                      Swal.fire({
+                          title:'Woli',
+                         
+                          html:"<h4>Acho que já conheço essa pessoa preciso que confirme os dados abaixo:</h4><br>"+
+                                  "<p>Nome: "+data.nome+"<br>Endereço: "+data.rua+", "+data.bairro+", CEP: "+data.cep+"</p>",
+                           showCancelButton: true,
+                           confirmButtonText:"Sim, é esta pessoa",
+                           cancelButtonText:"Não, é outra pessoa",
+                           cancelButtonColor: '#d33',
+                           //confirmButtonColor: '#43b51a',
+                      });
+                       
+                   }else if(data.id > 0 && data.dizimista==1){
+                        Swal.fire({
+                          title:'Woli',                         
+                          html:"Ops! Esse dizimista já existe!",
+                          icon:'error',                                                          
+                      }).then((result) => {
+                          if (result.value) {
+                            $('#userName-22').val(null);
+                          }
+                        });
+                       
                    }
                 }
             });
-        },2000);
+       
+        
     });
     $(document).on('input','.dd',function(){
         if($(this).val().length==2){
@@ -112,30 +135,3 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(e) {
-    /*
-    $("form[ajax=true]").submit(function(e) {
-        
-        e.preventDefault();
-        
-        var form_data = $(this).serialize();
-        var form_url = $(this).attr("action");
-        var form_method = $(this).attr("method").toUpperCase();
-        
-        $("#loadingimg").show();
-        
-        $.ajax({
-            url: form_url, 
-            type: form_method,      
-            data: form_data,     
-            cache: false,
-            success: function(returnhtml){                          
-                if(returnhtml)
-                $("#teste").html(returnhtml); 
-                                   
-            }           
-        });    
-        
-    });
-    */
-});

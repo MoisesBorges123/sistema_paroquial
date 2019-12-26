@@ -26,6 +26,7 @@ Route::group(['prefix'=>'painel/dizimo'],function(){
     Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
     Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
     Route::post('/busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
+    Route::post('/valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
     /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Search.Dizimista');
     Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Update.Dizimista');*/

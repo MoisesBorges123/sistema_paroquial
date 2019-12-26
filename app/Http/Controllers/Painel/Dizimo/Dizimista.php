@@ -13,6 +13,7 @@ use App\Models\Painel\Enderecos\Logradouros;
 use App\Models\Painel\Enderecos\Enderecos;
 use App\Models\Painel\Telefone\Telefones;
 use App\Models\Painel\Enderecos\Estado;
+use Illuminate\Support\Facades\DB;
 class Dizimista extends Controller
 {
     //
@@ -53,12 +54,27 @@ class Dizimista extends Controller
     }//ATUALIZAR UM REGISTRO
     public function pessoas_iguais(Request $request){
         extract($request->except('_token'));
-        $existe_pessoa=$this->pessoas->all()->where('nome','like','%'.$nome.'%')->first();        
-        if(!empty($existe_pessoa->nome)){
+        $existe_pessoa=DB::table('pessoas')
+                ->where('nome','=',$nome)
+                ->join('enderecos','pessoas.endereco','=','enderecos.id_endereco')
+                ->join('logradouros','enderecos.logradouro','=','logradouros.id_logradouro')
+                ->get(); 
+        if(!empty($existe_pessoa[0]->id_pessoa)){
+        $existe_dizimista=DB::table('dizimistas')->where('pessoa','=',$existe_pessoa[0]->id_pessoa)->get();
+            if(!empty($existe_dizimista[0]->id_dizimista)){
+                $dizimista=1;
+            }else{
+                $dizimista=0;
+            }
             $resposta = array(
-                'nome'=>$existe_pessoa->nome,
-                'id'=>$existe_pessoa->id_pessoa,
-                'data_nascimento'=>$existe_pessoa->d_nasc
+                'nome'=>$existe_pessoa[0]->nome,
+                'id'=>$existe_pessoa[0]->id_pessoa,
+                'rua'=>$existe_pessoa[0]->rua,
+                'bairro'=>$existe_pessoa[0]->bairro,
+                'cep'=>$existe_pessoa[0]->cep,
+                'cidade'=>$existe_pessoa[0]->cidade,
+                'data_nascimento'=>$existe_pessoa[0]->d_nasc,
+                'dizimista'=>$dizimista
             );
         }else{
             $resposta = array(
