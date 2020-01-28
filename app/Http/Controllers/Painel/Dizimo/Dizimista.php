@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Painel\Dizimo;
-
+use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Dizimo\Dizimistas;
@@ -39,10 +39,13 @@ class Dizimista extends Controller
         $this->endereco = $location;        
         $this->estado = $state;
     }
-    
+    public function aviso_morte(){
+        
+
+    }//INFORMAR QUE O DIZIMISTA FALECEU
     public function index(){
-        $ativo = $this->situacao->all()->where('descricao','Registro Ativo');
-        $query = $this->meus_dizimistas->all()->where('situacao',$ativo);
+        $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
+        $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
         $tituloPagina = "Meus Dizimistas";
         $page_header = "Dizimistas da Catedral";
         $descricao_page_header="";
@@ -52,20 +55,130 @@ class Dizimista extends Controller
     public function update(){
         
     }//ATUALIZAR UM REGISTRO
+    public function transformar_em_dizimista_dados_adicionais(Request $request){
+        
+        if(!empty($request->input('txt_telefone'))){
+            $inputs  = explode(')',trim($request->input('txt_telefone')));
+            $dd = str_replace("(", null, $inputs[0]);
+            $numero = $inputs[1];
+            $dados=[
+                'dd'=>$dd,
+                'numero'=>$numero,
+                'pessoa'=>$request->input('pessoa')
+            ];
+            
+            $valida_telefone = validator($dados, $this->telefone->rules);
+            if($valida_telefone->fails()){
+                $erro= $valida_telefone->fails();
+            }else{
+                $insert_telefone = $this->telefone->create($dados);
+                
+                if($insert_telefone->id_telefone){
+                    $insert_dizimista=$this->dizimistas->create(['pessoa'=>$request->input('pessoa'),'d_cadastro'=>date('Y-m-d',time()), 'situacao'=>1]);
+                    $erro=0;
+                }
+            }
+            
+            
+        }
+      
+        if(!empty($request->input('cep'))){ // Não está Testado
+            
+            $logradouro=$this->pesquisar_endereco($request);
+            if(!$logradouro){
+                $erro=1;
+            }else{
+                $dados_logradouro = [
+                    'rua'=>$logradouro->rua,
+                    'bairro'=>$logradouro->bairro,
+                    'cep'=>$logradouro->cep,
+                    'cidade'=>$logradouro->cidade,
+                    'estado'=>$logradouro->estado                  
+                    
+                ];
+                $valida_logradouro = validator($dados_logradouro,$this->logradouro->rules);
+            }   if(!$valida_logradouro->fails()){
+                    $erro= $valida_logradouro->fails;
+                }else{
+                    $insert_logradouro = $this->logradouro->create($dados_logradouro);
+                    if(!$insert_logradouro->id_logradouro){
+                        $erro=1;
+                    }else{
+                        $dados_endereco = [
+                            'logadouro'=>$insert_logradouro->id_logradouro,
+                            'num_casa'=>$request->input('num_casa'),
+                            'apartamento'=>$request->input('apartamento'),
+                            'complemento'=>$request->input('complemento'),
+                            'observacoes'=>$request->input('observacoes'),
+                            ];
+                        $valida_endereco = validator($dados_endereco,$this->endereco->rules);
+                        if($valida_endereco->fails()){
+                            $erro=1;
+                        }else{
+                            $insert_endereco = $this->endereco->create($dados_endereco);
+                            if($insert_endereco->id_endereco){
+                                $pessoa = $this->pessoas->find($request->input('pessoa'));
+                                $update = $pessoa->update(['endereco'=>$insert_endereco->id_endereco]);
+                                
+                            }
+                        }
+                        
+                    }
+                }
+               
+        }
+        
+        
+        if(!empty($request->input('d_nasc'))){
+            $pessoa = $this->pessoas->find($request->input('pessoa'));
+            $update = $pessoa->update(['d_nasc'=>$request->input('d_nasc')]);
+        }
+         if(empty($erro)){
+                    return array('erro'=>0);
+                }else{
+                    return array('erro'=>$erro);
+                    
+                }
+    }
+    public function transformar_em_dizimista(Request $request){
+        $pessoa = $request->input('pessoa');
+        $dizimista = $this->insert_dizimista($pessoa);
+        if(!empty($dizimista->id_dizimista)){
+            $resposta = array(
+              'id'  => $dizimista->id_dizimista,
+              'cadastro' => true
+            );
+        }else{
+            $resposta = array(
+              'id'  => 0,
+              'cadastro' => false
+            );
+            
+        }
+        return $resposta;
+    }    
     public function pessoas_iguais(Request $request){
         extract($request->except('_token'));
         $existe_pessoa=DB::table('pessoas')
                 ->where('nome','=',$nome)
                 ->join('enderecos','pessoas.endereco','=','enderecos.id_endereco')
-                ->join('logradouros','enderecos.logradouro','=','logradouros.id_logradouro')
+                ->join('logradouros','enderecos.logradouro','=','logradouros.id_logradouro')               
                 ->get(); 
         if(!empty($existe_pessoa[0]->id_pessoa)){
         $existe_dizimista=DB::table('dizimistas')->where('pessoa','=',$existe_pessoa[0]->id_pessoa)->get();
+        $telefone = $this->telefone->all()->where('pessoa','=',$existe_pessoa[0]->id_pessoa)->first();
             if(!empty($existe_dizimista[0]->id_dizimista)){
                 $dizimista=1;
+                
             }else{
-                $dizimista=0;
+                $dizimista=0;                
             }
+            
+            if(!empty($telefone->numero))
+                $numero = $telefone->numero;
+            else
+                $numero = null;
+            
             $resposta = array(
                 'nome'=>$existe_pessoa[0]->nome,
                 'id'=>$existe_pessoa[0]->id_pessoa,
@@ -74,7 +187,9 @@ class Dizimista extends Controller
                 'cep'=>$existe_pessoa[0]->cep,
                 'cidade'=>$existe_pessoa[0]->cidade,
                 'data_nascimento'=>$existe_pessoa[0]->d_nasc,
-                'dizimista'=>$dizimista
+                'telefone'=>$numero,
+                'dizimista'=>$dizimista,
+                'num_casa'=>$existe_pessoa[0]->num_casa
             );
         }else{
             $resposta = array(
@@ -292,4 +407,4 @@ class Dizimista extends Controller
         $estados = $this->estado->all()->sortBy('nome_estado');
         return view('painel\dizimo\form-cadastro-dizimista',compact('tituloPagina','page_header','descricao_page_header','estados'));
     }//DIRECIONA O FORMULARIO PARA CADASTRAR UM NOVO DIZIMISTA
-}
+}   

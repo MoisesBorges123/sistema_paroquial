@@ -27,9 +27,14 @@ Route::group(['prefix'=>'painel/dizimo'],function(){
     Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
     Route::post('/busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
     Route::post('/valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
-    /*Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Delete.Dizimista');
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Search.Dizimista');
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Update.Dizimista');*/
+    Route::post('/pessoa/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista')->name('SerDizimista.Dizimista');
+    Route::post('/pessoa/outros-dados/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista_dados_adicionais')->name('SerDizimista2.Dizimista');
+    Route::post('/aviso/morte/','Painel\Dizimo\Dizimista@aviso_morte')->name('Aviso.Morte');
+    
+    //DEVOLUÇÃO DE DIZIMO
+    Route::group(['prefix'=>'/devolucao'],function(){
+        Route::get('/devolucao/{dizimista?}','Painel\Dizimo\Devolucoes@devolver')->name('Devolucoes.devolver_dizimo');
+    });
 });
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
@@ -148,3 +153,5 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
     Route::get('/status/excluir/{id}','Painel\Configuracoes\Situacao@delete')->name("Excluir.Situacoes");
 });
 
+Route::get('notfound','Errors\Errors@pagenotfound')->name('404'); 
+ 

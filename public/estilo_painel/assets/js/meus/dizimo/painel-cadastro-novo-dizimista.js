@@ -1,11 +1,20 @@
 
 $(document).ready(function(){
+    
+   
     $('.cep').mask('00000-000');
     $('.phone').mask('0000-0000');
     //CAMPOS DO CADASTRO DE TELEFONE
     var linha_telefone = 1;
     $('.clearfix').addClass('bg-inverse');
-    $(document).on('blur','#userName-22',function(){
+    $(document).on('input','#userName-22',function(){
+           
+        clearTimeout(this.interval);
+   
+         
+        this.interval = setTimeout(function () {
+           
+      
         
             var nome = $('#userName-22').val();
             $.ajax({
@@ -19,8 +28,11 @@ $(document).ready(function(){
                 success: function(data){
                    if(data.id>0 && data.dizimista==0){
                       Swal.fire({
-                          title:'Woli',
                          
+                          title:"<h2 style='margin-top:auto;'>Woli</h2> <img src = '"+woli+"' width='100' height='70'>",
+                          allowOutsideClick:false,
+                          allowEscapeKey:false,
+                          allowEnterKey:false,
                           html:"<h4>Acho que já conheço essa pessoa preciso que confirme os dados abaixo:</h4><br>"+
                                   "<p>Nome: "+data.nome+"<br>Endereço: "+data.rua+", "+data.bairro+", CEP: "+data.cep+"</p>",
                            showCancelButton: true,
@@ -31,17 +43,122 @@ $(document).ready(function(){
                            icon:'question'
                       }).then((result) => {
                           if (result.value) {
-                            Swal.fire(
-                              'Deleted!',
-                              'Your file has been deleted.',
-                              'success'
-                            )
+                              if(data.data_nascimento==null || data.telefone==null){
+                              //if(data.cidade==null || data.bairro==null || data.data_nascimento==null || data.cep==null || data.telefone==null || (data.num_casa == null && data.apta==null)){ 
+                                  
+                                    
+                                  if(data.cidade==null){
+                                    var cidade = '<br><label>Cidade</label><input class="form-control" name="txt_cidade" required>';
+                                    
+                                  }else{
+                                    var cidade=' ';
+                                  }
+                                  if(data.num_casa==null){
+                                    var num_casa = '<br><label>Cidade</label><input class="form-control" name="txt_cidade" required>';
+                                    
+                                  }else{
+                                    var num_casa=' ';
+                                  }
+                                  if(data.num_casa==null){
+                                    var num_casa = '<br><label>Cidade</label><input class="form-control" name="txt_cidade" required>';
+                                    
+                                  }else{
+                                    var num_casa=' ';
+                                  }
+                                  
+                                  if(data.bairro==null){
+                                    var bairro = '<br><label>Bairro</label><input class="form-control" name="txt_bairro" required>';
+                                   
+
+                                  }else{
+                                      var bairro=' ';
+                                  }
+                                  if(data.cep==null){
+                                    var cep = '<br><label>CEP</label><input class="form-control cep" type="text" name="txt_cep" required>';
+                              
+                                      
+                                  }else{
+                                      var cep=' ';
+                                  }
+                                  if(data.data_nascimento==null){
+                                    
+                                    var nascimento = '<label>Data Nascimento</label><input type="date" class="form-control" name="d_nasc" id="txt_nasciemento" required>';
+                                      
+                                  }else{
+                                      var nascimento=' ';
+                                  }
+                                  if(data.telefone==null){
+                                   
+                                    var telefone = '<br><label>Telefone</label><input class="phone_area-code form-control" name="txt_telefone" required>';
+                                      
+                                  }else{
+                                      var telefone=' ';
+                                  }
+                                  var _token  = '<input type="hidden" name="_token" value="'+token+'">';
+                                  var id  = '<input type="hidden" name="pessoa" value="'+data.id+'">';
+                           const { value: formValues } =  Swal.fire({
+                               title:"<h2 style='margin-top:auto;'>Woli</h2> <img src = '"+woli+"' width='100' height='70'>",
+                               allowOutsideClick:false,
+                          allowEscapeKey:false,
+                          allowEnterKey:false,                                                              
+                               html:"<h5>Quase tudo pronto, por favor ajude o <b>Woli</b> terminar de preencher esses dados para inserir o novo dizimista.<br><br></h5><form method='POST' id='form_dizimista'> "+id+_token+nascimento+cep+bairro+cidade+telefone+"</form>",
+                               focusConfirm: false,
+                               confirmButtonText:"Enviar &nbsp;<i class=\"icofont icofont-location-arrow\"></i>",
+                               showLoaderOnConfirm: true,
+                               preConfirm:()=>{
+                                   
+                                
+                                   
+                                   fetch(
+                                           salvar_outros_dados,//Caminho
+                                           {
+                                            credentials: "same-origin",
+                                            method:'POST',
+                                            body: new FormData(document.getElementById('form_dizimista'))
+                                           }        
+                                   
+                                       ).then(response =>{
+                                           var resposta = response.json();
+                                           console.log(resposta.erro);
+                                           if (resposta.erro==0){
+                                               swal.fire('Parabens!', 'Dizimista cadastrado com sucesso.','success');
+                                           }else{
+                                               swal.fire('OPS!', 'Ocorreu um erro inesperado.','error');
+                                               
+                                           }
+                                       });
+                               },
+                                allowOutsideClick: () => !Swal.isLoading()
+                           });
+                       
+                          }else{ // SE TODOS OS CAMPOS JÁ ESTÃO PREENCHIDOS ENTÃO CADASTRE O DIZIMISTA
+                              $.ajax({
+                                  url:ser_dizimista,
+                                  data:{pessoa:data.id},
+                                  dataType:'JSON',
+                                  type:'POST',
+                                  success: function(data2){
+                                      
+                                      if(data2.cadastro==true){
+                                          Swal.fire("Parabéns!",data.nome+" agora é um dizimista!","success");
+                                          setTimeout(function(){
+                                              window.location.href=meus_dizimistas;
+                                          },3000);
+                                      }else{
+                                          Swal.fire("Woli","Aconteceu um problema inesperado, por favor tente mais tarde.","error");
+                                          
+                                      }
+                                  }
+                                  
+                                          
+                              });
                           }
+                      }
 });
                        
                    }else if(data.id > 0 && data.dizimista==1){
                         Swal.fire({
-                          title:'Woli',                         
+                           title:"<h2 style='margin-top:auto;'>Woli</h2> <img src = '"+woli+"' width='100' height='70'>",
                           html:"Ops! Esse dizimista já existe!",
                           icon:'warning',                                                          
                       }).then((result) => {
@@ -53,7 +170,10 @@ $(document).ready(function(){
                    }
                 }
             });
-       
+         },
+                500//Tempo de Espera para executar a função
+                );
+    
         
     });
     $(document).on('input','.dd',function(){

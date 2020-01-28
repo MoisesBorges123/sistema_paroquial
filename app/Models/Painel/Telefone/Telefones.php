@@ -12,7 +12,7 @@ class Telefones extends Model
     protected $fillable=['dd','numero','pessoa'];
     public  $rules=[
         'dd'=>'max:2|min:2',
-        'numero'=>'required|min:5|maz:15',
+        'numero'=>'required|min:5|max:15',
         'pessoa'=>'required|numeric'
         
     ];

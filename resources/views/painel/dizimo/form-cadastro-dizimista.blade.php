@@ -205,13 +205,17 @@
 <script src="{{asset('estilo_painel/assets/js/form-wizard/underscore-min.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/form-wizard/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/form-validation/validate.js')}}"></script>
-<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
-<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
+
 <!-- Custom js -->
 <script type="text/javascript">
     $(document).ready(function(){
         busca_cep = "{{route('BuscaCep.Dizimista')}}";
         nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
+        ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
+        salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
+        meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
+        token = "{{ csrf_token() }}";
+        woli = "{{asset('imagens/woli.png')}}";
     });
 </script>
 <script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>

@@ -199,6 +199,24 @@
               },
               confirm: {
                   equalTo: "#password-2"
+              },
+              cep:{
+                  required:true
+              },
+              num_casa:{
+                  required:true
+              },
+              rua:{
+                  required:true
+              },
+              bairro:{
+                  required:true
+              },
+              cidade:{
+                  required:true
+              },
+              estado:{
+                  required:true
               }
           }
       });

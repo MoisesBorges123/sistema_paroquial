@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class FuncoesAdicionais extends Controller
-{
+{   
+    
+ 
+    
     public function getEndereco($cep) {
         $cep = preg_replace("/[^0-9]/", "", $cep);
         $url = "http://viacep.com.br/ws/$cep/xml/";

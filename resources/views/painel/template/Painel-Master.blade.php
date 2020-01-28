@@ -410,6 +410,8 @@
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/bootstrap-growl.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/notification/notification.js')}}"></script>
 
+    <script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
+<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
     
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/mascaras.js')}}"></script> 
     <script type="text/javascript">
@@ -489,6 +491,10 @@
             $(document).on('input','.phone_area-code',function(){
                 phoneValidate($(this));
                 
+            });
+            $(document).on('click','.phone_area-code',function(){
+                
+                $('.phone_area-code').mask('(00) 0000-0000');
             });
             
             function phoneValidate(telefone){
