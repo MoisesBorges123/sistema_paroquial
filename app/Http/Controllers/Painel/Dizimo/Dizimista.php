@@ -38,6 +38,7 @@ class Dizimista extends Controller
         $this->telefone = $phone;
         $this->endereco = $location;        
         $this->estado = $state;
+        
     }
     public function aviso_morte(){
         
@@ -45,12 +46,19 @@ class Dizimista extends Controller
     }//INFORMAR QUE O DIZIMISTA FALECEU
     public function index(){
         $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
+        $total_dizimistas = ceil(($this->situacao->all()->where('descricao','Registro Ativo')->first()->count())/10);
         $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
         $tituloPagina = "Meus Dizimistas";
         $page_header = "Dizimistas da Catedral";
         $descricao_page_header="";
-     
-        return view('painel\dizimo\tbl-dizimistas',compact('tituloPagina','page_header','descricao_page_header','query'));
+        $meses=[];
+        for($i=1;$i<=12;$i++){
+            $meses[]=['key'=>$i,'mes'=>$this->minhas_funcoes->data_portugues(3, $i)];
+        }
+        
+        
+        
+        return view('painel\dizimo\tbl-dizimistas',compact('tituloPagina','page_header','descricao_page_header','query','meses'));
     }//AO INICIAR EXECUTE ESSA FUNÇÃO
     public function update(){
         

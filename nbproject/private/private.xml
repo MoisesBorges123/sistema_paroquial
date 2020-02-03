@@ -3,20 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Funcoes/FuncoesAdicionais.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Missa/Intenção.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Cartas.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/tbl-dizimistas.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/edit-table/editable.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Dizimistas.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/devolucao/form-cadastro-devolucao.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Devolucoes.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-cadastro-novo-dizimista.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Telefone/Telefones.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/form-cadastro-dizimista.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-tbl-dizimistas.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Enderecos/Enderecos.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Dizimista.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Devolucoes_dizimo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Painel-Master.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-tbl-dizimistas.js</file>
         </group>
     </open-files>
 </project-private>

@@ -8,8 +8,12 @@ use App\Http\Controllers\Controller;
 class FuncoesAdicionais extends Controller
 {   
     
- 
-    
+    public function __construct() {
+        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+    }
+
+
     public function getEndereco($cep) {
         $cep = preg_replace("/[^0-9]/", "", $cep);
         $url = "http://viacep.com.br/ws/$cep/xml/";
@@ -355,6 +359,42 @@ class FuncoesAdicionais extends Controller
             }
             return $text;
         }
+    }
+    
+   
+    
+    /**
+     * Tipos Formato
+     * 1 - 01 de Janeiro de 2020
+     * 2 - Segunda-feira, 01 de Janeiro de 2020
+     * 3 - Janeiro
+     * 4 - Segunda-feira
+     * @param int $formato 
+     * @param string $data 
+     */  
+    
+    public function data_portugues($formato,$data){
+        
+        switch($formato){
+            case 1:
+                 $data = ucfirst(strftime('%d de %B de %Y',strtotime($data)));
+                break;
+            case 2:
+                 $data = ucfirst(strftime('%A, %d de %B de %Y',strtotime($data)));
+                break;
+            case 3:
+                 $data = ucfirst(strftime('%B',strtotime("2020-$data-01")));
+                break;
+            case 4:
+                 $data = ucfirst(strftime('%A',strtotime($data)));
+                break;
+            default:
+                $data = null;
+                break;
+                
+        }
+        return $data;
+        
     }
 
 }

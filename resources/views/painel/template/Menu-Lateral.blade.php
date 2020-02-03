@@ -147,7 +147,7 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="draggable.htm">
+                                            <a href="{{route('Visualizar.Dizimistas.Aniversariantes')}}">
                                                 <span class="pcoded-mtext">Carta de Aniverssário</span>
                                             </a>
                                         </li>

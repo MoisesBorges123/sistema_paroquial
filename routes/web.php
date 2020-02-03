@@ -35,7 +35,14 @@ Route::group(['prefix'=>'painel/dizimo'],function(){
     Route::group(['prefix'=>'/devolucao'],function(){
         Route::get('/devolucao/{dizimista?}','Painel\Dizimo\Devolucoes@devolver')->name('Devolucoes.devolver_dizimo');
     });
+    
+    //CARTAS DE ANIVESÁRIO
+    Route::group(['prefix'=>'/cartas'],function(){
+        Route::get('/aniversariantes','Painel\Dizimo\Cartas@index')->name('Visualizar.Dizimistas.Aniversariantes');
+    });
 });
+
+
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
 Route::group(['prefix'=>'painel/livros'], function () {

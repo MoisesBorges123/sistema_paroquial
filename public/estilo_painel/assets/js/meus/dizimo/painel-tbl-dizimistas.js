@@ -1,5 +1,7 @@
 $(document).ready(function(){
+   $('#mes_aniversario').slideToggle();
    
+   $('#busca_dizimista').select2();
     $(document).on('click','td',function(){
         var td = $(this);
         var input = td.querySelect('input');
@@ -11,13 +13,17 @@ $(document).ready(function(){
         //alert($(this).data('id_dizimista'));
         window.location.href=url_devolucao+'\/'+$(this).data('dizimista');
     });
-   /* $(document).on('click','.morte',function(){
+    $(document).on('click','.morte',function(){
         Swal.fire({
             title:"<h2 style='margin-top:auto;'>Woli</h2> <img src = '"+woli+"' width='100' height='70'>",
             html:"<h5>Tem certeza que "+$(this).data('nome')+" realmente morreu?</h5>"
                 +"<p>Essa pessoa será removida de todos os grupos e pastorais que ela participa.</p>",
         });
-    });*/
+    });
+    $(document).on('click','#btn-aniversariantes', function(){
+        $('#mes_aniversario').slideToggle(200);
+       
+    });
 });
 
 

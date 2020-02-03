@@ -21,7 +21,9 @@
         <!-- Google font--><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
         <!-- Required Fremwork -->
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/bootstrap/css/bootstrap.min.css')}}">
-
+        <!-- Select2 -->
+        <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/select2-develop/dist/css/select2.css')}}">
+        
         <!-- themify-icons line icon -->
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/icon/themify-icons/themify-icons.css')}}">
         <!-- ico font -->
@@ -111,7 +113,7 @@
 
                         <div class="navbar-container container-fluid">
                             <ul class="nav-left">
-                                <li class="header-search">
+                               <!-- <li class="header-search">
                                     <div class="main-search morphsearch-search">
                                         <div class="input-group">
                                             <span class="input-group-addon search-close"><i class="feather icon-x"></i></span>
@@ -119,7 +121,7 @@
                                             <span class="input-group-addon search-btn"><i class="feather icon-search"></i></span>
                                         </div>
                                     </div>
-                                </li>
+                                </li>-->
                                 <li>
                                     <a href="#!" onclick="javascript:toggleFullScreen()">
                                         <i class="feather icon-maximize full-screen"></i>
@@ -409,6 +411,8 @@
      <!-- notification js -->
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/bootstrap-growl.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/notification/notification.js')}}"></script>
+     <!-- Select2 js -->
+    <script src="{{asset('estilo_painel/bower_components/select2-develop/dist/js/select2.full.js')}}" type="text/javascript"></script>
 
     <script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
 <script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
