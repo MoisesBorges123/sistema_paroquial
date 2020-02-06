@@ -34,6 +34,7 @@ Route::group(['prefix'=>'painel/dizimo'],function(){
     //DEVOLUÇÃO DE DIZIMO
     Route::group(['prefix'=>'/devolucao'],function(){
         Route::get('/devolucao/{dizimista?}','Painel\Dizimo\Devolucoes@devolver')->name('Devolucoes.devolver_dizimo');
+        Route::get('/salvar/devolucao','Painel\Dizimo\Devolucoes@salvar_devolucao')->name('Salvar.devolucao');
     });
     
     //CARTAS DE ANIVESÁRIO

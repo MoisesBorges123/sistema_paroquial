@@ -131,7 +131,7 @@ $descricao_page_header='';
 <!-- Custom js -->
 <script type="text/javascript">
                                                     $(document).ready(function () {
-                                                        busca_cep = "{{route('BuscaCep.Dizimista')}}";
+                                                        salvar_devolucao = "{{route('BuscaCep.Dizimista')}}";
                                                         nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
                                                         ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
                                                         salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";

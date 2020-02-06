@@ -549,8 +549,22 @@ $(document).ready(function() {
     $('#lang-dt').DataTable({
         "language": {
             "decimal": ",",
-            "thousands": "."
-        }
+            "lengthMenu":     "Mostrar _MENU_ registros",
+            "thousands": ".",
+            "search":         "Buscar:",
+            "emptyTable":     "Nenhum registro cadastrado.",
+            "info":           "Mostrando _START_ de _END_ of _TOTAL_ registros",
+            "infoEmpty":      "Moostrando 0 de 0 registros",
+             paginate: {
+                first:    '«',
+                previous: '‹',
+                next:     '›',
+                last:     '»'
+            }
+        },
+        select: true,
+        compact:true
+        
     });
 
     var table = $('#dom-jqry').DataTable();
