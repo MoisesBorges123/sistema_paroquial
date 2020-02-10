@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
-     $('#devolucoes').Tabledit({
-         url:
+  /*   $('#devolucoes').Tabledit({
+         
     editButton: false,
     deleteButton: false,
     hideIdentifier: true,
@@ -10,7 +10,7 @@ $(document).ready(function(){
         identifier: [0, 'id'],identifier: [0, 'id'],
         editable: [[1, 'Ano'], [2, 'Janeiro'], [3,'Fevereiro'], [4,'Março'], [5,'Abril'], [6,'Maio'], [7,'Junho'], [8,'Julho'], [9,'Agosto'], [10,'Setembro'], [11,'Outubro'],[12,'Novembro'],[13,'Dezembro']]
     }
-});
+});*/
    $('#mes_aniversario').slideToggle();
    
    $('#busca_dizimista').select2();

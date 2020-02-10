@@ -5,13 +5,16 @@
         <group>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/data-table/js/data-table-custom.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Funcoes/FuncoesAdicionais.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-tbl-devolucoes.js</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Cartas.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/tbl-dizimistas.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Exceptions/Handler.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/edit-table/editable.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Dizimista.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/devolucao/form-cadastro-devolucao.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-tbl-dizimistas.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Devolucoes.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Devolucoes_dizimo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Computadores/Computadores.php</file>
         </group>
     </open-files>
 </project-private>

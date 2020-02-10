@@ -50,6 +50,7 @@ $descricao_page_header='';
                     <thead style="font-size: 14px;">
                         <tr>
                             <th>Código</th>
+                            
                             <th>Ano</th>
                             <th>Janeiro</th>
                             <th>Fevereiro</th>
@@ -70,7 +71,7 @@ $descricao_page_header='';
                         <tr>
                             
                             @foreach($anos as $mes)
-                            <td class="tabledit-view-mode"><span class="tabledit-span">{{$mes}}</span>
+                            <td class="tabledit-view-mode"><span class="tabledit-span"> {{$mes}}</span>
                                 <input class="tabledit-input form-control input-sm money" type="text" name="{{$mes}}" value="{{trim($mes)}}">
                                 
                             </td>
@@ -81,7 +82,7 @@ $descricao_page_header='';
                     </tbody>
                 </table>
             </div>
-            <button type="button" class="btn btn-primary waves-effect waves-light add" onclick="add_row();">Add Row
+            <button type="button" class="btn btn-primary waves-effect waves-light add" onclick="add_row();">Adicionar Linha
             </button>
         </div>
     <!--Edit With Click card end -->
@@ -108,6 +109,9 @@ $descricao_page_header='';
         font-weight: 800;
         color:#000000;
     }
+    .input-lg{
+        width:130px;
+    }
 </style>
 @endsection
 @section('javascript')
@@ -131,15 +135,16 @@ $descricao_page_header='';
 <!-- Custom js -->
 <script type="text/javascript">
                                                     $(document).ready(function () {
-                                                        salvar_devolucao = "{{route('BuscaCep.Dizimista')}}";
+                                                        salvar_devolucao = "{{route('Salvar.devolucao')}}";
                                                         nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
                                                         ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
                                                         salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
                                                         meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
                                                         token = "{{ csrf_token() }}";
                                                         woli = "{{asset('imagens/woli.png')}}";
+                                                        dizimista = "{{$dados['dizimista']['id']}}";
                                                     });
 </script>
 <script src="{{asset('estilo_painel/assets/pages/forms-wizard-validation/form-wizard.js')}}"></script>
-<script src="{{asset('estilo_painel/assets/js/meus/dizimo/painel-tbl-dizimistas.js')}}"></script>
+<script src="{{asset('estilo_painel/assets/js/meus/dizimo/painel-tbl-devolucoes.js')}}"></script>
 @endsection

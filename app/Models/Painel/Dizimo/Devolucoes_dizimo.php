@@ -12,8 +12,7 @@ class Devolucoes_dizimo extends Model
     protected $primaryKey = "id_devolucao";
     protected $fillable = [  
         
-        'dizimista',
-        'data_dev',        
+        'dizimista',               
         'valor',
         'ano_ref',
         'mes_ref',
@@ -24,7 +23,7 @@ class Devolucoes_dizimo extends Model
     public $rules =[  
         'dizimista'=>'required|numeric',
         'data_dev'=>'required|date',
-        'valor'=>'required|numeric',
+        'valor'=>'required',
         'ano_ref'=>'required|numeric',
         'mes_ref'=>'required'
         
