@@ -1,34 +1,12 @@
 
 <nav class="pcoded-navbar">
                         <div class="pcoded-inner-navbar main-menu">
-                            <!--Sistema 
-                            <div class="pcoded-navigatio-lavel">Sistema</div>
+                           
+                            
+                            <div class="pcoded-navigatio-lavel">Estacionamento</div>
                             
                             <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-home"></i></span>
-                                        <span class="pcoded-mtext">xxxx</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class="">
-                                            <a href="../../cadastros/modalidades_estacionamento/cadastrar.php">
-                                                <span class="pcoded-mtext">Novas Modalidades</span>
-                                            </a>
-                                        </li>
-                                        <li class="">
-                                            <a href="dashboard-crm.htm">
-                                                <span class="pcoded-mtext">CRM</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="dashboard-analytics.htm">
-                                                <span class="pcoded-mtext">Analytics</span>
-                                                <span class="pcoded-badge label label-info ">NEW</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
@@ -87,9 +65,9 @@
                                     </ul>
                                 </li>
                                 <li class="">
-                                    <a href="navbar-light.htm">
+                                    <a href="{{route('FluxoDiario.Visualizar')}}">
                                         <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
-                                        <span class="pcoded-mtext">Navigation</span>
+                                        <span class="pcoded-mtext">Entrada / Saída</span>
                                     </a>
                                 </li>
                                 <li class="pcoded-hasmenu">
@@ -118,7 +96,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                             Fim Sistema -->
+                             
                         
                             <div class="pcoded-navigatio-lavel">Dízimo</div>
                             <ul class="pcoded-item pcoded-left-item">

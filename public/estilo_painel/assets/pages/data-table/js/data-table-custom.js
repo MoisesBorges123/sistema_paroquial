@@ -562,6 +562,10 @@ $(document).ready(function() {
                 last:     '»'
             }
         },
+         buttons: [
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'}
+            ],
         select: true,
         compact:true
         

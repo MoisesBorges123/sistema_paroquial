@@ -29,22 +29,38 @@ $descricao_page_header='';
 
     <!-- Edit With Click card start -->
     <div class="card">
-        <div class="card-header">
-            <h3>{{$dados['dizimista']['nome']}}</h3>
+        <div class="card-header" >
+            <h3 id="titulo-nome">{{$dados['dizimista']['nome']}}</h3>
             <div class='row'>
                 <div class="col-md-12">
-                    <span>Nascido em {{date('d/m/Y',strtotime($dados['dizimista']['data_nascimento']))}}</span>
+                    <span id="titulo-nascimento">Nascido em {{date('d/m/Y',strtotime($dados['dizimista']['data_nascimento']))}}</span>
                 </div>
                 <div class="col-md-12">
                     <span>Dízimista desde {{date('d/m/Y',strtotime($dados['dizimista']['data_cadastro']))}}</span>
                 </div>
                 <div class="col-md-12">
-                    <span>{{$dados['dizimista']['rua']}}, {{$dados['dizimista']['numero']}}, {{$dados['dizimista']['apartamento']}} {{$dados['dizimista']['bairro']}}, cep: {{$dados['dizimista']['cep']}} {{$dados['dizimista']['cidade']}}, {{$dados['dizimista']['estado']}}</span>                    
+                    <span id="titulo-endereco">{{$dados['dizimista']['rua']}}, nº {{$dados['dizimista']['numero']}}, {{$dados['dizimista']['apartamento']}} {{$dados['dizimista']['bairro']}}, cep: {{$dados['dizimista']['cep']}} {{$dados['dizimista']['cidade']}}, {{$dados['dizimista']['estado']}}</span>                    
                 </div>
             </div>
-
+            @if($dados['dizimista']['situacao']==1)
+            <div class="row m-t-10">
+                <div class="col-md-2 col-sm-6 m-r-20">
+                    <button id="atualizar_cadastro" class="btn btn-primary">
+                        <i class="ion-loop"></i>
+                        Atualizar Cadastro
+                    </button>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <button id="excluir_cadastro" data-url='{{route('Deleta.Dizimista',$dados['dizimista']['id'])}}' class="btn btn-danger">
+                        <i class="ion-trash-b"></i>
+                        Excluir Cadastro
+                    </button>
+                </div>
+            </div>
+            @endif
         </div>
         <div class="card-block">
+            @if($dados['dizimista']['situacao']==1)
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="devolucoes">
                     <thead style="font-size: 14px;">
@@ -82,8 +98,16 @@ $descricao_page_header='';
                     </tbody>
                 </table>
             </div>
-            <button type="button" class="btn btn-primary waves-effect waves-light add" onclick="add_row();">Adicionar Linha
-            </button>
+            @else
+            <div class='row'>
+                <div class='col-md-6'>
+                    <p style='font-size: 30px;' >O cadastro foi <b>excluido!</b> &nbsp;&nbsp;<i style='font-size: 100px;' class="ion-sad" ></i></p>
+                    
+                </div>
+            </div>
+            @endif
+           <!-- <button type="button" class="btn btn-primary waves-effect waves-light add" onclick="add_year();">Adicionar Linha
+            </button>-->
         </div>
     <!--Edit With Click card end -->
     
@@ -111,6 +135,9 @@ $descricao_page_header='';
     }
     .input-lg{
         width:130px;
+    }
+    .label_alert{
+        font-size: 14px;
     }
 </style>
 @endsection
@@ -143,6 +170,11 @@ $descricao_page_header='';
                                                         token = "{{ csrf_token() }}";
                                                         woli = "{{asset('imagens/woli.png')}}";
                                                         dizimista = "{{$dados['dizimista']['id']}}";
+                                                        ano = {{$dados['ultimo_ano']}};
+                                                       buscar_dizimista = "{{route('Pesquisa_Cadastro.Dizimista')}}"
+                                                       busca_cep = "{{route('BuscaCep.Dizimista')}}";
+                                                       atualiza_dizimista = "{{route('Atualizar.Dizimista')}}"
+                                                       
                                                     });
 </script>
 <script src="{{asset('estilo_painel/assets/pages/forms-wizard-validation/form-wizard.js')}}"></script>

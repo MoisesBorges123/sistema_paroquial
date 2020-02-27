@@ -40,14 +40,48 @@ class Dizimista extends Controller
         $this->estado = $state;
         
     }
-    public function aviso_morte(){
+    public function buscar_dizimista(Request $request){
+        $cadastro=$this->meus_dizimistas->where('id_dizimista',$request->input('dizimista'))->first();
+        return $cadastro;
+    }
+    public function mostrar_Cadastros_Dizimistas($registros=1){
+        if($registros==1){
+            $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
+            $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
+        }elseif($registros==2){
+            $ativo = $this->situacao->all()->where('descricao','Deletado')->first();
+            $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
+        }elseif($registros==3){
+            $query = $this->meus_dizimistas->all();
+            
+        }else{
+            $query = null;
+        }
+        $buttoes=[];
+        if(count($query)>0){
+            foreach($query as $q){
+                
+                $butao='<button data-toggle="tooltip" id="excluir_cadastro" data-url="'.route('Deleta.Dizimista',$q->id_dizimista).'" data-placement="top" data-original-title="Excluir Cadastro" class="btn btn-danger btn-icon bt-table" data-dizimista="'.$q->id_dizimista.'">
+                            <i class="icofont icofont-trash"></i>
+                        </button>';
+                array_push($buttoes, $butao);
+            }
+        }
         
-
-    }//INFORMAR QUE O DIZIMISTA FALECEU
+        
+        return array(
+            'qtde_registros'=>count($query),
+            'query'=>$query,
+            'butao_excluir'=>$buttoes
+                );
+    }
     public function index(){
-        $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
-        $total_dizimistas = ceil(($this->situacao->all()->where('descricao','Registro Ativo')->first()->count())/10);
-        $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
+        //Registro Ativo
+            $ativo = $this->situacao->all()->where('descricao','Deletado')->first();
+            $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
+        
+        //$total_dizimistas = ceil(($this->situacao->all()->where('descricao','Registro Ativo')->first()->count())/10);
+        
         $tituloPagina = "Meus Dizimistas";
         $page_header = "Dizimistas da Catedral";
         $descricao_page_header="";
@@ -60,9 +94,109 @@ class Dizimista extends Controller
         
         return view('painel\dizimo\tbl-dizimistas',compact('tituloPagina','page_header','descricao_page_header','query','meses'));
     }//AO INICIAR EXECUTE ESSA FUNÇÃO
-    public function update(){
+    public function update(Request $request, $dizimista=0){
+            
+            $id_dizimista = $request->input('id_dizimista');
+            $cadastro = $this->meus_dizimistas->where('id_dizimista',$request->input('id_dizimista'))->first();
+            $update_endereco = $this->update_endereco($cadastro, $request);
+            $update_contato = $this->update_contato($cadastro, $request);
+            $update_pessoa = $this->update_pessoa($cadastro, $request);
+            if($update_pessoa && $update_contato && $update_pessoa){
+                $update = true;
+            }else{
+                $update=false;
+            }
+            $new_cadastro = $this->meus_dizimistas->where('id_dizimista',$id_dizimista)->first();
+            
+            $resposta= array(
+                'resposta'=>$update,
+                'cadastro'=>$new_cadastro
+            );
         
-    }//ATUALIZAR UM REGISTRO
+        return $resposta;
+        
+    }
+    private function update_pessoa($cadastro, Request $request){
+        if(!empty($request->input('nome')) && !empty($request->input('d_nasc')) && !empty($request->input('email'))){
+            $newNOME=$request->input('nome');
+            $newNascimento = $request->input('d_nasc');
+            $newEMAIL = $request->input('email');
+            $dados = [
+                'nome'=>$newNOME,
+                'd_nasc'=>$newNascimento,
+                'email'=>$newEMAIL
+                    
+            ];
+            $registro = $this->pessoas->find($cadastro->id_pessoa);
+            $update = $registro->update($dados);
+            if($update){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    private function update_contato($cadastro, Request $request){
+        if(!empty($request->input('telefone')) && !empty($request->input('dd'))){
+            $newDD = $request->input('dd');
+            $newFONE = $request->input('telefone');
+            $dados=[
+                'dd'=>$newDD,
+                'telefone'=>$newFONE
+            ];
+           $linha = $this->telefone->find($cadastro->id_telefone);
+           $update = $linha->update($dados);
+           if($update){
+               return true;
+           }else{
+               return false;
+           }
+            
+        }else{
+            return false;
+        }
+    }
+    private function update_endereco($cadastro,Request $request){
+        
+        if(!empty($request->input('apartamento'))){
+            $apto=$request->input('apartamento');
+        }else{
+            $apto = null;
+        }
+        if($cadastro->cep != $request->input('cep')){
+            $busca_cep=$this->pesquisar_endereco($request);
+            if(empty($busca_cep->id_logradouro)){                
+                $id_logradouro=$this->insert_logradouro($busca_cep);               
+            }else{
+                $id_logradouro = $busca_cep->id_logradouro;
+            }
+           
+            //ATUALIZAR NA TABELA ENDEREÇO
+            $dados = [
+                'logradouro'=> $id_logradouro,
+                'num_casa'=> $request->input('num_casa'),
+                'apartamento'=>$apto
+                
+            ];
+            
+        }else{
+            $dados = [                
+                'num_casa'=> $request->input('num_casa'),
+                'apartamento'=>$apto                
+            ];
+        }
+        
+        $endereco = $this->endereco->find($cadastro->id_endereco);
+        $update = $endereco->update($dados);
+        
+        if($update){
+            return true;
+        }else{
+            return false;
+        }
+    }    
     public function transformar_em_dizimista_dados_adicionais(Request $request){
         
         if(!empty($request->input('txt_telefone'))){
@@ -208,7 +342,16 @@ class Dizimista extends Controller
         return $resposta;
     }
     public function pesquisar_endereco(Request $request){
+        /*
+         * Quando o Cep não encontrado o array retorna vazio
+         */
+        if(empty($request->input('cep'))){
+            exit();
+            return false;
+        }
+        
         $cep = $request->input('cep');
+        
         $endereco = $this->search_adress($cep);
         if($endereco==false){
             $endereco=$this->minhas_funcoes->getEndereco($cep);
@@ -216,16 +359,19 @@ class Dizimista extends Controller
             $estado = $this->estado                   
                     ->where('sigla',$endereco->uf)
                     ->first();   
-            
+           
             if(!empty($endereco)){
-                $localidade = [ 
+                $localidade = array( 
+                    
                     'cep'=>$endereco->cep,
+                    'rua'=>$endereco->logradouro,
                     'logradouro'=>$endereco->logradouro,
                     'bairro'=>$endereco->bairro,
                     'cidade'=>$endereco->localidade,
                     'estado'=>$estado->id_estado,
+                    'nome_estado'=>$estado->nome_estado,
                     'complemento'=>$endereco->complemento
-                    ];
+                    );
                 return $localidade;
             }else{
                 return $endereco = array('resposta'=>false);
@@ -242,19 +388,19 @@ class Dizimista extends Controller
          * um cep.
          */
         if(strlen($dado)==9 && strstr($dado, '-',true)){
-            $logradouro = $this->logradouro->all()->where('cep',$dado);
+            $logradouro = $this->logradouro->where('cep',$dado)->first();
         }else{
-            $logradouro = $this->logradouro->all()->where('rua',$dado);            
+            $logradouro = $this->logradouro->where('rua',$dado)->first();            
         }
         
         if(!empty($logradouro->id_logradouro)){
-            $registro = array(
-                'id_logradouro'=>$logradouro[0]->id_logradouro,
-                'rua'=>$logradouro[0]->rua,
-                'bairro'=>$logradouro[0]->bairro,
-                'cep'=>$logradouro[0]->cep,
-                'cidade'=>$logradouro[0]->cidade,
-                'estado'=>$logradouro[0]->estado
+            $registro = array(  
+                'id_logradouro'=>$logradouro->id_logradouro,
+                'rua'=>$logradouro->rua,
+                'bairro'=>$logradouro->bairro,
+                'cep'=>$logradouro->cep,
+                'cidade'=>$logradouro->cidade,
+                'estado'=>$logradouro->estado
             );
         }else{            
             $registro =false;
@@ -405,8 +551,23 @@ class Dizimista extends Controller
           }
         }
     }//RESPONSÁVEL POR CADASTRAR TODOS OS DADOS PARA INSERIR UM NOVO DIZIMISTA NO SISTEMA
-    public function delete(){
+    public function delete($id_dizimista){
         
+        $dizimista = $this->dizimistas->find($id_dizimista);
+       $status_deletado=$this->situacao->where('descricao','deletado')->first();
+        if($dizimista->situacao==1){
+            $update=$dizimista->update(['situacao'=>$status_deletado->id_situacao]);
+            $status=false;
+        }else if($dizimista->situacao==3){
+            $status = true;
+        }else{
+            $status = false;
+        }
+        if(empty($update)){
+            return array('resposta'=>false,'excluido'=>$status);
+        }else{
+            return array('resposta'=>true);
+        }
     }
     public function cadastro(){
         $tituloPagina = "Novo Dizimista";

@@ -230,12 +230,12 @@ $(document).ready(function () {
     $('.passo10').fadeOut();
     $('.passo11').fadeOut();
     $('.passo12').fadeOut();
-    var _token = $('meta[name="csrf-token"]').attr('content');
+    /*var _token = $('meta[name="csrf-token"]').attr('content');
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': _token
         }
-    });
+    });*/
     rota_busca2 = "{{route('Mostrar.Padres')}}";
     rota_busca1 = "{{route('Pesquisa_Igreja.Batizado')}}";
     rota_busca0 = "{{route('Pesquisa_Folha.Batizado')}}";

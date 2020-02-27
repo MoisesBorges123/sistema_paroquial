@@ -43,7 +43,7 @@ class Devolucoes extends Controller
                 }
                 
             }else{
-               
+                var_dump($request->all());exit();
                 $ip=$request->ip();
                 $conhecido=$this->computadores->find($ip);
                 if(!$conhecido){
@@ -64,7 +64,7 @@ class Devolucoes extends Controller
     }
     public function devolver($dizimista=null){
         if(!empty($dizimista)&& is_numeric($dizimista)){
-            //$dados_devolucao= $this->devolucao->all()->last();
+            //$ultima_devolucao= $this->devolucao->all()->where('dizimista',$dizimista)->last();            
             $dados_devolucao = $this->buscar_ficha($dizimista);
             $dados_dizimista = $this->dizimista->find($dizimista);
             if(!empty($dados_dizimista->apartamento)){
@@ -74,9 +74,11 @@ class Devolucoes extends Controller
             }
             
             $dados = [
-                'devolucoes'=>$dados_devolucao,
+                'devolucoes'=>$dados_devolucao['tabela_devolucoes'],
+                'ultimo_ano'=>$dados_devolucao['ultimo_ano'],
                 'dizimista'=>[
                 'id'=>$dizimista,
+                'situacao'=>$dados_dizimista->situacao,
                 'nome' => $dados_dizimista->nome,
                 'data_nascimento'=> $dados_dizimista->d_nasc,
                 'rua'=>$dados_dizimista->rua,
@@ -107,7 +109,7 @@ class Devolucoes extends Controller
                     ->where('dizimista',$dizimista)               
                     ->sortby('ano_ref')
                     ->last();
-            if(($ultima_devolucao->ano_ref) < (date('Y',time()))){            
+            if(($ultima_devolucao->ano_ref) < ((date('Y',time())))){            
                 $intervalo = (date('Y',time())) - ($ultima_devolucao->ano_ref) ;
             }else{
                 $intervalo = ($ultima_devolucao->ano_ref) - ($primeira_devolucao->ano_ref);
@@ -118,7 +120,8 @@ class Devolucoes extends Controller
             $intervalo=0;
             $primeiro_ano = date('Y',time());
         }
-   
+        
+        $intervalo++; //Para mostrar 2 anos após a ultima devolução ou 2 anos após o atual
         
         $tabela_devolucoes=[];
         for($i=0;$i<=$intervalo;$i++){            
@@ -142,7 +145,12 @@ class Devolucoes extends Controller
                 
             }
         }
-        return $tabela_devolucoes;
+        $resposta = array(
+          'tabela_devolucoes'  =>$tabela_devolucoes,
+            'ultimo_ano'=>$ano
+        );
+        return $resposta;
+        //return $tabela_devolucoes;
        
     }
     private function buscar_devolucao($ano,$mes,$dizimista){

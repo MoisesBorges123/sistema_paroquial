@@ -36,7 +36,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/animate.css/css/animate.css')}}">
         <!-- Style.css -->
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/style.css')}}">
-
+       
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/jquery.mCustomScrollbar.css')}}">
         
         <!-- ion icon css -->
@@ -345,8 +345,8 @@
                                                 <div class="col-lg-8">
                                                     <div class="page-header-title">
                                                         <div class="d-inline">
-                                                            <h4>{{$page_header or "Sem Titulo"}}</h4>
-                                                            <span>{{$descricao_page_header or "Sem Descrição"}}</span>
+                                                            <h4>{{$page_header or ""}}</h4>
+                                                            <span>{{$descricao_page_header or ""}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,13 +413,20 @@
     <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/notification/notification.js')}}"></script>
      <!-- Select2 js -->
     <script src="{{asset('estilo_painel/bower_components/select2-develop/dist/js/select2.full.js')}}" type="text/javascript"></script>
+    
 
-    <script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/promise-polyfill.js')}}" type="text/javascript"></script>
-<script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
+    <script src="{{asset('estilo_painel/bower_components/jquery-sweetalert2/js/sweetalert2.js')}}" type="text/javascript"></script>
+   
     
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/mascaras.js')}}"></script> 
     <script type="text/javascript">
         $(document).ready(function () {
+             _token = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': _token
+                }
+            });
             $('.date').mask('00/00/0000');
             $('.time').mask('00:00');
             $('.date_time').mask('00/00/0000 00:00:00');

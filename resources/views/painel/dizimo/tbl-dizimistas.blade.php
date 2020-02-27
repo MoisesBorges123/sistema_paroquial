@@ -9,25 +9,9 @@
                 <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
             </div>            
 
-               <!-- <div class="col-md-4 col-lg-4 col-sm-12">
-                    <div class="header-search">
-                        <div class="main-search morphsearch-search">
-                            <div class="input-group">                                
-                                <select id='busca_dizimista' class="form-control" name="dizimista">
-                                  <option value=''>Pesquisar Dizimista...</option>
-                                    @foreach($query->all() as $dizimista)
-                                    <option value="{{$dizimista->id_dizimisa}}">{{$dizimista->nome}}</option>
-                                    @endforeach
-                                </select>
-                                
-                                <span class="input-group-addon search-btn bg-inverse"><i class="feather icon-search"></i></span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>-->
-            <div class="col-md-3 col-lg-4 col-sm-8" style="line-height: 24px;">
-                <div class="input-group" >
+            <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
+                <div class="icon-btn">
+                    <div class="input-group" >
                     <select class="form-control" id="mes_aniversario">
                         <option>Selecione o mês de aniversário</option>
                         @foreach($meses as $mes)
@@ -40,8 +24,25 @@
                         </button>
 
                     </div>
-                </div>
+                    </div>
+                </div>                
             </div>
+           
+            <div class="col-md-4 col-lg-3 col-sm-6" style="line-height: 24px;">
+                <div class="icon-btn">
+                    <div class="form-group row" >
+                    <label class='col-sm-4 col-form-label'>Mostrar</label>
+                    
+                    <select class="form-control col-sm-8" id='selecionar_registros'>
+                        <option value='1'>Apenas Ativos</option>
+                        <option value='2'>Apenas Excluidos</option>
+                        <option value='3'>Todos</option>                        
+                    </select>    
+         
+                    </div>
+                </div>                
+            </div>
+       
             
                  
             </div>
@@ -53,8 +54,8 @@
             <div class="card">
 
                 <div class="card-block">
-                    <div class="dt-responsive table-responsive">
-                        <table id="lang-dt" class="table table-striped table-bordered nowrap">
+                    <div class="dt-responsive table-responsive" id="mytable">
+                        <table id="dizimistas" class="table table-striped table-bordered nowrap">
                             @if(empty($query->all()))
                             <div class="alert">
                                 <div class="alert-default">
@@ -74,7 +75,7 @@
                             </thead>
                             <tbody id='tb_dados'>
                                 @foreach($query->all() as $dados)
-                                <tr>                               
+                                <tr id="linha{{$dados->id_dizimista}}">                               
                                     <td>{{$dados->id_dizimista}}</td>
                                     <td class="text-left">{{$dados->nome}}</td>                               
                                     <td class="text-center">{{$dados->rua}}, {{$dados->bairro}}, {{$dados->num_casa}} @if($dados->apartamento) , Apto {{$dados->apartamento}} @endif</td>                               
@@ -82,7 +83,7 @@
                                     <td class="text-center">{{date('d/m',strtotime($dados->d_nasc))}}</td>                               
                                     <td class="text-center">
                                         <div class="icon-btn">
-                                            <button data-dizimizta="{{$dados->id_situacao}}" class="btn btn-info btn-icon  bt-table" data-toggle="tooltip" data-placement="top" data-original-title="Ficha Completa">
+                                            <button data-dizimista="{{$dados->id_dizimista}}" class="btn btn-info devolver btn-icon  bt-table"  data-toggle="tooltip" data-placement="top" data-original-title="Ficha">
                                                 @if($dados->sexo==2)
                                                 <i class="icofont icofont-user-female"></i>
                                                 @elseif($dados->sexo==1)
@@ -94,24 +95,10 @@
 
 
 
-                                               <!--<button data-toggle="tooltip" data-placement="top" data-original-title="Informar Morte" class="btn btn-dark btn-icon morte" data-nome='{{$dados->nome}}' data-dizimizta="{{$dados->id_situacao}}">
-                                                   <i class="icofont icofont-skull-face"></i>
-                                               </button> -->
-
-
-
-
-                                            <button data-toggle="tooltip"  data-placement="top" data-original-title="Devolver Dízimo" class="btn btn-success btn-icon devolver bt-table"  data-dizimista="{{$dados->id_dizimista}}">
+                                          <!--  <button data-toggle="tooltip"  data-placement="top" data-original-title="Devolver Dízimo" class="btn btn-success btn-icon devolver bt-table"  data-dizimista="{{$dados->id_dizimista}}">
                                                 <i class="icofont icofont-money-bag m-auto"></i>
-                                            </button>
-
-
-                                            <button data-toggle="tooltip" data-placement="top" data-original-title="Atualizar Cadastro" class="btn btn-primary btn-icon bt-table" data-dizimizta="{{$dados->id_dizimista}}">
-                                                <i class="icofont icofont-refresh"></i>
-                                            </button>
-
-
-                                            <button data-toggle="tooltip" data-placement="top" data-original-title="Excluir Cadastro" class="btn btn-danger btn-icon bt-table" data-dizimizta="{{$dados->id_dizimista}}">
+                                            </button> -->
+                                            <button data-toggle="tooltip" id="excluir_cadastro" data-url="{{route('Deleta.Dizimista',$dados->id_dizimista)}}" data-placement="top" data-original-title="Excluir Cadastro" class="btn btn-danger btn-icon bt-table" data-dizimista="{{$dados->id_dizimista}}">
                                                 <i class="icofont icofont-trash"></i>
                                             </button>
                                         </div>
@@ -188,6 +175,7 @@
     <script type='text/javascript'>
         woli = "{{asset('imagens/woli.png')}}";
         url_devolucao = "{{route('Devolucoes.devolver_dizimo')}}";
+        indexDizimistas = "{{route('Visualizar.Dizimista.Excluidos_ou_Ativos')}}";
          
     </script>
     

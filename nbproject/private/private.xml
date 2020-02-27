@@ -4,17 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/data-table/js/data-table-custom.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Funcoes/FuncoesAdicionais.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/js/meus/dizimo/painel-tbl-devolucoes.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Cartas.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/tbl-dizimistas.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Exceptions/Handler.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/public/estilo_painel/assets/pages/edit-table/editable.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Estacionamento/Precos.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Menu-Lateral.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Estacionamento/Mensalidade.php</file>
             <file>file:/C:/xampp/htdocs/sistema_paroquial/routes/web.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/dizimo/devolucao/form-cadastro-devolucao.blade.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Dizimo/Devolucoes.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Dizimo/Devolucoes_dizimo.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Computadores/Computadores.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/template/Painel-Master.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Estacionamento/Fluxo_Diario.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/resources/views/painel/estacionamento/fluxo_diario/entrada_saida.blade.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Estacionamento/Carro.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Models/Painel/Estacionamento/Base_Precos.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_paroquial/app/Http/Controllers/Painel/Estacionamento/Estacionamento.php</file>
         </group>
     </open-files>
 </project-private>

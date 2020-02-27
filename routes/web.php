@@ -22,14 +22,17 @@ Route::get('/', function () {
 
 //GRUPO DE ROTAS PARA TRABALHAR COM A AREA DE DÍZIMO
 Route::group(['prefix'=>'painel/dizimo'],function(){
-    Route::get('/meus-dizimistas','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
+    Route::get('/meus-dizimistas/','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
+    Route::get('/meus-dizimistas/{registros?}','Painel\Dizimo\Dizimista@mostrar_Cadastros_Dizimistas')->name('Visualizar.Dizimista.Excluidos_ou_Ativos');
     Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
+    Route::get('/deleta-dizimista/{id_dizimista}','Painel\Dizimo\Dizimista@delete')->name('Deleta.Dizimista');
     Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
     Route::post('/busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
     Route::post('/valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
     Route::post('/pessoa/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista')->name('SerDizimista.Dizimista');
     Route::post('/pessoa/outros-dados/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista_dados_adicionais')->name('SerDizimista2.Dizimista');
-    Route::post('/aviso/morte/','Painel\Dizimo\Dizimista@aviso_morte')->name('Aviso.Morte');
+    Route::match(array('GET','POST'),'/cadastro/atualizar/{dizimista?}','Painel\Dizimo\Dizimista@update')->name('Atualizar.Dizimista');
+    Route::post('/pesquisar/cadastro','Painel\Dizimo\Dizimista@buscar_dizimista')->name('Pesquisa_Cadastro.Dizimista');
     
     //DEVOLUÇÃO DE DIZIMO
     Route::group(['prefix'=>'/devolucao'],function(){
@@ -148,7 +151,9 @@ Route::group(['prefix'=>'painel/missas'],function(){
 
 //ESTACIONAMENTO
 Route::group(['prefix'=>'painel/estacionamento'],function(){
-   Route::get('/clientes','Painel/Estacionamento/Cliente@index')->name("Estacionamento-Clientes.index");
+   Route::get('/clientes','Painel\Estacionamento\Cliente@index')->name("Estacionamento-Clientes.index");
+   Route::get('/fluxo-diario','Painel\Estacionamento\Estacionamento@index')->name("FluxoDiario.Visualizar");
+   Route::post('/load-table/carros-estacionados','Painel\Estacionamento\Estacionamento@carros_estacionados')->name("CarrosEstacionados.Visualizar");
 });
 
 //CONFIGURAÇÕES DO SISTEMA
