@@ -34,15 +34,27 @@ class Estacionamento extends Controller
     public function entrada_carro(Request $request){
         $carro_conhecido=$this->carro->where('placa',$request->placa);
         if(!$carro_conhecido){
-            salvar_carro($request);
+            $carro=salvar_carro($request);
+        }else{
+            $carro=$carro_conhecido->id_carro;
         }
+        $tbl_preco_base = $this->preco->max('id_preco');
+        $hora_entrada = date('H',time());
+        $min_entrada = date('i',time());
+        $dados = array(
+            'carro'=>$carro,
+            'hora_entrada'=>$hora_entrada,
+            'min_entrada'=>$min_entrada,
+            'valor'=>$tbl_preco_base
+        );
         
+        $insert_fluxo_diario = $this->fluxo_diario->create($dados);
     }
     private function salvar_carro(Request $request){
         
         $insert=$this->carro->create(['placa'=>$request->input('placa'),'isencao'=>0]);
         if($insert){
-            $resposta=true;
+            $resposta=$insert->id_carro;
         }else{
             $resposta=false;
         }

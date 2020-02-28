@@ -10,13 +10,13 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
-                                        <span class="pcoded-mtext">Paginas do Sistema</span>
+                                        <span class="pcoded-mtext">Novo Preço</span>
                                         
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
                                             <a href="../../cadastros/paginas_do_sitema/cadastrar.php">
-                                                <span class="pcoded-mtext">Nova Pagina</span>
+                                                <span class="pcoded-mtext">Tabela de preços</span>
                                             </a>
                                             
                                         </li>

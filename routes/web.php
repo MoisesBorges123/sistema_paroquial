@@ -154,6 +154,7 @@ Route::group(['prefix'=>'painel/estacionamento'],function(){
    Route::get('/clientes','Painel\Estacionamento\Cliente@index')->name("Estacionamento-Clientes.index");
    Route::get('/fluxo-diario','Painel\Estacionamento\Estacionamento@index')->name("FluxoDiario.Visualizar");
    Route::post('/load-table/carros-estacionados','Painel\Estacionamento\Estacionamento@carros_estacionados')->name("CarrosEstacionados.Visualizar");
+   Route::post('/cadastrar/carro-estacionado','Painel\Estacionamento\Estacionamento@entrada_carro')->name("CarroEstacionado.Insert");
 });
 
 //CONFIGURAÇÕES DO SISTEMA

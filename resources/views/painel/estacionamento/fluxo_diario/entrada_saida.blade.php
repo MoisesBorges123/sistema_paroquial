@@ -13,38 +13,55 @@
             <div class="card-body ">
                 <form >
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <label>Placa</label>
-                            <input type="text" class="form-control form-control-primary color-class" maxlength="10" name="placa_entrada" id="placa_entrada" placeholder="AAA-0000">
+                            <input type="text" class="form-control form-control-primary color-class form-control-uppercase" maxlength="10" name="placa_entrada" id="placa_entrada" placeholder="AAA-0000">
                         </div>
-                        <div class="col-md-4">
+                        <!--<div class="col-md-4">
                             <label>Vaga</label>
                             <input class="form-control form-control-primary" name="vaga" id="vaga">
-                        </div>
+                        </div>-->
                         <div class="col-md-4"> 
-                            <button style="margin-top:26px;" class="btn btn-info" id="btn-entrar">Salvar</button>
+                            <button style="margin-top:26px;" class="btn btn-info" type="button" id="btn-entrar">Salvar</button>
 
                         </div>
                         <div class="col-md-12">
                             <div class="form-radio m-t-20">
                                 <div class="radio radio-matrial radio-info radio-inline">
                                     <label>
-                                        <input type="radio" name="radio" checked="checked">
+                                        <input type="radio" value="hora" name="modalidade" checked="checked">
                                         <i class="helper"></i>Por hora
                                     </label>
                                 </div>
                                 <div class="radio radio-matrial radio-info radio-inline">
                                     <label>
-                                        <input type="radio" name="radio" >
+                                        <input type="radio" value="diaria" name="modalidade" >
                                         <i class="helper"></i>Diária
                                     </label>
                                 </div>
                                 <div class="radio radio-matrial radio-info radio-inline">
                                     <label>
-                                        <input type="radio" name="radio" >
+                                        <input type="radio" value="pernoite" name="modalidade" >
                                         <i class="helper"></i>Pernoite
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-radio m-t-20">
+                                <div class="radio radio-matrial radio-inverse radio-inline">
+                                    <label>
+                                        <input type="radio" value="carro" name="tipo_veiculo" checked="checked">
+                                        <i class="helper"></i>Carro
+                                    </label>
+                                </div>
+                                <div class="radio radio-matrial radio-inverse radio-inline">
+                                    <label>
+                                        <input type="radio" value="moto" name="tipo_veiculo" >
+                                        <i class="helper"></i>Moto
+                                    </label>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -308,8 +325,29 @@
 <script>
     $(document).ready(function () {
         $('#placa_saida').select2();
-        carregar_tbl_car_estacionados = "{{route()}}"
-        busca_carros_estacionados="{{route('CarrosEstacionados')}}";
+        $('#placa_entrada').mask('AAA-0A00');
+        carregar_tbl_car_estacionados = "{{route('CarrosEstacionados.Visualizar')}}";
+        
+        $(document).on('click','#btn-entrar',function(){
+            if($('#placa_entrada').val()==null || $('#placa_entrada').val()==""){
+                Swal.fire('Ops!','Você precisa informar a placa do veiculo.','warning');
+            }else{
+                var modalidade = $("input[name='modalidade']:checked").val();
+                var tipo_veiculo = $("input[name='tipo_veiculo']:checked").val();
+                var placa = $('#placa_entrada').val();
+            $.ajax({
+                url:estacionar_carro,
+                data:{placa:placa,modalidade:modalidade,tipo_veiculo:tipo_veiculo},
+                beforeSend:function(){
+                    
+                },
+                success:function(data){
+                    
+                }
+            });
+        }
+        });
+        
         $('#scr-vrt-dt').DataTable({
             "scrollY": "200px",
             "scrollCollapse": true,
