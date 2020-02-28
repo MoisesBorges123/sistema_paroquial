@@ -77,7 +77,7 @@ class Dizimista extends Controller
     }
     public function index(){
         //Registro Ativo
-            $ativo = $this->situacao->all()->where('descricao','Deletado')->first();
+            $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
             $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
         
         //$total_dizimistas = ceil(($this->situacao->all()->where('descricao','Registro Ativo')->first()->count())/10);
@@ -544,7 +544,8 @@ class Dizimista extends Controller
                       'nome'=>$dataForm['nome'],                      
                       'dizimista'=>$dizimista->id_dizimista
                   );
-                  return $resutado;
+                  //return $resutado;
+                      return redirect()->route('Visualizar.Dizimista');
               }else{
                   return false;
               }

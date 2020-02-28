@@ -257,6 +257,11 @@ $(document).ready(function(){
                         $('#cidade22').val(data['cidade'][0]);
                         $('#txt_estados').val(data['estado']);
                         
+                    }else if(data['logradouro']){
+                        $('#rua-22').val(data['logradouro']);
+                        $('#bairro-22').val(data['bairro']);
+                        $('#cidade22').val(data['cidade']);
+                        $('#txt_estados').val(data['estado']);
                     }
                 }
             });

@@ -8,7 +8,7 @@
             <div class="col-lg-2 col-md-2 col-sm-12 ">
                 <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
             </div>            
-
+<!--
             <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
                 <div class="icon-btn">
                     <div class="input-group" >
@@ -43,7 +43,7 @@
                 </div>                
             </div>
        
-            
+            -->
                  
             </div>
         </div>
