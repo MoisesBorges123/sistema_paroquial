@@ -9,7 +9,7 @@ class Computadores extends Model
     //
     protected $table="computadores";
     
-    protected $primaryKey = "ip";
+    protected $primaryKey = "id_computador";
     protected $fillable = [  
         
         'ip',               

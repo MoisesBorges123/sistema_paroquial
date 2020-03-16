@@ -215,7 +215,7 @@
         salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
         meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
         token = "{{ csrf_token() }}";
-        woli = "{{asset('imagens/woli.png')}}";
+        
     });
 </script>
 <script src="{{asset('estilo_painel\assets\pages\forms-wizard-validation\form-wizard.js')}}"></script>

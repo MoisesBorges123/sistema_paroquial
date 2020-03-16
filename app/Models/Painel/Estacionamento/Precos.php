@@ -14,7 +14,8 @@ class Precos extends Model
          'computador',
          'descricao',
          'preco',
-         'usuario'
+         'usuario',
+         'tipo_veiculo'
      ];
      
     public $timestamps=true;

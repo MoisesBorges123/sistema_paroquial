@@ -155,6 +155,14 @@ Route::group(['prefix'=>'painel/estacionamento'],function(){
    Route::get('/fluxo-diario','Painel\Estacionamento\Estacionamento@index')->name("FluxoDiario.Visualizar");
    Route::post('/load-table/carros-estacionados','Painel\Estacionamento\Estacionamento@carros_estacionados')->name("CarrosEstacionados.Visualizar");
    Route::post('/cadastrar/carro-estacionado','Painel\Estacionamento\Estacionamento@entrada_carro')->name("CarroEstacionado.Insert");
+   
+   //ROTAS PARA TRABALHAR COM TABELA DE PREÇOS
+   Route::group(['prefix'=>'/preco'],function(){
+       Route::get('/cadastrar','Painel\Estacionamento\Preco@cadastrarPreco')->name('Preco.FormCadastrar');
+      Route::get('/tabela-de-precos','Painel\Estacionamento\Preco@index')->name('Visualizar.Tbl_de_Precos');
+       Route::post('/salvar','Painel\Estacionamento\Preco@salvarPreco')->name('Salvar.Tbl_de_precos');
+       Route::get('/tabela-de-precos/teste','Painel\Estacionamento\Preco@index')->name('teste');
+   });
 });
 
 //CONFIGURAÇÕES DO SISTEMA
@@ -165,7 +173,17 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
     Route::get('/status/edita/{id}','Painel\Configuracoes\Situacao@editar')->name("Editar.Situacoes");
         Route::put('/status/editar/{id}','Painel\Configuracoes\Situacao@update')->name("update.Situacoes");
     Route::get('/status/excluir/{id}','Painel\Configuracoes\Situacao@delete')->name("Excluir.Situacoes");
+    Route::get('/excluir/{id}','Painel\Configuracoes\Situacao@delete')->name("Excluir.Situacoes");
+    
+    //DISPOSITIVOS 
+    Route::group(['prefix'=>'dispositivos/'],function(){
+        Route::get('tabela','Painel\Configuracoes\Computador@index')->name('Visualizar.Dispositivos');
+            Route::post('query-tabela','Painel\Configuracoes\Computador@carregaTable')->name('LoadTable.Dispositivos');
+    });
+
+    
 });
 
 Route::get('notfound','Errors\Errors@pagenotfound')->name('404'); 
- 
+Route::get('pagina-em-manutenacao','Errors\Errors@manutencao')->name('manutencao'); 
+

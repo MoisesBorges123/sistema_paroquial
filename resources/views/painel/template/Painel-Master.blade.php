@@ -419,6 +419,8 @@
    
     
     <script type="text/javascript" src="{{asset('estilo_painel/assets/js/mascaras.js')}}"></script> 
+    
+    
     <script type="text/javascript">
         $(document).ready(function () {
              _token = $('meta[name="csrf-token"]').attr('content');
@@ -427,6 +429,10 @@
                     'X-CSRF-TOKEN': _token
                 }
             });
+            //Variavel do WOLI
+            woli = "{{asset('imagens/woli.png')}}";
+            woli_titulo="<h2 style='margin-top:auto;'>Woli</h2> <img src = '"+woli+"' width='100' height='70'>";
+            
             $('.date').mask('00/00/0000');
             $('.time').mask('00:00');
             $('.date_time').mask('00/00/0000 00:00:00');

@@ -70,6 +70,12 @@
                                         <span class="pcoded-mtext">Entrada / Saída</span>
                                     </a>
                                 </li>
+                                <li class="">
+                                    <a href="{{route('teste')}}">
+                                        <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+                                        <span class="pcoded-mtext">Rota de Teste</span>
+                                    </a>
+                                </li>
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
@@ -912,6 +918,12 @@
                                     <a href="{{route("visualizar.Situacoes")}}">
                                         <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
                                         <span class="pcoded-mtext">Tabela de Status</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{route("Visualizar.Dispositivos")}}">
+                                        <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
+                                        <span class="pcoded-mtext">Meus Dispositivos</span>
                                     </a>
                                 </li>
                             </ul>

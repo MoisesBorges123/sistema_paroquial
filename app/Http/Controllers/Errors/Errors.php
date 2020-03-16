@@ -11,4 +11,7 @@ class Errors extends Controller
     public function pagenotfound(){
         return view('painel.errors.404');
     }
+    public function manutencao(){
+        return view('painel.errors.manutencao');
+    }
 }
