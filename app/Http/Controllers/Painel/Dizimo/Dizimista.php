@@ -352,33 +352,44 @@ class Dizimista extends Controller
         
         $cep = $request->input('cep');
         
-        $endereco = $this->search_adress($cep);
-        if($endereco==false){
-            $endereco=$this->minhas_funcoes->getEndereco($cep);
+        $localidade = $this->search_adress($cep);
+        if($localidade==false){ // Se não achar no banco de dados local faça uma pesquisa online
+            $localidade=$this->minhas_funcoes->getEndereco($cep);
             //var_dump($endereco);echo"\n <br>";
             $estado = $this->estado                   
-                    ->where('sigla',$endereco->uf)
+                    ->where('sigla',$localidade->uf)
                     ->first();   
            
-            if(!empty($endereco)){
-                $localidade = array( 
-                    
-                    'cep'=>$endereco->cep,
-                    'rua'=>$endereco->logradouro,
-                    'logradouro'=>$endereco->logradouro,
-                    'bairro'=>$endereco->bairro,
-                    'cidade'=>$endereco->localidade,
+            if(!empty($localidade)){
+                
+                $endereco = array( 
+                    'resposta'=>true,
+                    'cep'=>$localidade->cep[0],                    
+                    'logradouro'=>$localidade->logradouro[0],
+                    'bairro'=>$localidade->bairro,
+                    'cidade'=>$localidade->localidade,
                     'estado'=>$estado->id_estado,
                     'nome_estado'=>$estado->nome_estado,
-                    'complemento'=>$endereco->complemento
-                    );
-                return $localidade;
+                    'complemento'=>$localidade->complemento
+                    );                 
             }else{
-                return $endereco = array('resposta'=>false);
+                $endereco = array('resposta'=>false);
             }
-        }else{
-            return $endereco;
+        }else{ // Caso foi encontrado no banco de dados o endereço carregue os dados para um array
+            $estado = $this->estado->find($localidade['estado']);
+            $endereco = array(
+                'resposta'=>true,
+                'cep'=>[$localidade['cep']],                
+                'logradouro'=>[$localidade['rua']],
+                'bairro'=>[$localidade['bairro']],
+                'cidade'=>[$localidade['cidade']],
+                'estado'=>$localidade['estado'],
+                'nome_estado'=>$estado->nome_estado,
+                'complemento'=>null
+            );
         }
+        
+        return $endereco;
     }
     private function search_adress($dado){
         /*

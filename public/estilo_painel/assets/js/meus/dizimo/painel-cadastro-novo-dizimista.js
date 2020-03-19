@@ -251,7 +251,7 @@ $(document).ready(function(){
                 
                     console.log(data)
                     if(data['logradouro'][0]){
-                        
+                       console.log("if - 1");
                         $('#rua-22').val(data['logradouro'][0]);
                         $('#bairro-22').val(data['bairro'][0]);
                         $('#cidade22').val(data['cidade'][0]);
@@ -262,6 +262,7 @@ $(document).ready(function(){
                         $('#bairro-22').val(data['bairro']);
                         $('#cidade22').val(data['cidade']);
                         $('#txt_estados').val(data['estado']);
+                       console.log("if - 2");
                     }
                 }
             });
