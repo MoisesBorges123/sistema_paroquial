@@ -59,6 +59,9 @@ class Computador extends Controller
          );
          
     }
+    public function insert(Request $request){
+        $insert = $this->computador->create([])
+    }
 }
 
 

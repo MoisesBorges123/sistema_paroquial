@@ -75,16 +75,21 @@
 @endsection
 
 @section('javascript')
+
 <script>
     url_carregaTbl = "{{route('LoadTable.Dispositivos')}}";
-    
+    url_salva_dadosCadastrais = "{{route('SalvarDados.Dispositivos')}}";
     $(document).ready(function(){
         //Inicializa a Tabela
         loadTable();
+        
+        //Inicioalia a validaçao do formulario
+        formValidate();
+        
     });
     $(document).on('click','#btn-add',function(){
-        var campo_ip = createInput('ip','IP','text',true);
-        var campo_nome = createInput('nome','Nome','text',true);
+        var campo_ip = createInput('ip','*IP','text',true);
+        var campo_nome = createInput('nome','*Nome','text',true);
         var campo_senha = createInput('senha','Senha','text',false);
         var campo_mac = createInput('mac','MAC','text');
         var campo_SO = createInput('so','Sistema Operacioal','text',false);
@@ -102,27 +107,34 @@
                     campo_ip.label+campo_ip.input+"<br>"+
                     campo_mac.label+campo_mac.input+
                     "</form",
-            showLoaderOnConfirm: true,
-            allowOutsideClick: () => !Swal.isLoading(),
+            //showLoaderOnConfirm: true,
+           // allowOutsideClick: () => !Swal.isLoading(),
             
-            preConfirm:()=>{
-                //Inserir plugin validation
-              /*fetch(url_valida_dadosCadastrais,
+            preConfirm:()=>{    
+               if($('#id_ip').val()=="" || $('#id_nome').val()==''){
+                    Swal.showValidationMessage("É obrigatório preencher todos os campos que possuam '*'");
+                  return false;                   
+               }else{
+                   return true;
+               }
+              
+            },
+            
+            
+        }).then((result)=>{ //Salvar dados no banco de dados
+              fetch(url_salva_dadosCadastrais,
               {
                 credentials: "same-origin",
                 method:'POST',
                 body: new FormData(document.getElementById('form_dispositivo'))
-              })*/  
-            },
-            
-            
+              }) 
         });
     });
     $(document).on('click','#btn-editar',function(){
-        var campo_ip = createInput('ip','IP','text',true);
-        var campo_nome = createInput('nome','Nome','text',true);
+        var campo_ip = createInput('ip','*IP','text',true);
+        var campo_nome = createInput('nome','*Nome','text',true);
         var campo_senha = createInput('senha','Senha','text',false);
-        var campo_mac = createInput('mac','MAC','text');
+        var campo_mac = createInput('mac','MAC','text',false);
         var campo_SO = createInput('so','Sistema Operacioal','text',false);
         var campo_marca = createInput('marca','Marca do Dispositivo','text',false);
          Swal.fire({
@@ -142,7 +154,9 @@
             allowOutsideClick: () => !Swal.isLoading(),
             
             preConfirm:()=>{
+                
               
+              return false;
             },
             
             
@@ -231,6 +245,30 @@
                     
         
         return campo;
+    }
+    function formValidate(){
+         var form = document.getElementById('form_dispositivo');
+                console.log(form);
+                form.validate({
+                  debug: true,
+                  rules:{
+                      id_ip:{
+                          required:true,                          
+                      },
+                      id_nome:{
+                          required:true,
+                          max:50
+                      }
+                  },
+                  messages:{
+                      id_ip:{
+                          required:"O campo IP é obrigatório"
+                      },
+                      id_nome:{
+                          required:"O campo NOME é obrigatório"
+                      }
+                  }
+              });
     }
     </script>
 @endsection

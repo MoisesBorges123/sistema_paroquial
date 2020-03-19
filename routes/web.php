@@ -179,6 +179,7 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
     Route::group(['prefix'=>'dispositivos/'],function(){
         Route::get('tabela','Painel\Configuracoes\Computador@index')->name('Visualizar.Dispositivos');
             Route::post('query-tabela','Painel\Configuracoes\Computador@carregaTable')->name('LoadTable.Dispositivos');
+            Route::post('create','Painel\Configuracoes\Computador@insert')->name('SalvarDados.Dispositivos');
     });
 
     
