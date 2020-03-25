@@ -35,15 +35,14 @@ class Computador extends Controller
              foreach($query as $q){
                  $linhas.="<tr><td>".$q->ip."</td>"
                          ."<td>".$q->nome."</td>"
-                         ."<td>".$q->sistema_operacioanl."</td>"
+                         ."<td>".$q->sistema_operacional."</td>"
                          ."<td>".$q->mac."</td>"
                          ."<td>".$q->tipo."</td>"
-                         ."<td>".$q->marca."</td>"
-                         ."<td>".$q->descricao."</td>"
+                         ."<td>".$q->marca."</td>"                         
                          ."<td>"
                          . "<div class='icon-btn'>"
-                         . "<button data-id='".$q->id_computador."' class='btn btn-info btn-editar'><i class='icofont icofont-pencil-alt-5'></i></button>"
-                         . "<button data-id='".$q->id_computador."' class='btn btn-danger btn-excluir'><i class='icofont icofont-trash'></i></button>"
+                         . "<button data-url='".route('detalhes.Dispositivos',$q->id_computador)."' data-cod='".$q->id_computador."' class='btn btn-info btn-editar'><i class='icofont icofont-pencil-alt-5'></i></button>"
+                         . "<button data-url='".route('detalhes.Dispositivos',$q->id_computador)."' class='btn btn-danger btn-excluir'><i class='icofont icofont-trash'></i></button>"
                          . "</div>"
                          . "</td></tr>";
              }
@@ -60,7 +59,59 @@ class Computador extends Controller
          
     }
     public function insert(Request $request){
-        $insert = $this->computador->create([])
+        $dadosForm = array(
+            'ip'=> $request->input('ip'),               
+            'nome'=>$request->input('nome'),
+            'senha'=>$request->input('senha'),
+            'descricao'=>$request->input('descricao'),
+            'mac'=>$request->input('mac'),
+            'sistema_operacional' =>$request->input('so'),
+            'tipo' =>$request->input('tipo'),
+            'marca'=>$request->input('marca')
+            );
+        $insert = $this->computador->create($dadosForm);
+        if ($insert){
+            $resposta = true;
+        }else{
+            $resposta = false;
+        }
+        return array ('resposta'=>$resposta);
+    }
+    public function update(Request $request){
+        $dadosForm = array(
+            'ip'=> $request->input('ip'),               
+            'nome'=>$request->input('nome'),
+            'senha'=>$request->input('senha'),
+            'descricao'=>$request->input('descricao'),
+            'mac'=>$request->input('mac'),
+            'sistema_operacional' =>$request->input('so'),
+            'tipo' =>$request->input('tipo'),
+            'marca'=>$request->input('marca')
+            );
+        $dispositivo = $this->computador->find($request->input('cod'));
+        $update = $dispositivo->update($dadosForm);
+        if ($update){
+            $resposta = true;
+        }else{
+            $resposta = false;
+        }
+        return array ('resposta'=>$resposta);
+    }
+    public function detalhes($id){
+        $dispositivo=[];
+        $dispositivo=$this->computador->find($id);
+        //echo json_decode($dispositivo);
+        return $dispositivo;
+    }
+    public function deletar($id){
+        $dispostivo=$this->computador->find($id);
+        $delete=$dispostivo->delete();
+        if ($delete){
+            $resposta = true;
+        }else{
+            $resposta = false;
+        }
+        return array ('resposta'=>$resposta);
     }
 }
 

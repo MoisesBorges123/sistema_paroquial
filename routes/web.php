@@ -180,6 +180,8 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
         Route::get('tabela','Painel\Configuracoes\Computador@index')->name('Visualizar.Dispositivos');
             Route::post('query-tabela','Painel\Configuracoes\Computador@carregaTable')->name('LoadTable.Dispositivos');
             Route::post('create','Painel\Configuracoes\Computador@insert')->name('SalvarDados.Dispositivos');
+            Route::post('update','Painel\Configuracoes\Computador@update')->name('AtualizarDados.Dispositivos');
+        Route::get('detalhes/{id}','Painel\Configuracoes\Computador@detalhes')->name('detalhes.Dispositivos');
     });
 
     
