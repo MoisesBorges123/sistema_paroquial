@@ -42,7 +42,7 @@ class Computador extends Controller
                          ."<td>"
                          . "<div class='icon-btn'>"
                          . "<button data-url='".route('detalhes.Dispositivos',$q->id_computador)."' data-cod='".$q->id_computador."' class='btn btn-info btn-editar'><i class='icofont icofont-pencil-alt-5'></i></button>"
-                         . "<button data-url='".route('detalhes.Dispositivos',$q->id_computador)."' class='btn btn-danger btn-excluir'><i class='icofont icofont-trash'></i></button>"
+                         . "<button data-url = '".route('detalhes.Dispositivos',$q->id_computador)."' data-urldelete = '".route('deletar.Dispositivos',$q->id_computador)."' class='btn btn-danger btn-excluir'><i class='icofont icofont-trash'></i></button>"
                          . "</div>"
                          . "</td></tr>";
              }
@@ -57,7 +57,7 @@ class Computador extends Controller
              'num_registros'=>$num_registros
          );
          
-    }
+    }    
     public function insert(Request $request){
         $dadosForm = array(
             'ip'=> $request->input('ip'),               

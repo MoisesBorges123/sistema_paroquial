@@ -12,6 +12,27 @@ class FuncoesAdicionais extends Controller
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
     }
+    public function tratarNomesProprios($value){
+        $texto = explode(" ", $value);
+        $i=0;
+        foreach ($texto as $t){
+     
+            if($i==0){
+                $dado= ucwords($t);                     
+            }else{
+                
+                if(substr($t,0,2) !="do" && substr($t,0,2)!="de" && substr($t,0,2)!="da"){                                    
+                    $dado=$dado." ".ucwords($t);
+                                                        
+                }else{
+                    $dado=$dado." ".$t;                                
+                }   
+            }
+         
+            $i++;
+        }
+        return $dado;
+    }
 
     public function getClientIps()
 {

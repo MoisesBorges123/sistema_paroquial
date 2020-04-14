@@ -16,23 +16,27 @@ Route::get('/', function () {
     return view('painel\dashboard');
 })->name('dashboard');
 
-//Route::get('/pdf','Painel\Missa\Intenção@printer'); 
+//TRABALHANDO COM PESSOAS
+Route::group(['prefix'=>'painel/pessoas/'],function(){
+    Route::get('list','Painel\Pessoa\Pessoa@list')->name('Listar.Pessoas');
+    Route::get('fetch/{pessoa}','Painel\Pessoa\Pessoa@getpeople')->name('Fetch.Pessoas');
+});
 
     
 
 //GRUPO DE ROTAS PARA TRABALHAR COM A AREA DE DÍZIMO
-Route::group(['prefix'=>'painel/dizimo'],function(){
-    Route::get('/meus-dizimistas/','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
-    Route::get('/meus-dizimistas/{registros?}','Painel\Dizimo\Dizimista@mostrar_Cadastros_Dizimistas')->name('Visualizar.Dizimista.Excluidos_ou_Ativos');
-    Route::get('/novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
-    Route::get('/deleta-dizimista/{id_dizimista}','Painel\Dizimo\Dizimista@delete')->name('Deleta.Dizimista');
-    Route::post('/insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
-    Route::post('/busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
-    Route::post('/valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
-    Route::post('/pessoa/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista')->name('SerDizimista.Dizimista');
-    Route::post('/pessoa/outros-dados/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista_dados_adicionais')->name('SerDizimista2.Dizimista');
-    Route::match(array('GET','POST'),'/cadastro/atualizar/{dizimista?}','Painel\Dizimo\Dizimista@update')->name('Atualizar.Dizimista');
-    Route::post('/pesquisar/cadastro','Painel\Dizimo\Dizimista@buscar_dizimista')->name('Pesquisa_Cadastro.Dizimista');
+Route::group(['prefix'=>'painel/dizimo/'],function(){
+    Route::get('meus-dizimistas/','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
+    Route::get('meus-dizimistas/{registros?}','Painel\Dizimo\Dizimista@mostrar_Cadastros_Dizimistas')->name('Visualizar.Dizimista.Excluidos_ou_Ativos');
+    Route::get('novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
+    Route::get('deleta-dizimista/{id_dizimista}','Painel\Dizimo\Dizimista@delete')->name('Deleta.Dizimista');
+    Route::post('insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
+    Route::post('busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
+    Route::post('valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
+    Route::post('pessoa/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista')->name('SerDizimista.Dizimista');
+    Route::post('pessoa/outros-dados/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista_dados_adicionais')->name('SerDizimista2.Dizimista');
+    Route::match(array('GET','POST'),'cadastro/atualizar/{dizimista?}','Painel\Dizimo\Dizimista@update')->name('Atualizar.Dizimista');
+    Route::post('pesquisar/cadastro','Painel\Dizimo\Dizimista@buscar_dizimista')->name('Pesquisa_Cadastro.Dizimista');
     
     //DEVOLUÇÃO DE DIZIMO
     Route::group(['prefix'=>'/devolucao'],function(){
@@ -47,41 +51,38 @@ Route::group(['prefix'=>'painel/dizimo'],function(){
 });
 
 
-
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)
 Route::group(['prefix'=>'painel/livros'], function () {
     
-                        //TRABALHANDO COM CADASTROS
-    
-//Rotas para cadastrar uma nova página    
- Route::get('/cadastro/livroDigital/novasFolhas', 'Painel\Livros\Folha@index')->name("FormCadastro.Folha");    
-    Route::post('/ajax/livroDigital/novaFolha','Painel\Livros\Folha@buscar_livros')->name("BuscaLivroDititalizacao.Folha");
-    Route::post('/ajax2/livroDigital/novaFolha','Painel\Livros\Folha@validaStep1')->name("VerificaStep1.Folha");
-    Route::post('/ajax3/salvar/livroDigital/novaFolha','Painel\Livros\Folha@salvar_folha')->name("SalvarDigitalizacao.Folha");
- //Adicionar fotos a uma folha já cadastrada
- Route::get('/cadastro/folhas/{folha}/{sacramento}/novaFoto', 'Painel\Livros\Folha@form_adiciona_foto')->name("FormCadastro3.Folha");
-    Route::post('/salvar/folha/', 'Painel\Livros\Folha@salvar_foto')->name("Salvarfoto.Folha");
+    //Rotas para cadastrar uma nova página    
+    Route::get('/cadastro/livroDigital/novasFolhas', 'Painel\Livros\Folha@index')->name("FormCadastro.Folha");    
+        Route::post('/ajax/livroDigital/novaFolha','Painel\Livros\Folha@buscar_livros')->name("BuscaLivroDititalizacao.Folha");
+        Route::post('/ajax2/livroDigital/novaFolha','Painel\Livros\Folha@validaStep1')->name("VerificaStep1.Folha");
+        Route::post('/ajax3/salvar/livroDigital/novaFolha','Painel\Livros\Folha@salvar_folha')->name("SalvarDigitalizacao.Folha");
+    //Adicionar fotos a uma folha já cadastrada
+    Route::get('/cadastro/folhas/{folha}/{sacramento}/novaFoto', 'Painel\Livros\Folha@form_adiciona_foto')->name("FormCadastro3.Folha");
+        Route::post('/salvar/folha/', 'Painel\Livros\Folha@salvar_foto')->name("Salvarfoto.Folha");
  
-//Cadastrando Folhas a partir do cadastro de um novo Livro    
- Route::get('/cadastro/livro/{livro}/{sacramento}/novasFolhas', 'Painel\Livros\Folha@form_folha_via_cadas_livro')->name("FormCadastro2.Folha");    
+    //Cadastrando Folhas a partir do cadastro de um novo Livro    
+    Route::get('/cadastro/livro/{livro}/{sacramento}/novasFolhas', 'Painel\Livros\Folha@form_folha_via_cadas_livro')->name("FormCadastro2.Folha");    
     
-//Rotas´para cadastrar um novo livro
-Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro')->name("FormCadastro.Livro");    
-    Route::post('/salvar/livroDigital/novoLivro','Painel\Livros\LivrosRegistros@salvarLivroDigital')->name("SalvarLivroDigital.Livro");
+    //Rotas´para cadastrar um novo livro
+    Route::get('/cadastrar/novoLivro', 'Painel\Livros\LivrosRegistros@form_cadastro')->name("FormCadastro.Livro");    
+        Route::post('/salvar/livroDigital/novoLivro','Painel\Livros\LivrosRegistros@salvarLivroDigital')->name("SalvarLivroDigital.Livro");
             
 
                         //TRABALHANDO COM VISUALIZAÇÕES
-Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
-    Route::post('/pesquisar','Painel\Livros\LivrosRegistros@pesquisa')->name('Pesquisa.Livro');
+    Route::get('/','Painel\Livros\LivrosRegistros@index')->name('VisualizarTodos.Livro');
+        Route::post('/pesquisar','Painel\Livros\LivrosRegistros@pesquisa')->name('Pesquisa.Livro');
  
-Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_paginas')->name('VisualizarFolhas.Folha');
+    Route::get('/meusLivros/{livro}/{paginacao}','Painel\Livros\Folha@visualiza_paginas')->name('VisualizarFolhas.Folha');
 
      
 
 
                         //TRABALHANDO COM EXCLUSÕES
-Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');        
-Route::get('/excluir/livro/folha/foto/{foto}','Painel\Livros\Folha@deletar')->name('Excluir.Folha');        
+    Route::get('/excluir/livro/{livro}/','Painel\Livros\LivrosRegistros@deletar')->name('Excluir.Livro');        
+    Route::get('/excluir/livro/folha/foto/{foto}','Painel\Livros\Folha@deletar')->name('Excluir.Folha');        
            
 });
 
@@ -153,15 +154,27 @@ Route::group(['prefix'=>'painel/missas'],function(){
 Route::group(['prefix'=>'painel/estacionamento'],function(){
    Route::get('/clientes','Painel\Estacionamento\Cliente@index')->name("Estacionamento-Clientes.index");
    Route::get('/fluxo-diario','Painel\Estacionamento\Estacionamento@index')->name("FluxoDiario.Visualizar");
-   Route::post('/load-table/carros-estacionados','Painel\Estacionamento\Estacionamento@carros_estacionados')->name("CarrosEstacionados.Visualizar");
-   Route::post('/cadastrar/carro-estacionado','Painel\Estacionamento\Estacionamento@entrada_carro')->name("CarroEstacionado.Insert");
+   Route::get('/load-table/carros-estacionados','Painel\Estacionamento\Estacionamento@carros_estacionados')->name("CarrosEstacionados.Visualizar");
+   Route::post('/delete','Painel\Estacionamento\Estacionamento@delete')->name("CarrosEstacionados.Delete");
+   Route::post('/update','Painel\Estacionamento\Estacionamento@update')->name("CarrosEstacionados.Update");
+   Route::post('/cadastrar/carro-estacionado','Painel\Estacionamento\Estacionamento@estacionar')->name("CarroEstacionado.Insert");
+   
+   
    
    //ROTAS PARA TRABALHAR COM TABELA DE PREÇOS
    Route::group(['prefix'=>'/preco'],function(){
        Route::get('/cadastrar','Painel\Estacionamento\Preco@cadastrarPreco')->name('Preco.FormCadastrar');
-      Route::get('/tabela-de-precos','Painel\Estacionamento\Preco@index')->name('Visualizar.Tbl_de_Precos');
+       Route::get('/meus-precos','Painel\Estacionamento\Preco@index')->name('Visualizar.Tbl_de_Precos');
        Route::post('/salvar','Painel\Estacionamento\Preco@salvarPreco')->name('Salvar.Tbl_de_precos');
-       Route::get('/tabela-de-precos/teste','Painel\Estacionamento\Preco@index')->name('teste');
+       Route::get('/tabela-de-precos/json/{id?}','Painel\Estacionamento\Preco@list')->name('Preco.Carrega_BasedePrecos');//CARREGA PREÇOS
+       Route::post('/update','Painel\Estacionamento\Preco@update')->name('Preco.Update');
+       Route::post('/buscar-preco','Painel\Estacionamento\Preco@buscar_preco')->name('Preco.Fetch');
+   });
+
+   //ROTAS PARA TRABALHAR COM CARROS
+   Route::group(['prefix'=>'/carros'],function(){
+       Route::post('/update','Painel\Estacionamento\Carros@update')->name("Carros.Update");
+       Route::post('/fetch','Painel\Estacionamento\Carros@busca_carro')->name("Carros.Fetch");
    });
 });
 
@@ -182,6 +195,7 @@ Route::group(['prefix'=>'painel/config/sistema'],function(){
             Route::post('create','Painel\Configuracoes\Computador@insert')->name('SalvarDados.Dispositivos');
             Route::post('update','Painel\Configuracoes\Computador@update')->name('AtualizarDados.Dispositivos');
         Route::get('detalhes/{id}','Painel\Configuracoes\Computador@detalhes')->name('detalhes.Dispositivos');
+        Route::get('delete/{id}','Painel\Configuracoes\Computador@deletar')->name('deletar.Dispositivos');
     });
 
     

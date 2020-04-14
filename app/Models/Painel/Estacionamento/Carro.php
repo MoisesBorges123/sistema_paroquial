@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Carro extends Model
 {
     //
-    protected  $table="carro";
+    protected  $table="veiculos";
      
-   protected $primaryKey = "id_carro";
-     protected $fillable = ['modelo','placa','cor','pessoa','descricao','isencao','situacao'];
+   protected $primaryKey = "id_veiculo";
+     protected $fillable = ['modelo','placa','cor','pessoa','descricao','isencao','situacao','tipo'];
      
     public $timestamps=false;
     public $rules =[

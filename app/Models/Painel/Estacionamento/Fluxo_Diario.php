@@ -12,16 +12,8 @@ class Fluxo_Diario extends Model
      protected $primaryKey = "id_fluxo";
      protected $fillable = [
          'carro',
-         'hora_entrada',
-         'min_entrada',
-         'hora_saida',
-         'min_saida',
-         'valor',
-         'situacao',
-         'modalidade',
-         'desconto',
-         'justificar_desconto',
-         'pago'
+         'pagamento',
+         'horario'
      ];
      
     public $timestamps=false;

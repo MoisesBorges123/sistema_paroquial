@@ -6,6 +6,7 @@
  $tituloPagina
 */
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -466,50 +467,26 @@
                 }
             });
             $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
-            $(document).on("click", '.clone', function () {
-                $('.date').mask('00/00/0000');
-                $('.time').mask('00:00:00');
-                $('.date_time').mask('00/00/0000 00:00:00');
-                $('.cep').mask('00000-000');
-                $('.phone').mask('0000-0000');
-                $('.phone_with_ddd').mask('(00) 0000-0000');
-                $('.phone_us').mask('(000) 000-0000');
-                $('.mixed').mask('AAA 000-S0S');
-                $('.cpf').mask('000.000.000-00', {reverse: true});
-                $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
-                $('.money').mask('000.000.000.000.000,00', {reverse: true});
-                $('.money2').mask("#.##0,00", {reverse: true});
-                $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
-                    translation: {
-                        'Z': {
-                            pattern: /[0-9]/, optional: true
-                        }
-                    }
-                });
-                $('.ip_address').mask('099.099.099.099');
-                $('.percent').mask('##0,00%', {reverse: true});
-                $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
-                $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
-                $('.fallback').mask("00r00r0000", {
-                    translation: {
-                        'r': {
-                            pattern: /[//]/,
-                            fallback: '/'
-                        },
-                        placeholder: "__/__/____"
-                    }
-                });
-                $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
-            });
+
             
-            $(document).on('input','.time',function(){
-                timerValidate($(this));
+            $(document).on('input','.time',function(){                
+                timerValidate($(this));                
             });
+            $(document).on('focus','.time',function(){
+                $('.time').mask('00:00');                
+            });
+            $(document).on('focus','.time',function(){
+                $('.placa').mask('AAA-0A00');                
+            });
+            $(document).on('focus','.money2',function(){
+                $('.money2').mask("#.##0,00", {reverse: true});
+            })
+            
             $(document).on('input','.phone_area-code',function(){
                 phoneValidate($(this));
                 
             });
-            $(document).on('click','.phone_area-code',function(){
+            $(document).on('focus','.phone_area-code',function(){
                 
                 $('.phone_area-code').mask('(00) 0000-0000');
             });
@@ -530,13 +507,15 @@
             }
             
             function timerValidate(horario){
-              
+               
                  caracteres=horario.val().length;
+                 
             //alert(caracteres);
             if(caracteres==1){
                 if(horario.val()>2){
                     horario.val(null);
                 }
+                
             }else if(caracteres==2){
                 if(horario.val()>23){
                     horario.val(null);
@@ -559,6 +538,25 @@
 
             }
         });
+        
+    </script>
+    <script>
+        //MINHAS FUNÇÕES GLOBIAS
+        number_format = function (number, decimals, dec_point, thousands_sep) {
+        number = number.toFixed(decimals);
+
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
+    }
     </script>
     @yield('javascript')
 

@@ -7,61 +7,30 @@
                             
                             <ul class="pcoded-item pcoded-left-item">
                                 
-                                <li class="pcoded-hasmenu">
+                                
+                            <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
-                                        <span class="pcoded-mtext">Novo Preço</span>
-                                        
+                                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                                        <span class="pcoded-mtext">Preços</span>
+                                        <span class="pcoded-badge label label-danger">R$</span>
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="../../cadastros/paginas_do_sitema/cadastrar.php">
-                                                <span class="pcoded-mtext">Tabela de preços</span>
-                                            </a>
-                                            
-                                        </li>
-                                        <li class=" pcoded-hasmenu">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-mtext">Horizontal</span>
-                                            </a>
-                                            <ul class="pcoded-submenu">
-                                                <li class=" ">
-                                                    <a href="menu-horizontal-static.htm" target="_blank">
-                                                        <span class="pcoded-mtext">Static Layout</span>
-                                                    </a>
-                                                </li>
-                                                <li class=" ">
-                                                    <a href="menu-horizontal-fixed.htm" target="_blank">
-                                                        <span class="pcoded-mtext">Fixed layout</span>
-                                                    </a>
-                                                </li>
-                                                <li class=" ">
-                                                    <a href="menu-horizontal-icon.htm" target="_blank">
-                                                        <span class="pcoded-mtext">Static With Icon</span>
-                                                    </a>
-                                                </li>
-                                                <li class=" ">
-                                                    <a href="menu-horizontal-icon-fixed.htm" target="_blank">
-                                                        <span class="pcoded-mtext">Fixed With Icon</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="menu-bottom.htm">
-                                                <span class="pcoded-mtext">Bottom Menu</span>
+                                            <a href="{{route('Visualizar.Tbl_de_Precos')}}">
+                                                <span class="pcoded-mtext">Tabela de Preços</span>
                                             </a>
                                         </li>
                                         <li class=" ">
-                                            <a href="box-layout.htm" target="_blank">
-                                                <span class="pcoded-mtext">Box Layout</span>
+                                            <a href="{{route('Preco.FormCadastrar')}}">
+                                                <span class="pcoded-mtext">Novo Preço</span>
                                             </a>
                                         </li>
                                         <li class=" ">
-                                            <a href="menu-rtl.htm" target="_blank">
-                                                <span class="pcoded-mtext">RTL</span>
+                                            <a href="#historico">
+                                                <span class="pcoded-mtext">Historico de Preço</span>
                                             </a>
                                         </li>
+
                                     </ul>
                                 </li>
                                 <li class="">
@@ -70,37 +39,7 @@
                                         <span class="pcoded-mtext">Entrada / Saída</span>
                                     </a>
                                 </li>
-                                <li class="">
-                                    <a href="{{route('teste')}}">
-                                        <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
-                                        <span class="pcoded-mtext">Rota de Teste</span>
-                                    </a>
-                                </li>
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-                                        <span class="pcoded-mtext">Widget</span>
-                                        <span class="pcoded-badge label label-danger">100+</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="widget-statistic.htm">
-                                                <span class="pcoded-mtext">Statistic</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="widget-data.htm">
-                                                <span class="pcoded-mtext">Data</span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="widget-chart.htm">
-                                                <span class="pcoded-mtext">Chart Widget</span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
+                                
                             </ul>
                              
                         

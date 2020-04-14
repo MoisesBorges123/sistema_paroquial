@@ -5,7 +5,7 @@
 <!-- Verticle Wizard card start -->
 <div class="card">
     <div class="card-header">
-        <h4>Cadastrar Tabela de Preços</h4>
+        <h4>Nova Tabela de Preços</h4>
 
 
     </div>
@@ -181,7 +181,7 @@ $(document).ready(function () {
         bodyTag: "fieldset",
         transitionEffect: "slide",
         stepsOrientation: "vertical",
-        autoFocus: true,
+        autoFocus: true,        
         onFinished: function (event, currentIndex){            
             return fetch(url_salvar_tbl,{
               method:'POST',
@@ -201,7 +201,22 @@ $(document).ready(function () {
                     return result.json();
                 }
             }).then((resultado)=>{
-                if(resultado){
+                console.log(resultado.authorization);
+                if(resultado.authorization && resultado.authorization=='negada'){
+                    Swal.fire({
+                              position: 'top-end',
+                              icon: 'warning',
+                              title: 'OPS!!',
+                              html:'Esse dispositivo não tem autorização para executar essa ação.',
+                              showConfirmButton: true,
+                              
+                            }).then((result)=>{
+                                setTimeout(function(){
+                                window.location.href=url_tbl_precos;
+                            },500);
+                            });
+                            
+                }else{
                     Swal.fire({
                               position: 'top-end',
                               icon: 'success',
