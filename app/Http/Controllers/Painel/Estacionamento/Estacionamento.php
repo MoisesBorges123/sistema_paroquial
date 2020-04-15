@@ -14,6 +14,7 @@ use App\Models\Painel\Estacionamento\Escritorio_Visita_Estacionamento;
 use App\Models\Painel\Estacionamento\Precos;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Painel\Estacionamento\Carros;
+use App\Http\Controllers\Painel\Pessoa\Pessoa;
 class Estacionamento extends Controller
 {
     //
@@ -439,7 +440,7 @@ class Estacionamento extends Controller
     }
     public function pagarMensalidade(Request $request){        
         //EU JÁ CONHEÇO ESSE VEICULO E SEU RESPECTIVO PROPRIETARIO?
-        if(empty($request->input('id_veiculo') && empty($request->input('id_pessoa')))){//(SIM CONHEÇOO VEICULO E O PROPRIETARIO)
+        if(empty($request->input('veiculo') && empty($request->input('pessoa')))){//(SIM CONHEÇOO VEICULO E O PROPRIETARIO)
             $valor = $request->input('valor');
             $id_preco = $request->input('id_preco');
             $pago=$request->input('pago');
@@ -459,10 +460,21 @@ class Estacionamento extends Controller
         
 
         }else{
-            //CONHEÇO APENAS O VEICULO NÃO SEI QUE É SEU PROPRIETARIO
-            if(empty($request->input('id_pessoa'))){
-                
+            //CONHEÇO O PROPRIETARIO
+            if(empty($request->input('id_pessoa'))){                
+                $fn_pessoa = Pessoa;
+                $pessoa=$fn_pessoa->salvar_pessoa($request);
+            }else{
+                $pessoa = $request->input('pessoa')
             }
+
+            if(empty($request->input('id_pessoa'))){                
+                $fn_pessoa = Pessoa;
+                $pessoa=$fn_pessoa->salvar_pessoa($request);
+            }else{
+                $pessoa = $request->input('pessoa')
+            }
+
             
         }
         //ESSE VEICULO TEM ISENÇÃO?

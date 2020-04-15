@@ -59,7 +59,7 @@ class Carros extends Controller
         $modelo = !empty($request->input('modelo_veiculo')) ? $request->input('modelo_veiculo') : null;
         $cor = !empty($request->input('cor_veiculo')) ? $request->input('cor_veiculo') : null;
         $pessoa = !empty($request->input('pessoa')) ? $request->input('pessoa') : null;
-        $id_pessoa = is_numeric($pessoa) ? $pessoa: $this->salvar_pessoa($request);
+        $id_pessoa = is_numeric($pessoa) ? $pessoa : $this->salvar_pessoa($request);
         $insert=$this->carro->create(['placa'=>strtoupper($request->input('placa')),'isencao'=>$insencao,'tipo'=>$request->input('tipo_veiculo'),'modelo'=>$modelo,'cor'=>$cor]);        
         if($insert){
             $resposta=$insert->id_veiculo;
