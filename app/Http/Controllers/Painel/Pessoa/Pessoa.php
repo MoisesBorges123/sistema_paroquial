@@ -45,26 +45,26 @@ class Pessoa extends Controller
         $sexo= !empty ($request->input('sexo')) ? $request->input('sexo') : null;
         $observacoes_pessoa= !empty ($request->input('observacoes_pessoa')) ? $request->input('observacoes_pessoa') : null;
         $telefone= !empty ($request->input('telefone')) ? $request->input('telefone') : null;       
-        if($endereco==null){
-            $tentativa_salvar_endereco = $this->salvar_endereco($request);
-        }
         if($nome!=null){
+            if($endereco==null){
+                $tentativa_salvar_endereco = $this->salvar_endereco($request);
+            }
             $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
-        $pessoa = array(
-            'nome'=>$nome,
-            'endereco'=>$endereco,
-            'd_nasc'=>$d_nasc,
-            'email'=>$email,
-            'sexo'=>$sexo,
-            'observacoes_pessoa'=>$observacoes_pessoa
-        );
-        $insert = $this->pessoa->create($pessoa);
+            $pessoa = array(
+                'nome'=>$nome,
+                'endereco'=>$endereco,
+                'd_nasc'=>$d_nasc,
+                'email'=>$email,
+                'sexo'=>$sexo,
+                'observacoes_pessoa'=>$observacoes_pessoa
+            );
+            $insert = $this->pessoa->create($pessoa);
 
-        if($telefone!=null){
-            $tentativa_salvar_telefone = $this->salvar_telefone($request,$insert->id_pessoa);
-            $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
-        }
-        return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
+            if($telefone!=null){
+                $tentativa_salvar_telefone = $this->salvar_telefone($request,$insert->id_pessoa);
+                $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
+            }
+            return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
         }else{
             return array('insert_pessoa'=>null,'insert_telefone'=>null,'insert_endereco'=>null);
         }

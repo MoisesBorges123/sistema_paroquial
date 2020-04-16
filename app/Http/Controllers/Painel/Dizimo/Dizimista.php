@@ -14,6 +14,8 @@ use App\Models\Painel\Enderecos\Enderecos;
 use App\Models\Painel\Telefone\Telefones;
 use App\Models\Painel\Enderecos\Estado;
 use Illuminate\Support\Facades\DB;
+
+use App\Controller\Painel\Pessoa\Pessoa;
 class Dizimista extends Controller
 {
     //
@@ -455,7 +457,7 @@ class Dizimista extends Controller
         return $numerosCadastrados;
     }//CADASTRAR UM TELEFONE
     private function insert_logradouro($dadosBRUTOS){
-        print_r($dadosBRUTOS);exit();
+        
         $fn = new FuncoesAdicionais();
 
         extract($dadosBRUTOS);
@@ -505,26 +507,18 @@ class Dizimista extends Controller
         $insert = $this->endereco->create($dadosTRATADOS);
         return $insert;
     }//CADASTRA UM ENDEREÇO
-    private function insert_pessoa($dadosBRUTOS){
-        $fn = new FuncoesAdicionais();
-        extract($dadosBRUTOS);
-        
-        $campos=['nome','d_nasc','email','sexo'];
-        $valores=[];
-        $valores[]=['value'=>$nome,'type'=>6];
-        if(!empty($d_nasc))
-            $valores[]=['value'=>$d_nasc,'type'=>0];
-        
-        if(!empty($email))
-            $valores[]=['value'=>$email,'type'=>0];
-        
-        if(!empty($sexo))
-            $valores[]=['value'=>$sexo,'type'=>0];
+    private function insert_pessoa(Request $request){
+        $fn_pessoa = new Pessoa;
+        if($request->input('pessoa')){
+            $dadosPessoa=$fn->getpeople($request->input('pessoa'));
+            $dadosPessoa = $dadosPessoa==false ? $fn_pessoa->salvar_pessoa($request) : $dadosPessoa;
             
+        }else if($request->input('nome')){
+            $dadosPessoa=$fn->getpeople($request->input('nome'));
+            $dadosPessoa = $dadosPessoa==false ? $fn_pessoa->salvar_pessoa($request) : $dadosPessoa;
+        }
         
-        $dadosTRATADOS = $fn->tratamentoDados($valores, $campos);
-        $insert = $this->pessoas->create($dadosTRATADOS);        
-        return $insert;
+        return $$dadosPessoa;
     }//CADASTRAR UMA PESSOA
     private function insert_dizimista($pessoa){
         $data=date('Y-m-d',time());
@@ -535,34 +529,28 @@ class Dizimista extends Controller
     public function salva_dizimista(Request $request, FuncoesAdicionais $fn){
         $dataForm = $request->except("_token");
         $validacaoPessoa = validator($dataForm,$this->pessoas->rules);
-        $validacaoEndreco= validator($dataForm,$this->logradouro->rules);
-        $validacaoTelefone = validator($dataForm,$this->pessoas->rules);
-        if($validacaoPessoa && $validacaoEndreco && $validacaoTelefone){            
-          $pessoa = $this->insert_pessoa($dataForm);
+        
+        if($validacaoPessoa ){            
+          $pessoa = $this->insert_pessoa($request);              
+          $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
           
-          if(!empty($pessoa->id_pessoa)){//Se cadastrou pessoa cadastre seu telefone
-              $telefone = $this->insert_telefone($pessoa->id_pessoa, $dataForm);
-          }
-          if(!empty($telefone)){//Se cadastrou telefone cadastre o endereço
-              $endereco = $this->insert_endereco($dataForm);
-          }
-          if(!empty($endereco->id_endereco)){//Se o endereço foi salvo na tabela endereços insira seu ID na tabela pessoas
-              $this->pessoas->where('id_pessoa',$pessoa->id_pessoa)
-                      ->update(['endereco'=>$endereco->id_endereco]);
-              $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
-              if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
-                      $resutado = array(    //verificado pelo javascript o que foi cadastrado e o que não foi                                            
-                      'pessoa'=> $pessoa->id_pessoa,
-                      'nome'=>$dataForm['nome'],                      
-                      'dizimista'=>$dizimista->id_dizimista
-                    );
-                    
-                  return array('erro'=>0,'url'=>route('Visualizar.Dizimista'));
-                      //return redirect()->route('Visualizar.Dizimista');
-              }else{
-                  return false;
-              }
-          }
+          if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
+                  $resutado = array(                                                
+                  'pessoa'=> $pessoa,                                          
+                  'dizimista'=>$dizimista->id_dizimista,                      
+                  'erro'=>false,
+                );
+                
+              return $resultado;
+          }else{
+              return array(                                                
+                'pessoa'=> $pessoa,                                          
+                'dizimista'=>$dizimista->id_dizimista,                    
+                'erro'=>true,
+              );
+          }      
+              
+          
         }
     }//RESPONSÁVEL POR CADASTRAR TODOS OS DADOS PARA INSERIR UM NOVO DIZIMISTA NO SISTEMA
     public function delete($id_dizimista){

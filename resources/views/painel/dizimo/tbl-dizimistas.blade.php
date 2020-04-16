@@ -8,6 +8,9 @@
             <div class="col-lg-2 col-md-2 col-sm-12 ">
                 <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
             </div>            
+            <div class="col-lg-2 col-md-2 col-sm-12 ">
+                <button id='btn-add' type="button" class="btn btn-primary">Novo Dizimista2</a>
+            </div>            
 <!--
             <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
                 <div class="icon-btn">
