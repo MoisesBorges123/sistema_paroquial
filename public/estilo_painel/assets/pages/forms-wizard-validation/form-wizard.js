@@ -84,7 +84,7 @@
               return form.valid();
           },
           onFinished: function(event, currentIndex) {
-              alert("Submitted!");
+              
               $('.content input[type="text"]').val('');
               $('.content input[type="email"]').val('');
               $('.content input[type="password"]').val('');
@@ -172,10 +172,10 @@
                         dataType:'JSON',
                         cache: false,
                         beforeSend:function(){
-                            alert('entrou');
+                           
                         },
                         success: function(data){                          
-                            console.log(data)
+                            
                         if(data){
                             swal("Parabens!", "Agora "+data.nome+" é um dizimista!", "success");
                         }

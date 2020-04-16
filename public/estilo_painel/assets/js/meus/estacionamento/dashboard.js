@@ -548,6 +548,7 @@ $(document).ready(function () {
                     "<div class='col-md-6 col-sm-12  m-t-10' id='pago'>"+field_pago.label+field_pago.input+"</div>"+
                     "<div class='col-md-12 col-sm-12 m-t-10' id='obs'>"+field_obs.label+field_obs.input+"</div>"+
                     "</div>",
+                    width:"40rem",
                     confirmButtonText:"Salvar e Efetuar Pagamento!",
                     cancelButtonText:"Cancelar",
                     showCancelButton:true,

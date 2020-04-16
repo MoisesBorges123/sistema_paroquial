@@ -105,8 +105,7 @@ $(document).ready(function(){
                                focusConfirm: false,
                                confirmButtonText:"Enviar &nbsp;<i class=\"icofont icofont-location-arrow\"></i>",
                                showLoaderOnConfirm: true,
-                               preConfirm:()=>{
-                                   
+                               preConfirm:()=>{                                 
                                 
                                    
                                    fetch(
@@ -122,6 +121,7 @@ $(document).ready(function(){
                                            console.log(resposta.erro);
                                            if (resposta.erro==0){
                                                swal.fire('Parabens!', 'Dizimista cadastrado com sucesso.','success');
+                                               setTimeout(function(){window.location.href=resposta.url},500);
                                            }else{
                                                swal.fire('OPS!', 'Ocorreu um erro inesperado.','error');
                                                
@@ -229,7 +229,7 @@ $(document).ready(function(){
         var cep = $(this).val();
         
         if(cep.length==9){
-            //alert(cep);
+            
             $.ajax({
                 url:busca_cep,
                 type: 'POST',

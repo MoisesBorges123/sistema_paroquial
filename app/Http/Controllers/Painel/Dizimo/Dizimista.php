@@ -455,6 +455,7 @@ class Dizimista extends Controller
         return $numerosCadastrados;
     }//CADASTRAR UM TELEFONE
     private function insert_logradouro($dadosBRUTOS){
+        print_r($dadosBRUTOS);exit();
         $fn = new FuncoesAdicionais();
 
         extract($dadosBRUTOS);
@@ -474,7 +475,7 @@ class Dizimista extends Controller
             $valores[]=['value'=>$cidade,'type'=>6];
             $valores[]=['value'=>$estado,'type'=>0];
             $campos=['rua','bairro','cep','cidade','estado'];
-            $dadosTRATADOS=$fn->tratamentoDados($valores, $campos);
+            $dadosTRATADOS=$fn->tratamentoDados($valores, $campos);           
             $insert=$this->logradouro->create($dadosTRATADOS);  
             $logradouro=$insert->id_logradouro;
         }
@@ -484,7 +485,7 @@ class Dizimista extends Controller
     }//CADASTRAR UMA LOCALIDADE
     private function insert_endereco($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
-        $logradouro = $this->insert_logradouro($dadosBRUTOS);
+        $logradouro = $this->insert_logradouro($dadosBRUTOS);                
         extract($dadosBRUTOS);
         $campos=['logradouro','num_casa','apartamento','complemento','obsercacoes'];
         $valores=[];
@@ -554,9 +555,10 @@ class Dizimista extends Controller
                       'pessoa'=> $pessoa->id_pessoa,
                       'nome'=>$dataForm['nome'],                      
                       'dizimista'=>$dizimista->id_dizimista
-                  );
-                  //return $resutado;
-                      return redirect()->route('Visualizar.Dizimista');
+                    );
+                    
+                  return array('erro'=>0,'url'=>route('Visualizar.Dizimista'));
+                      //return redirect()->route('Visualizar.Dizimista');
               }else{
                   return false;
               }

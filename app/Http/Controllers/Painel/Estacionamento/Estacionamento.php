@@ -149,8 +149,8 @@ class Estacionamento extends Controller
         /*||*/    $tipo_veiculo = $carro['tipo_veiculo'];/*                                  ||*/
         /*||*/    $tolerancia = isset($carro['tolerancia']) ? $carro['tolerancia']:0 ;/*     ||*/
         /*||*/    $mensalista = false; $rotativo = false; $free =false;               /*     ||*/
-        /*||*/    $data_entrada = $carro['data_entrada'];/*                        ||*/
-        /*||*/    $data_atual = date('Y-m-d',time());/*                           ||*/
+        /*||*/    $data_entrada = $carro['data_entrada'];/*                                  ||*/
+        /*||*/    $data_atual = date('Y-m-d',time());/*                                      ||*/
         /*||*/    $valor = 0;/*                                                              ||*/
         //===================================================================================||
 
