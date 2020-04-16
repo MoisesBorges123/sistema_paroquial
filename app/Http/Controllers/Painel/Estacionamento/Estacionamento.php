@@ -439,45 +439,51 @@ class Estacionamento extends Controller
 
     }
     public function pagarMensalidade(Request $request){        
-        //EU JÁ CONHEÇO ESSE VEICULO E SEU RESPECTIVO PROPRIETARIO?
-        if(empty($request->input('veiculo') && empty($request->input('pessoa')))){//(SIM CONHEÇOO VEICULO E O PROPRIETARIO)
-            $valor = $request->input('valor');
-            $id_preco = $request->input('id_preco');
-            $pago=$request->input('pago');
-            $desconto=$request->input('desconto');
-            $obs = !empty($request->input('obs')) ? $request->input('obs') : null;
-            $veiculo = $this->carro->find($request->input('id_veiculo'));
-            $data = date('Y-m-d',time());
-            $dados = array(
-                'valor'=>$valor,
-                'desconto'=>$desconto,
-                'justificativa_desconto'=>$obs,
-                'base_calculo'=>$id_preco,
-                'pago'=>$pago,
-                'data_pagamento'=>$data,
-                'modalidade'=>'mensalidade'
-            );
-        
-
+        $valor = $request->input('valor');
+        $id_preco = $request->input('id_preco');
+        $pago=$request->input('pago');
+        $desconto=$request->input('desconto');
+        $data_entrada=$request->input('data_entrada');
+        $data_saida=$request->input('data_saida');
+        $obs = !empty($request->input('obs')) ? $request->input('obs') : null;
+        $data = date('Y-m-d',time());
+        $fn_carros = new Carros;
+        $dadosVeiculos = $fn_carros->busca_carro($request);
+        if($dadosVeiculos['cad_carro'] != false){
+            $veiculo = $dadosVeiculos['dados']->id_veiculo;
+            if($dadosVeiculos['cad_pessoa']==false){//=======O VEICULO JÁ FOI CADASTRADO, MAS NÃO TEM OS DADOS DO PROPRIETÁRIO
+                $fn_carro->update($request);
+            } 
         }else{
-            //CONHEÇO O PROPRIETARIO
-            if(empty($request->input('id_pessoa'))){                
-                $fn_pessoa = Pessoa;
-                $pessoa=$fn_pessoa->salvar_pessoa($request);
-            }else{
-                $pessoa = $request->input('pessoa')
+            if(empty($request->input('carro'))){//===========SE NUNCA ESTACIONOU NA CATEDRAL                
+                $veiculo = $this->salvar_carro($request);
             }
-
-            if(empty($request->input('id_pessoa'))){                
-                $fn_pessoa = Pessoa;
-                $pessoa=$fn_pessoa->salvar_pessoa($request);
-            }else{
-                $pessoa = $request->input('pessoa')
-            }
-
-            
         }
-        //ESSE VEICULO TEM ISENÇÃO?
+        $dados = array(
+            'valor'=>$valor,
+            'desconto'=>$desconto,
+            'justificativa_desconto'=>$obs,
+            'base_calculo'=>$id_preco,
+            'pago'=>$pago,
+            'data_pagamento'=>$data,
+            'modalidade'=>'mensalidade',
+            'veiculo'=>$veiculo,
+            'data_entrada'=>$data_entrada,
+            'data_saida'=>$data_saida,
+            'hora_entrada'=>'8',
+            'hora_saida'=>'18',
+            'min_entrada'=>'0',
+            'min_saida'=>'0'
+        );
+
+
+
+
+
+
+        
+        
+        
         //A MENSALIDADE JÁ VENCEU?
 
         

@@ -528,6 +528,8 @@ $(document).ready(function () {
                 var field_cor = createInput('cor','Cor','text',true);
                 var field_obs = createTextArea('obs','Observações',4,'Observações do pagamento');
                 var field_pago = createInput('pago','Valor Pago','text',false);
+                var field_dataEntrada = createInput('dataEntrada','Data Inicio','date',false);
+                var field_dataSaida = createInput('dataSaida','Data Fim','date',false);
                 (cadastro) = await Swal.fire({
                     title:"Novo Mensalista",
                     html:"<div class='row'>"+
@@ -536,7 +538,9 @@ $(document).ready(function () {
                     "<div class='col-md-6 col-sm-12  m-t-10'>"+field_email.label+field_email.input+"</div>"+
                     "<div class='col-md-6 col-sm-12  m-t-10'>"+field_placa.label+field_placa.input+"</div>"+
                     "<div class='col-md-6 col-sm-12  m-t-10'>"+field_modelo.label+field_modelo.input+"</div>"+
-                    "<div class='col-md-6 col-sm-12  m-t-10'>"+field_cor.label+field_cor.input+"</div>"+
+                    "<div class='col-md-7 col-sm-12  m-t-10'>"+field_cor.label+field_cor.input+"</div>"+
+                    "<div class='col-md-6 col-sm-12  m-t-10'>"+field_dataEntrada.label+field_dataEntrada.input+"</div>"+
+                    "<div class='col-md-6 col-sm-12  m-t-10'>"+field_dataSaida.label+field_dataSaida.input+"</div>"+
                     "<div class='col-md-12 col-sm-12 m-t-10 text-center'>"+field_tipo+"</div>"+
                     "<div class='col-md-6 col-sm-12  m-t-10' id='valor'>"+field_valor.label+field_valor.input+"</div>"+
                     "<div class='col-md-6 col-sm-12  m-t-10' id='desconto'>"+field_desconto.label+field_desconto.input+"</div>"+
@@ -557,6 +561,9 @@ $(document).ready(function () {
                         $('#id_placa').val(placa.toUpperCase());
                         $('#id_placa').prop('disabled',true);
                         $('#id_telefone').addClass('phone_area-code');
+                        $('#id_dataEntrada')[0].valueAsDate = new Date();                        
+                        $('#id_dataEntrada').change();
+                        $('#id_dataSaida').prop('disabled',true);
                     },
                     onRender: async function(){
                         (dados) = await fetch(url_buscar_pessoas,{
@@ -577,6 +584,7 @@ $(document).ready(function () {
                         $('#id_nome').attr('list','list_pessoas');
                     },
                     preConfirm:function(){
+                        
                         var total = $('#id_total').val();
                         var pago = $('#id_pago').val();
                         var telefone = $('#id_telefone').val();
@@ -599,7 +607,7 @@ $(document).ready(function () {
                                 return false;
                                 }else{
                                     if(obs == '.' || $.isNumeric(obs) ){
-                                        Swal.showValidationMessage("OPS! Não é possível prosseguir você precisa uma observação válida.");
+                                        Swal.showValidationMessage("OPS! Não é possível prosseguir você precisa uma observação válida.");                                        
                                         return false;
                                     }else{                                        
                                         return true;
@@ -610,12 +618,27 @@ $(document).ready(function () {
 
                     }
                 });
-                FomrMensalista  = new FormData();
+                FormMensalista  = new FormData();
+                var pessoa  = $('#list_pessoas [value="'+$('#id_nome').val()+'"]').data('id');   
+                FormMensalista.append('pessoa',pessoa);
+                FormMensalista.append('nome',$('#id_nome').val());
+                FormMensalista.append('telefone',$('#id_telefone').val());
+                FormMensalista.append('email',$('#id_email').val());
+                FormMensalista.append('modelo',$('#id_modelo').val());
+                FormMensalista.append('valor',$('#id_valor').val());
+                FormMensalista.append('desconto',$('#id_desconto').val());
+                FormMensalista.append('total',$('#id_total').val());
+                FormMensalista.append('cor',$('#id_cor').val());
+                FormMensalista.append('obs',$('#id_obs').val());
+                FormMensalista.append('pago',$('#id_pago').val());
+                FormMensalista.append('id_preco',$('#id_valor').data('id_preco'));
+                FormMensalista.append('data_entrada',$('#id_dataEntrada').val());
+                FormMensalista.append('data_saida',$('#id_dataSaida').val());
                 if(cadastro.value==true){
                     fetch(url_salvar_mensalista,{
                         credentials:'same-origin',
                         method:'POST',
-                        body:FomrMensalista
+                        body:FormMensalista
                     });
                 }
             }
@@ -641,6 +664,7 @@ $(document).ready(function () {
                 return false;
             }
         });
+        
         if(valor){
             $('#total').show(300);
             $('#pago').show(300);
@@ -650,6 +674,7 @@ $(document).ready(function () {
             $('#id_desconto').addClass("money2");
             $('#id_pago').addClass("money2");
             $('#id_valor').val("R$ "+number_format(valor.preco,2,',','.'));
+            $('#id_valor').data('id_preco',valor.id_preco);
             $('#id_total').val("R$ "+number_format(valor.preco,2,',','.'));
             $('#id_valor').prop('disabled',true );
             $('#id_total').prop('disabled',true );            
@@ -673,6 +698,11 @@ $(document).ready(function () {
     $(document).on('change','#id_nome',function(){
         var telefone  = $('#list_pessoas [value="'+$('#id_nome').val()+'"]').data('telefone');
         $('#id_telefone').val(telefone);
+    });
+    $(document).on('change','#id_dataEntrada',function(){
+        var date = this.valueAsDate;
+        date.setDate(date.getDate() + 30);
+        $('#id_dataSaida')[0].valueAsDate = date;
     });
 });
 

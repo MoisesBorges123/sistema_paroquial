@@ -85,12 +85,11 @@ class Carros extends Controller
         if($request->input('pessoa')){
             $pessoa = is_numeric($request->input('pessoa')) ? $request->input('pessoa') : null;
             $pessoa = $pessoa==null ? $request->input('pessoa') : $pessoa; 
-            if( is_string($pessoa)){                                
+            if(is_string($pessoa)){                                
                 $busca_pessoa=$this->busca_pessoa($request);
                 if($busca_pessoa['insert']==true){
                     $pessoa= $busca_pessoa['dados']['insert_pessoa']->id_pessoa;
-                }else{
-            
+                }else{            
                     $pessoa= $busca_pessoa['dados']->id_pessoa;
                 }
             }           

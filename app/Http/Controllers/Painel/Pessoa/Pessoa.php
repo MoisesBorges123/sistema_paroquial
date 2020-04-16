@@ -48,7 +48,8 @@ class Pessoa extends Controller
         if($endereco==null){
             $tentativa_salvar_endereco = $this->salvar_endereco($request);
         }
-        $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
+        if($nome!=null){
+            $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
         $pessoa = array(
             'nome'=>$nome,
             'endereco'=>$endereco,
@@ -64,6 +65,10 @@ class Pessoa extends Controller
             $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
         }
         return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
+        }else{
+            return array('insert_pessoa'=>null,'insert_telefone'=>null,'insert_endereco'=>null);
+        }
+        
     }//SAVE A PEOPLE
     public function atualizar_telefone(Request $request){        
         if(!empty($request->input('telefone')) && !empty($request->input('pessoa'))){
