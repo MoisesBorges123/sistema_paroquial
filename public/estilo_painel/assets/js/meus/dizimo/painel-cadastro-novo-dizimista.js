@@ -267,6 +267,8 @@ $(document).ready(function(){
                 }
             });
         }
+
+        
     });
 });
 

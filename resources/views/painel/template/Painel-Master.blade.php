@@ -480,7 +480,10 @@
             });
             $(document).on('focus','.money2',function(){
                 $('.money2').mask("#.##0,00", {reverse: true});
-            })
+            });
+            $(document).on('focus','.cep',function(){
+                $('.cep').mask("00000-000");
+            });
             
             $(document).on('input','.phone_area-code',function(){
                 phoneValidate($(this));
@@ -556,6 +559,20 @@
             x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
 
         return x1 + x2;
+    }
+    function createInput(name,label,type,required){
+        
+        var id="id_"+name;
+        var input = "<input name='"+name+"' id='"+id+"' type='"+type+"' required='"+required+"' class='form-control'/>";
+        var lbl = "<label>"+label+"</label>";
+        var campo={}
+        campo={
+            label:lbl,
+            input:input,
+        };
+                    
+        
+        return campo;
     }
     </script>
     @yield('javascript')

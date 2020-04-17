@@ -9,7 +9,7 @@
                 <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
             </div>            
             <div class="col-lg-2 col-md-2 col-sm-12 ">
-                <button id='btn-add' type="button" class="btn btn-primary">Novo Dizimista2</a>
+                <button id='btn_add' type="button" class="btn btn-primary">Novo Dizimista2</a>
             </div>            
 <!--
             <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
@@ -180,6 +180,17 @@
         url_devolucao = "{{route('Devolucoes.devolver_dizimo')}}";
         indexDizimistas = "{{route('Visualizar.Dizimista.Excluidos_ou_Ativos')}}";
          
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            busca_cep = "{{route('BuscaCep.Dizimista')}}";
+            nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
+            ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
+            salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
+            meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
+            token = "{{ csrf_token() }}";
+            
+        });
     </script>
     
     <script src="{{asset('estilo_painel/assets/js/meus/dizimo/painel-tbl-dizimistas.js')}}"></script>
