@@ -45,6 +45,8 @@
 
         <!-- animation nifty modal window effects css
         <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/component.css')}}"> -->
+        <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/style.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/css/jquery.mCustomScrollbar.css')}}">
 
         <title>
             @if (!empty($tituloPagina))

@@ -5,13 +5,13 @@
 <div class="row">
     <div class="col-lg-12 ncol-md-12 col-sm-12 m-b-20">
         <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-12 ">
+        <!--    <div class="col-lg-2 col-md-2 col-sm-12 ">
                 <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
-            </div>            
+            </div>   -->         
             <div class="col-lg-2 col-md-2 col-sm-12 ">
-                <button id='btn_add' type="button" class="btn btn-primary">Novo Dizimista2</a>
+                <button id='btn_add' type="button" class="btn btn-primary">Novo Dizimista</button>                
             </div>            
-<!--
+
             <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
                 <div class="icon-btn">
                     <div class="input-group" >
@@ -37,16 +37,16 @@
                     <label class='col-sm-4 col-form-label'>Mostrar</label>
                     
                     <select class="form-control col-sm-8" id='selecionar_registros'>
-                        <option value='1'>Apenas Ativos</option>
-                        <option value='2'>Apenas Excluidos</option>
-                        <option value='3'>Todos</option>                        
+                        <option value='Registro Ativo'>Apenas Ativos</option>
+                        <option value='Deletado'>Apenas Excluidos</option>
+                        <option value=''>Todos</option>                        
                     </select>    
          
                     </div>
                 </div>                
             </div>
        
-            -->
+          
                  
             </div>
         </div>
@@ -58,59 +58,19 @@
 
                 <div class="card-block">
                     <div class="dt-responsive table-responsive" id="mytable">
-                        <table id="dizimistas" class="table table-striped table-bordered nowrap">
-                            @if(empty($query->all()))
-                            <div class="alert">
-                                <div class="alert-default">
-                                    <h5 class="text-inverse">Nenhum dizimista cadastrado.</h5>
-                                </div>
-                            </div>
-                            @else
+                        <table id="minha_tabela" class="table table-striped table-bordered nowrap">   
                             <thead id='tb_cabeca'>
                                 <tr >
 
-                                    <th>Código</th>
-                                    <th class="text-center">Nome</th>                                                   
+                                    <th>Nome</th>
+                                    <th class="text-center">Telefone</th>                                                   
                                     <th class="text-center">Endereço</th>                                                   
                                     <th class="text-center">Aniversário</th>                                
                                     <th class="text-center">Ações</th>                                
                                 </tr>
                             </thead>
-                            <tbody id='tb_dados'>
-                                @foreach($query->all() as $dados)
-                                <tr id="linha{{$dados->id_dizimista}}">                               
-                                    <td>{{$dados->id_dizimista}}</td>
-                                    <td class="text-left">{{$dados->nome}}</td>                               
-                                    <td class="text-center">{{$dados->rua}}, {{$dados->bairro}}, {{$dados->num_casa}} @if($dados->apartamento) , Apto {{$dados->apartamento}} @endif</td>                               
-
-                                    <td class="text-center">{{date('d/m',strtotime($dados->d_nasc))}}</td>                               
-                                    <td class="text-center">
-                                        <div class="icon-btn">
-                                            <button data-dizimista="{{$dados->id_dizimista}}" class="btn btn-info devolver btn-icon  bt-table"  data-toggle="tooltip" data-placement="top" data-original-title="Ficha">
-                                                @if($dados->sexo==2)
-                                                <i class="icofont icofont-user-female"></i>
-                                                @elseif($dados->sexo==1)
-                                                <i class="icofont icofont-user-alt-4"></i> 
-                                                @else
-                                                <i class="icofont icofont-user-alt-5"></i>
-                                                @endif
-                                            </button>
-
-
-
-                                          <!--  <button data-toggle="tooltip"  data-placement="top" data-original-title="Devolver Dízimo" class="btn btn-success btn-icon devolver bt-table"  data-dizimista="{{$dados->id_dizimista}}">
-                                                <i class="icofont icofont-money-bag m-auto"></i>
-                                            </button> -->
-                                            <button data-toggle="tooltip" id="excluir_cadastro" data-url="{{route('Deleta.Dizimista',$dados->id_dizimista)}}" data-placement="top" data-original-title="Excluir Cadastro" class="btn btn-danger btn-icon bt-table" data-dizimista="{{$dados->id_dizimista}}">
-                                                <i class="icofont icofont-trash"></i>
-                                            </button>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                            @endif
+                            <tbody id='body_tbl_Dizimistas'></tbody>
+                      
                             
                         </table>
                     </div>
@@ -131,6 +91,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/assets/pages/data-table/css/buttons.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('estilo_painel/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">-->
     <style>
         #mes_aniversario{
             /*height: 43px;*/
@@ -178,18 +139,18 @@
     <script type='text/javascript'>
         woli = "{{asset('imagens/woli.png')}}";
         url_devolucao = "{{route('Devolucoes.devolver_dizimo')}}";
-        indexDizimistas = "{{route('Visualizar.Dizimista.Excluidos_ou_Ativos')}}";
+        indexDizimistas = null;
          
     </script>
     <script type="text/javascript">
         $(document).ready(function(){
             busca_cep = "{{route('BuscaCep.Dizimista')}}";
             nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
-            ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
+            ser_dizimista = "{{route('Insert.Dizimista')}}";
             salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
-            meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
-            token = "{{ csrf_token() }}";
-            
+            meus_dizimistas = "{{route('Visualizar.Dizimista')}}";            
+            url_buscar_pessoas="{{route('Listar.Pessoas')}}";
+            url_busca_table="{{route('CarregarTble.Dizimista')}}";
         });
     </script>
     

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Painel\Enderecos\Logradouros;
 use App\Models\Painel\Enderecos\Enderecos;
 use App\Models\Painel\Enderecos\Estado;
-
+use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 class Logradouro extends Controller
 {
     //
@@ -15,7 +15,7 @@ class Logradouro extends Controller
     private $logradouro;
     private $estado;
     public function __construct(){
-        $this->$endereco= new Enderecos;
+        $this->endereco= new Enderecos;
         $this->logradouro = new Logradouros;
         $this->estado = new Estado;
     }
@@ -43,6 +43,7 @@ class Logradouro extends Controller
             $dadosTRATADOS=$fn->tratamentoDados($valores, $campos);
             $insert=$this->logradouro->create($dadosTRATADOS);  
             $logradouro=$insert->id_logradouro;
+            
         }
         
         return $logradouro;

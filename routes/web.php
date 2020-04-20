@@ -27,11 +27,12 @@ Route::group(['prefix'=>'painel/pessoas/'],function(){
 //GRUPO DE ROTAS PARA TRABALHAR COM A AREA DE DÍZIMO
 Route::group(['prefix'=>'painel/dizimo/'],function(){
     Route::get('meus-dizimistas/','Painel\Dizimo\Dizimista@index')->name('Visualizar.Dizimista');
-    Route::get('meus-dizimistas/{registros?}','Painel\Dizimo\Dizimista@mostrar_Cadastros_Dizimistas')->name('Visualizar.Dizimista.Excluidos_ou_Ativos');
-    Route::get('novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista');
+    Route::post('meus-dizimistas/','Painel\Dizimo\Dizimista@meus_dizimistas')->name('CarregarTble.Dizimista');
+    Route::get('novo-dizimista','Painel\Dizimo\Dizimista@cadastro')->name('FormCadastro.Dizimista'); //CARREGA FORMULÁRIO PARA CADASTRAR DIZIMISTA (está desuso CUIDADO NA HORA DE RETIRAR, NÃO É UM SIMPRES DELETE)
     Route::get('deleta-dizimista/{id_dizimista}','Painel\Dizimo\Dizimista@delete')->name('Deleta.Dizimista');
+    Route::get('restaura-dizimista/{id_dizimista}','Painel\Dizimo\Dizimista@restore')->name('Restaura.Dizimista');
     Route::post('insert-dizimistas','Painel\Dizimo\Dizimista@salva_dizimista')->name('Insert.Dizimista');
-    Route::post('busca-cep','Painel\Dizimo\Dizimista@pesquisar_endereco')->name('BuscaCep.Dizimista');
+    Route::post('busca-cep','Painel\Enderecos\Logradouro@pesquisar_endereco')->name('BuscaCep.Dizimista');
     Route::post('valida/pessoa','Painel\Dizimo\Dizimista@pessoas_iguais')->name('Duplicidade.Dizimista');
     Route::post('pessoa/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista')->name('SerDizimista.Dizimista');
     Route::post('pessoa/outros-dados/ser-dizimista','Painel\Dizimo\Dizimista@transformar_em_dizimista_dados_adicionais')->name('SerDizimista2.Dizimista');

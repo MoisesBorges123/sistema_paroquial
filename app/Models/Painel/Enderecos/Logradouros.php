@@ -8,7 +8,7 @@ class Logradouros extends Model
 {
     //
     protected  $table ="logradouros";
-    protected $prmaryKey ="id_logradouro";
+    protected $primaryKey ="id_logradouro";
     protected $fillable=[
         'rua',
         'bairro',

@@ -15,7 +15,7 @@ use App\Models\Painel\Telefone\Telefones;
 use App\Models\Painel\Enderecos\Estado;
 use Illuminate\Support\Facades\DB;
 
-use App\Controller\Painel\Pessoa\Pessoa;
+use App\Http\Controllers\Painel\Pessoa\Pessoa;
 class Dizimista extends Controller
 {
     //
@@ -46,36 +46,38 @@ class Dizimista extends Controller
         $cadastro=$this->meus_dizimistas->where('id_dizimista',$request->input('dizimista'))->first();
         return $cadastro;
     }
-    public function mostrar_Cadastros_Dizimistas($registros=1){
-        if($registros==1){
-            $ativo = $this->situacao->all()->where('descricao','Registro Ativo')->first();
-            $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
-        }elseif($registros==2){
-            $ativo = $this->situacao->all()->where('descricao','Deletado')->first();
-            $query = $this->meus_dizimistas->all()->where('situacao',$ativo->id_situacao);
-        }elseif($registros==3){
-            $query = $this->meus_dizimistas->all();
-            
+    public function meus_dizimistas(Request $request){
+        if(!empty($request->input('query'))){            
+            $ativo = $this->situacao->where('descricao',$request->input('query'))->first();
+            $query = $this->meus_dizimistas->where('situacao',$ativo->id_situacao)->get();
         }else{
-            $query = null;
+            $query = $this->meus_dizimistas->all();            
         }
-        $buttoes=[];
+        
         if(count($query)>0){
-            foreach($query as $q){
-                
-                $butao='<button data-toggle="tooltip" id="excluir_cadastro" data-url="'.route('Deleta.Dizimista',$q->id_dizimista).'" data-placement="top" data-original-title="Excluir Cadastro" class="btn btn-danger btn-icon bt-table" data-dizimista="'.$q->id_dizimista.'">
-                            <i class="icofont icofont-trash"></i>
-                        </button>';
-                array_push($buttoes, $butao);
+            $dados=[];            
+            foreach($query as $q){                
+                $endereco = $q->rua.", ".$q->num_casa.", ".$q->bairro.", ".$q->cidade.", cep: ".$q->cep;
+                $telefone=DB::table('telefones')->where('pessoa',$q->id_pessoa)->first();
+               $dados[]=[
+                   'url_excluir'=>route('Deleta.Dizimista',$q->id_dizimista),
+                   'url_restaurar'=>route('Restaura.Dizimista',$q->id_dizimista),
+                   'situacao'=>$q->situacao,
+                   'nome'=>$q->nome,
+                   'endereco'=>$endereco,
+                   'd_nasc'=>date('d/m/Y',strtotime($q->d_nasc)),
+                   'id_dizimista'=>$q->id_dizimista,
+                   'id_pessoa'=>$q->id_pessoa,
+                   'id_telefone'=>$telefone->id_telefone,
+                   'telefone'=>$q->numero];
             }
         }
         
         
         return array(
-            'qtde_registros'=>count($query),
-            'query'=>$query,
-            'butao_excluir'=>$buttoes
-                );
+            'total_registros'=>count($query),
+            'dados'=>$dados,            
+        );
     }
     public function index(){
         //Registro Ativo
@@ -342,175 +344,15 @@ class Dizimista extends Controller
             );
         }
         return $resposta;
-    }
-    public function pesquisar_endereco(Request $request){
-        /*
-         * Quando o Cep não encontrado o array retorna vazio
-         */
-        if(empty($request->input('cep'))){
-            exit();
-            return false;
-        }
-        
-        $cep = $request->input('cep');
-        
-        $localidade = $this->search_adress($cep);
-        if($localidade==false){ // Se não achar no banco de dados local faça uma pesquisa online
-            $localidade=$this->minhas_funcoes->getEndereco($cep);
-            //var_dump($endereco);echo"\n <br>";
-            $estado = $this->estado                   
-                    ->where('sigla',$localidade->uf)
-                    ->first();   
-           
-            if(!empty($localidade)){
-                
-                $endereco = array( 
-                    'resposta'=>true,
-                    'cep'=>$localidade->cep[0],                    
-                    'logradouro'=>$localidade->logradouro[0],
-                    'bairro'=>$localidade->bairro,
-                    'cidade'=>$localidade->localidade,
-                    'estado'=>$estado->id_estado,
-                    'nome_estado'=>$estado->nome_estado,
-                    'complemento'=>$localidade->complemento
-                    );                 
-            }else{
-                $endereco = array('resposta'=>false);
-            }
-        }else{ // Caso foi encontrado no banco de dados o endereço carregue os dados para um array
-            $estado = $this->estado->find($localidade['estado']);
-            $endereco = array(
-                'resposta'=>true,
-                'cep'=>[$localidade['cep']],                
-                'logradouro'=>[$localidade['rua']],
-                'bairro'=>[$localidade['bairro']],
-                'cidade'=>[$localidade['cidade']],
-                'estado'=>$localidade['estado'],
-                'nome_estado'=>$estado->nome_estado,
-                'complemento'=>null
-            );
-        }
-        
-        return $endereco;
-    }
-    private function search_adress($dado){
-        /*
-         * Essa função irá pesquisar se o logradouro inserido já existe na base
-         * de dados, caso positivo irá retornar o id do logradouro caso negativo
-         * a função retornará false, essa função consegure pesquisar uma rua ou 
-         * um cep.
-         */
-        if(strlen($dado)==9 && strstr($dado, '-',true)){
-            $logradouro = $this->logradouro->where('cep',$dado)->first();
-        }else{
-            $logradouro = $this->logradouro->where('rua',$dado)->first();            
-        }
-        
-        if(!empty($logradouro->id_logradouro)){
-            $registro = array(  
-                'id_logradouro'=>$logradouro->id_logradouro,
-                'rua'=>$logradouro->rua,
-                'bairro'=>$logradouro->bairro,
-                'cep'=>$logradouro->cep,
-                'cidade'=>$logradouro->cidade,
-                'estado'=>$logradouro->estado
-            );
-        }else{            
-            $registro =false;
-        }
-        return $registro;
-    }//PROCURAR ENDERÇOS
+    }   
     private function getSituacaoID($situacao){
         $estado = $this->situacao->all()->where('descricao',$situacao)->first();
         return $estado->id_situacao;
     }//BUSCA O ID DE UMA SITUAÇÃO NA TABELA STATUS
-    private function insert_telefone($pessoa, $dadosBRUTOS){
-        $fn = new FuncoesAdicionais();
-        extract($dadosBRUTOS);
-        $contador = 0;
-        $numerosCadastrados=[];
-        foreach($fone as $telefone){
-            if(!empty($telefone) && !empty($dd[$contador])){
-                $valores=[];
-                $campos =['dd','numero','pessoa','obs'];
-                $valores[] =['value'=>$dd[$contador],'type'=>0];            
-                $valores[] =['value'=>$telefone,'type'=>0];
-                $valores[] =['value'=>$pessoa,'type'=>0];
-
-                if(!empty($obs_telefone))
-                    $valores[] =['value'=>$obs_telefone,'type'=>0];
-                else
-                    $valores[] =['value'=>null,'type'=>0];
-
-                $dadosTRATADOS=$fn->tratamentoDados($valores,$campos);
-                $insert = $this->telefone->create($dadosTRATADOS);
-                $contador++;
-                $numerosCadastrados[]=['id'=>$insert->id_telefne,'telefone'=>$telefone,'posicao'=>$contador];            
-                unset($valores);
-                unset($campos);
-                unset($dadosTRATADOS);
-            
-            }
-            
-        }
-        
-        return $numerosCadastrados;
-    }//CADASTRAR UM TELEFONE
-    private function insert_logradouro($dadosBRUTOS){
-        
-        $fn = new FuncoesAdicionais();
-
-        extract($dadosBRUTOS);
-        if(!empty($cep)){
-            $busca = $this->search_adress($cep);
-        }else{
-            $busca = $this->search_adress($rua);
-        }
-        
-        if($busca!=false){
-            $logradouro = $busca['id_logradouro'];
-        }else{
-            $valores = [];
-            $valores[]=['value'=>$rua,'type'=>6];
-            $valores[]=['value'=>$bairro,'type'=>6];
-            $valores[]=['value'=>$cep,'type'=>0];
-            $valores[]=['value'=>$cidade,'type'=>6];
-            $valores[]=['value'=>$estado,'type'=>0];
-            $campos=['rua','bairro','cep','cidade','estado'];
-            $dadosTRATADOS=$fn->tratamentoDados($valores, $campos);           
-            $insert=$this->logradouro->create($dadosTRATADOS);  
-            $logradouro=$insert->id_logradouro;
-        }
-        
-        return $logradouro;
-        
-    }//CADASTRAR UMA LOCALIDADE
-    private function insert_endereco($dadosBRUTOS){
-        $fn = new FuncoesAdicionais();
-        $logradouro = $this->insert_logradouro($dadosBRUTOS);                
-        extract($dadosBRUTOS);
-        $campos=['logradouro','num_casa','apartamento','complemento','obsercacoes'];
-        $valores=[];
-        $valores[]=['value'=>$logradouro,'type'=>0];
-        $valores[]=['value'=>$num_casa,'type'=>0];
-        if(!empty($apartamento))
-            $valores[]=['value'=>$apartamento,'type'=>0];
-        
-        if(!empty($complemento))
-            $valores[]=['value'=> ucfirst($complemento),'type'=>0];
-        
-        if(!empty($observacoes))
-            $valores[]=['value'=> ucfirst($observacoes),'type'=>0];
-            
-        
-        $dadosTRATADOS = $fn->tratamentoDados($valores, $campos);
-        $insert = $this->endereco->create($dadosTRATADOS);
-        return $insert;
-    }//CADASTRA UM ENDEREÇO
     private function insert_pessoa(Request $request){
         $fn_pessoa = new Pessoa;
         if($request->input('pessoa')){
-            $dadosPessoa=$fn->getpeople($request->input('pessoa'));
+            $dadosPessoa=$fn_pessoa->getpeople($request->input('pessoa'));
             $dadosPessoa = $dadosPessoa==false ? $fn_pessoa->salvar_pessoa($request) : $dadosPessoa;
             
         }else if($request->input('nome')){
@@ -518,7 +360,7 @@ class Dizimista extends Controller
             $dadosPessoa = $dadosPessoa==false ? $fn_pessoa->salvar_pessoa($request) : $dadosPessoa;
         }
         
-        return $$dadosPessoa;
+        return $dadosPessoa;
     }//CADASTRAR UMA PESSOA
     private function insert_dizimista($pessoa){
         $data=date('Y-m-d',time());
@@ -531,22 +373,24 @@ class Dizimista extends Controller
         $validacaoPessoa = validator($dataForm,$this->pessoas->rules);
         
         if($validacaoPessoa ){            
-          $pessoa = $this->insert_pessoa($request);              
-          $dizimista = $this->insert_dizimista($pessoa->id_pessoa);
+          $pessoa = $this->insert_pessoa($request);         
+          
+          $dizimista = $this->insert_dizimista($pessoa['insert_pessoa']->id_pessoa);
           
           if($dizimista->id_dizimista){ //Se o dizimista foi cadastrado com sucesso então retorne o ID de todos os cadastros para ser
-                  $resutado = array(                                                
+                  return array(                                                
                   'pessoa'=> $pessoa,                                          
                   'dizimista'=>$dizimista->id_dizimista,                      
-                  'erro'=>false,
+                  'insert'=>true,
                 );
                 
-              return $resultado;
+              
           }else{
-              return array(                                                
+              return array(
+                
                 'pessoa'=> $pessoa,                                          
                 'dizimista'=>$dizimista->id_dizimista,                    
-                'erro'=>true,
+                'insert'=>false,
               );
           }      
               
@@ -556,7 +400,7 @@ class Dizimista extends Controller
     public function delete($id_dizimista){
         
         $dizimista = $this->dizimistas->find($id_dizimista);
-       $status_deletado=$this->situacao->where('descricao','deletado')->first();
+       $status_ativo=$this->situacao->where('descricao','deletado')->first();
         if($dizimista->situacao==1){
             $update=$dizimista->update(['situacao'=>$status_deletado->id_situacao]);
             $status=false;
@@ -567,6 +411,24 @@ class Dizimista extends Controller
         }
         if(empty($update)){
             return array('resposta'=>false,'excluido'=>$status);
+        }else{
+            return array('resposta'=>true);
+        }
+    }
+    public function restore($id_dizimista){
+        
+        $dizimista = $this->dizimistas->find($id_dizimista);
+       $status_ativo=$this->situacao->where('descricao','Registro Ativo')->first();
+        if($dizimista->situacao==1){
+            $update=$dizimista->update(['situacao'=>$status_ativo->id_situacao]);
+            $status=false;
+        }else if($dizimista->situacao==3){
+            $status = true;
+        }else{
+            $status = false;
+        }
+        if(empty($update)){
+            return array('resposta'=>false,'restaurado'=>$status);
         }else{
             return array('resposta'=>true);
         }

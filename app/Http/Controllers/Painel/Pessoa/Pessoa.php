@@ -82,14 +82,19 @@ class Pessoa extends Controller
     }    
     private function salvar_telefone(Request $request,$pessoa){
         if(!empty($request->input('telefone'))){
-            $telefone = $request->input('telefone');
-            $obs = !empty($request->input('obs_telefone')) ? $request->input('obs_telefone') : null;            
-            $dados = array(
-                'obs'=>$obs,
-                'numero'=>$telefone,
-                'pessoa'=>$pessoa
-            );            
-           $insert= $this->telefone->create($dados);
+            $telefones = $request->input('telefone');   
+            $telefone=explode(',',$telefones);         
+           
+                foreach($telefone as $numero){
+                    $obs = !empty($request->input('obs_telefone')) ? $request->input('obs_telefone') : null;            
+                    $dados = array(
+                        'obs'=>$obs,
+                        'numero'=>$numero,
+                        'pessoa'=>$pessoa
+                    );            
+                    $insert= $this->telefone->create($dados);
+                }
+            
            return $insert;
         }else{
             return false;
@@ -99,7 +104,7 @@ class Pessoa extends Controller
         if(!empty($request->input('rua')||!empty($request->input('cep')))){
             $endereco = new Endereco;
            $id_endereco= $endereco->salvar_endereco($request);
-           return $id_endereco;
+           return $id_endereco->id_endereco;
         }else{
             return false;
         }
