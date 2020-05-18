@@ -576,6 +576,29 @@
         
         return campo;
     }
+    function notify(message, type, tempo=3000){
+    $.growl({
+        message: message
+    },{
+        type: type,
+        allow_dismiss: false,
+        label: 'Cancel',
+        className: 'btn-xs btn-inverse',
+        placement: {
+            from: 'bottom',
+            align: 'right'
+        },
+        delay: tempo,
+        animate: {
+                enter: 'animated fadeInRight',
+                exit: 'animated fadeOutRight'
+        },
+        offset: {
+            x: 30,
+            y: 30
+        }
+    });
+};
     </script>
     @yield('javascript')
 

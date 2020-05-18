@@ -14,12 +14,13 @@ class Logradouro extends Controller
     private $endereco;
     private $logradouro;
     private $estado;
+    private $minhas_funcoes;
     public function __construct(){
         $this->endereco= new Enderecos;
         $this->logradouro = new Logradouros;
         $this->estado = new Estado;
+        $this->minhas_funcoes = new FuncoesAdicionais;
     }
-
     public function insert_logradouro($dadosBRUTOS){
         $fn = new FuncoesAdicionais();
 
@@ -126,4 +127,5 @@ class Logradouro extends Controller
         }
         return $registro;
     }//PROCURAR ENDERÇOS (JÁ CADASTRADOS)
+    
 }

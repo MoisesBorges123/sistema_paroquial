@@ -51,11 +51,7 @@
                                         <span class="pcoded-mtext">Dizimistas</span>
                                     </a>
                                     <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="{{route('FormCadastro.Dizimista')}}">
-                                                <span class="pcoded-mtext">Novo Dizimista</span>
-                                            </a>
-                                        </li>
+                                        
                                         <li class=" ">
                                             <a href="{{route('Visualizar.Dizimista')}}">
                                                 <span class="pcoded-mtext">Meus Dizimistas</span>
@@ -857,6 +853,12 @@
                                     <a href="{{route("visualizar.Situacoes")}}">
                                         <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
                                         <span class="pcoded-mtext">Tabela de Status</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{route("visualizar.TipoCarta")}}">
+                                        <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
+                                        <span class="pcoded-mtext">Tipos de Cartas</span>
                                     </a>
                                 </li>
                                 <li class="">

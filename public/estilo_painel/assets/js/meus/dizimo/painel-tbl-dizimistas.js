@@ -1,10 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function(){  
   
-    montarTable();
    $('#mes_aniversario').slideToggle();
    
    $('#busca_dizimista').select2();
-    $(document).on('click','td',function(){
+    $(document).on('click','tde',function(){
         var td = $(this);
         var input = td.querySelect('input');
         input.val = null;
@@ -236,10 +235,8 @@ $(document).ready(function(){
                           showConfirmButton:false
                       });
                       montarTable();
-                      $('#linha'+dizimista).remove();
-                      setTimeout(function(){
-                        window.location.href=meus_dizimistas;
-                    },1600);
+                     
+                      
                   }
               });
             
@@ -347,10 +344,14 @@ $(document).ready(function(){
         return campo;
     }
 });
+$(window).on('load',function(){
+    montarTable();
+});
     function montarTable(){
             var data = new FormData;
             data.append('query',$('#selecionar_registros').val());
-            data.append('_token',_token);
+            data.append('_token',_token);         
+            $('#loader').show();  
             fetch(url_busca_table,{'method':'POST','body':data,credentials:'same-origin'}).then((result)=>{
                 if(!result.ok){
                     return{"busca":false}
@@ -359,7 +360,7 @@ $(document).ready(function(){
                     
                 }
                
-            }).then((resposta)=>{
+            }).then((resposta)=>{                
                 var linhasTBL = "";            
                 var btn_delete;
                 var btn_ficha;
@@ -367,9 +368,9 @@ $(document).ready(function(){
             for(var i=0;i<resposta.total_registros;i++){ 
                 
                 if(dados[i].situacao==3){
-                    btn_delete = "<i style='font-size:32px; padding:0px;' data-url='"+dados[i].url_excluir+"' data-dizimista="+dados[i].id_dizimista+" class='btn icofont icofont-recycle-alt reciclar_cadastro' data-toggle='tootip' data-placement='top' data-original-title='Excluir Dizimista'></i>";
+                    btn_delete = "<i style='font-size:32px; padding:0px;' data-url='"+dados[i].url_restaurar+"' data-dizimista="+dados[i].id_dizimista+" class='btn icofont icofont-recycle-alt reciclar_cadastro' data-toggle='tootip' data-placement='top' data-original-title='Excluir Dizimista'></i>";
                 }else{
-                    btn_delete = "<i style='font-size:25px; padding:0px;' data-url='"+dados[i].url_restaurar+"' data-dizimista="+dados[i].id_dizimista+" class='btn icofont icofont-trash excluir_cadastro' data-toggle='tootip' data-placement='top' data-original-title='Excluir Dizimista'></i>";                    
+                    btn_delete = "<i style='font-size:25px; padding:0px;' data-url='"+dados[i].url_excluir+"' data-dizimista="+dados[i].id_dizimista+" class='btn icofont icofont-trash excluir_cadastro' data-toggle='tootip' data-placement='top' data-original-title='Excluir Dizimista'></i>";                    
                 }        
                 btn_ficha = "<i style='font-size:30px; padding:0px;' data-dizimista="+dados[i].id_dizimista+" class='btn icofont icofont-id-card devolver' data-toggle='tootip' data-placement='top' data-original-title='Abrir Ficha'></i>";
                 linhasTBL = linhasTBL+
@@ -403,7 +404,7 @@ $(document).ready(function(){
                     "search":         "Buscar:",
                     "emptyTable":     "Nenhum registro cadastrado.",
                     "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
-                    "infoEmpty":      "Moostrando 0 de 0 registros",
+                    "infoEmpty":      "Mostrando 0 de 0 registros",
                     paginate: {
                         first:    '«',
                         previous: '‹',
@@ -412,6 +413,7 @@ $(document).ready(function(){
                     }
                 },
             });
+            $('#loader').hide();
             
             
             

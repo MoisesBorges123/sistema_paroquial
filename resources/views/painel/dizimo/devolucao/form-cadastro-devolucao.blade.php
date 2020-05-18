@@ -33,19 +33,22 @@ $descricao_page_header='';
             <h3 id="titulo-nome">{{$dados['dizimista']['nome']}}</h3>
             <div class='row'>
                 <div class="col-md-12">
-                    <span id="titulo-nascimento">Nascido em {{date('d/m/Y',strtotime($dados['dizimista']['data_nascimento']))}}</span>
-                </div>
-                <div class="col-md-12">
                     <span>Dízimista desde {{date('d/m/Y',strtotime($dados['dizimista']['data_cadastro']))}}</span>
                 </div>
                 <div class="col-md-12">
+                    <span id="titulo-nascimento">Nascido(a) em {{date('d/m/Y',strtotime($dados['dizimista']['data_nascimento']))}} / E-mail: {{$dados['dizimista']['email']}}</span>
+                </div>
+                <div class="col-md-12">
                     <span id="titulo-endereco">{{$dados['dizimista']['rua']}}, nº {{$dados['dizimista']['numero']}}, {{$dados['dizimista']['apartamento']}} {{$dados['dizimista']['bairro']}}, cep: {{$dados['dizimista']['cep']}} {{$dados['dizimista']['cidade']}}, {{$dados['dizimista']['estado']}}</span>                    
+                </div>
+                <div class="col-md-12">
+                    <span id="titulo-telefone">{{$dados['dizimista']['telefone']}}</span>                    
                 </div>
             </div>
             @if($dados['dizimista']['situacao']==1)
             <div class="row m-t-10">
                 <div class="col-md-2 col-sm-6 m-r-20">
-                    <button id="atualizar_cadastro" class="btn btn-primary">
+                    <button id="atualizar_cadastro" data-dizimista={{$dados['dizimista']['id']}} class="btn btn-primary">
                         <i class="ion-loop"></i>
                         Atualizar Cadastro
                     </button>
@@ -65,8 +68,7 @@ $descricao_page_header='';
                 <table class="table table-striped table-bordered" id="devolucoes">
                     <thead style="font-size: 14px;">
                         <tr>
-                            <th>Código</th>
-                            
+                            <th>Código</th>                            
                             <th>Ano</th>
                             <th>Janeiro</th>
                             <th>Fevereiro</th>
@@ -161,21 +163,26 @@ $descricao_page_header='';
 <script type="text/javascript" src="{{asset('estilo_painel/assets/pages/edit-table/editable.js')}}"></script>
 <!-- Custom js -->
 <script type="text/javascript">
-                                                    $(document).ready(function () {
-                                                        salvar_devolucao = "{{route('Salvar.devolucao')}}";
-                                                        nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
-                                                        ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
-                                                        salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
-                                                        meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
-                                                        token = "{{ csrf_token() }}";
-                                                        woli = "{{asset('imagens/woli.png')}}";
-                                                        dizimista = "{{$dados['dizimista']['id']}}";
-                                                        ano = {{$dados['ultimo_ano']}};
-                                                       buscar_dizimista = "{{route('Pesquisa_Cadastro.Dizimista')}}"
-                                                       busca_cep = "{{route('BuscaCep.Dizimista')}}";
-                                                       atualiza_dizimista = "{{route('Atualizar.Dizimista')}}"
-                                                       
-                                                    });
+                                                    
+    salvar_devolucao = "{{route('Salvar.devolucao')}}";
+    nome_duplicidade = "{{route('Duplicidade.Dizimista')}}";
+    //ser_dizimista = "{{route('SerDizimista.Dizimista')}}";
+    salvar_outros_dados = "{{route('SerDizimista2.Dizimista')}}";
+    meus_dizimistas = "{{route('Visualizar.Dizimista')}}";
+    token = "{{ csrf_token() }}";
+    woli = "{{asset('imagens/woli.png')}}";
+    dizimista = "{{$dados['dizimista']['id']}}";
+    ano = "{{$dados['ultimo_ano']}}";
+    buscar_dizimista = "{{route('Pesquisa_Cadastro.Dizimista')}}"
+    busca_cep = "{{route('BuscaCep.Dizimista')}}";
+    url_update = "{{route('Atualizar.Dizimista')}}";
+    verificar_dados = "{{route('Verificacoes.Dizimista',$dados['dizimista']['id'])}}";
+    url_buscar_pessoas="{{route('Listar.Pessoas')}}";
+    function dateToPT(date){	       
+        
+	    return date.split('-').reverse().join('/');
+    }
+                                               
 </script>
 <script src="{{asset('estilo_painel/assets/pages/forms-wizard-validation/form-wizard.js')}}"></script>
 <script src="{{asset('estilo_painel/assets/js/meus/dizimo/painel-tbl-devolucoes.js')}}"></script>

@@ -36,46 +36,57 @@ class Pessoa extends Controller
         return array('pessoas'=>$pessoa,'total_pessoas'=>$total_pessoas);
         
     }//LOAD ALL PEOPLE IN THE SYSTEM 
-    public function salvar_pessoa(Request $request){        
-        $fn = new FuncoesAdicionais;
-        $nome= !empty($request->input('nome')) ? $fn->tratarNomesProprios($request->input('nome')) : null;
-        $endereco= !empty ($request->input('endereco')) ? $request->input('endereco') : null;
-        $d_nasc= !empty ($request->input('d_nasc')) ? $request->input('d_nasc') : null;
-        $email= !empty ($request->input('email')) ? $request->input('email') : null;
-        $sexo= !empty ($request->input('sexo')) ? $request->input('sexo') : null;
-        $observacoes_pessoa= !empty ($request->input('observacoes_pessoa')) ? $request->input('observacoes_pessoa') : null;
-        $telefone= !empty ($request->input('telefone')) ? $request->input('telefone') : null;       
-        if($nome!=null){
-            if($endereco==null){
-                $tentativa_salvar_endereco = $this->salvar_endereco($request);
-            }
-            $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
-            $pessoa = array(
-                'nome'=>$nome,
-                'endereco'=>$endereco,
-                'd_nasc'=>$d_nasc,
-                'email'=>$email,
-                'sexo'=>$sexo,
-                'observacoes_pessoa'=>$observacoes_pessoa
-            );
-            $insert = $this->pessoa->create($pessoa);
+    public function salvar_pessoa(Request $request){ 
+        if(!empty($request->input('nome'))){
+            $exite = $this->pessoa->where('nome',$request->input('nome'))->first();
+            if($existe){
+                $telefone = $this->telefone->where('pessoa',$existe->id_pessoa)->first();
+                $telefone = $telefone==null ? $this->salvar_endereco($request): $telefone;
+                $endereco = DB::table('enderecos')->where('id_endereco',$existe->endereco)->first();
+                $endereco = $endereco==null ? $this->salvar_endereco($request): $endereco;
+                return array('insert_pessoa'=>$existe,'insert_telefone'=>$telefoe,'insert_endereco'=>$endereco);
+            }else{
+                $fn = new FuncoesAdicionais;
+                $nome= !empty($request->input('nome')) ? $fn->tratarNomesProprios($request->input('nome')) : null;
+                $endereco= !empty ($request->input('endereco')) ? $request->input('endereco') : null;
+                $d_nasc= !empty ($request->input('d_nasc')) ? $request->input('d_nasc') : null;
+                $email= !empty ($request->input('email')) ? $request->input('email') : null;
+                $sexo= !empty ($request->input('sexo')) ? $request->input('sexo') : null;
+                $observacoes_pessoa= !empty ($request->input('observacoes_pessoa')) ? $request->input('observacoes_pessoa') : null;
+                $telefone= !empty ($request->input('telefone')) ? $request->input('telefone') : null;       
+                if($nome!=null){
+                    if($endereco==null){
+                        $tentativa_salvar_endereco = $this->salvar_endereco($request);
+                    }
+                    $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
+                    $pessoa = array(
+                        'nome'=>$nome,
+                        'endereco'=>$endereco,
+                        'd_nasc'=>$d_nasc,
+                        'email'=>$email,
+                        'sexo'=>$sexo,
+                        'observacoes_pessoa'=>$observacoes_pessoa
+                    );
+                    $insert = $this->pessoa->create($pessoa);
 
-            if($telefone!=null){
-                $tentativa_salvar_telefone = $this->salvar_telefone($request,$insert->id_pessoa);
-                $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
+                    if($telefone!=null){
+                        $tentativa_salvar_telefone = $this->salvar_telefone($request,$insert->id_pessoa);
+                        $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
+                    }
+                    return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
+                }else{
+                    return array('insert_pessoa'=>null,'insert_telefone'=>null,'insert_endereco'=>null);
+                }
             }
-            return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
-        }else{
-            return array('insert_pessoa'=>null,'insert_telefone'=>null,'insert_endereco'=>null);
-        }
+
+        }        
         
     }//SAVE A PEOPLE
     public function atualizar_telefone(Request $request){        
         if(!empty($request->input('telefone')) && !empty($request->input('pessoa'))){
             $telefone =  $request->input('telefone');
-            $pessoa =  $request->input('pessoa');
-            $dados= array('telefone'=>$telefone,'pessoa'=>$pessoa);
-            $update_telefone = $this->update_telefone($dados);
+            $pessoa =  $request->input('pessoa');            
+            $update_telefone = $this->update_telefone($request,$pessoa);
         }else{
             return false;
         }
@@ -86,13 +97,15 @@ class Pessoa extends Controller
             $telefone=explode(',',$telefones);         
            
                 foreach($telefone as $numero){
-                    $obs = !empty($request->input('obs_telefone')) ? $request->input('obs_telefone') : null;            
-                    $dados = array(
-                        'obs'=>$obs,
-                        'numero'=>$numero,
-                        'pessoa'=>$pessoa
-                    );            
-                    $insert= $this->telefone->create($dados);
+                    if(!empty($numero)){
+                        $obs = !empty($request->input('obs_telefone')) ? $request->input('obs_telefone') : null;            
+                        $dados = array(
+                            'obs'=>$obs,
+                            'numero'=>$numero,
+                            'pessoa'=>$pessoa
+                        );            
+                        $insert= $this->telefone->create($dados);
+                    }
                 }
             
            return $insert;
@@ -118,18 +131,33 @@ class Pessoa extends Controller
         }else{
             return false;
         }
-    }    
-    private function update_telefone($dados){
-        extract($dados);        
-        $fone=$this->telefone->where('pessoa',$pessoa)->first();
-        $obs = !empty($obs) ? $obs:$fone->obs;
-        $numero = !empty($numero) ? $numero:$fone->numero;
-        $newPhone = array(
-            'numero'=>$numero,
-            'obs'=>$obs,
-        );
-        $update=$fone->update($newPhone);
-        return $update;
+    }
+    public function atualizar_pessoa(Request $request,$id_pessoa){
+        $pessoa = $this->pessoa->find($id_pessoa);
+        $newNOME=$request->input('nome');
+        $newNascimento = $request->input('d_nasc');
+        $newEMAIL = $request->input('email');
+        $dados = [
+                'nome'=>$newNOME,
+                'd_nasc'=>$newNascimento,
+                'email'=>$newEMAIL                    
+        ];     
+       
+        $update_pessoa = $pessoa->update($dados);
+        $fn_endereco = new Endereco;        
+        $update_endereco=$fn_endereco->update_endereco($request,$pessoa->endereco,$id_pessoa);
+        
+        //Atualiza Telefone
+        $update_telefone = $this->update_telefone($request,$id_pessoa);
+        
+        return array('update_telefone'=>$update_telefone,'update_endereco'=>$update_endereco,'update_pessoa'=>$update_pessoa);
+        
+    }
+    private function update_telefone($request,$id_pessoa){        
+        
+        $old_fones=$this->telefone->where('pessoa',$id_pessoa)->delete();        
+        $salvar = $this->salvar_telefone($request,$id_pessoa);         
+        return $salvar;
 
     }
     private function update_email($dados){

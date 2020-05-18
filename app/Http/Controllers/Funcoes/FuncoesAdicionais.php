@@ -7,7 +7,36 @@ use App\Http\Controllers\Controller;
 
 class FuncoesAdicionais extends Controller
 {   
-    
+
+    public function nomeMes($mes){
+        $r="#Erro!";
+        if($mes==1){
+            $r="Janeiro";
+        }elseif($mes==2){
+            $r="Fevereiro";
+        }elseif($mes==3){
+            $r="Março";
+        }elseif($mes==4){
+            $r="Abril";
+        }elseif($mes==5){
+            $r="Maio";
+        }elseif($mes==6){
+            $r="Junho";
+        }elseif($mes==7){
+            $r="Julho";
+        }elseif($mes==8){
+            $r="Agosto";
+        }elseif($mes==9){
+            $r="Setembro";
+        }elseif($mes==10){
+            $r="Outubro";
+        }elseif($mes==11){
+            $r="Novembro";
+        }elseif($mes==12){
+            $r="Dezembro";
+        }
+        return$r;
+    }    
     public function __construct() {
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');

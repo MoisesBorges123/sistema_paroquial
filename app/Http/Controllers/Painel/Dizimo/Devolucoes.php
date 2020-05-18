@@ -8,6 +8,7 @@ use App\Models\Painel\Dizimo\Devolucoes_dizimo;
 use App\Models\Painel\Dizimo\Q_meus_dizimistas;
 use App\Models\Painel\Computadores\Computadores;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
+use Illuminate\Support\Facades\DB;
 class Devolucoes extends Controller
 {
     //
@@ -26,8 +27,9 @@ class Devolucoes extends Controller
         $this->computadores = $computers;
     }   
     public function salvar_devolucao(Request $request,$dizimista){
+        
         if(!empty($dizimista)){
-            $mes_valor=$this->busca_mes($request);
+            $mes_valor=$this->busca_mes($request);               
             $ano = $request->input('id');
             $devolucao = $this->devolucao
                     ->where('mes_ref',$mes_valor['mes'])
@@ -43,7 +45,7 @@ class Devolucoes extends Controller
                 }
                 
             }else{
-                var_dump($request->all());exit();
+                var_dump($request->all());
                 $ip=$request->ip();
                 $conhecido=$this->computadores->find($ip);
                 if(!$conhecido){
@@ -72,7 +74,11 @@ class Devolucoes extends Controller
             }else{
                 $apartamento='';
             }
-            
+            $telefones=DB::table('telefones')->where('pessoa',$dados_dizimista->pessoa)->get();
+            $telefone="Telefones: ";
+            foreach($telefones as $fone){
+                $telefone.=$fone->numero."| ";
+            }
             $dados = [
                 'devolucoes'=>$dados_devolucao['tabela_devolucoes'],
                 'ultimo_ano'=>$dados_devolucao['ultimo_ano'],
@@ -80,6 +86,7 @@ class Devolucoes extends Controller
                 'id'=>$dizimista,
                 'situacao'=>$dados_dizimista->situacao,
                 'nome' => $dados_dizimista->nome,
+                'email'=>$dados_dizimista->email,
                 'data_nascimento'=> $dados_dizimista->d_nasc,
                 'rua'=>$dados_dizimista->rua,
                 'bairro'=>$dados_dizimista->bairro,
@@ -88,14 +95,14 @@ class Devolucoes extends Controller
                 'cep'=>$dados_dizimista->cep,
                 'apartamento'=>$apartamento,
                 'data_cadastro'=>$dados_dizimista->d_cadastro,
-                'numero'=>$dados_dizimista->num_casa
-                    
+                'numero'=>$dados_dizimista->num_casa,
+                'telefone'=>$telefone,    
                 ]
             ];
             
             return view('painel.dizimo.devolucao.form-cadastro-devolucao',compact('dados'));
         }else{
-            return "Deu Bosta";
+            return "Ops! Nenhum dizimista foi selecionado.";
         }
     }
     private function buscar_ficha($dizimista){
@@ -121,7 +128,7 @@ class Devolucoes extends Controller
             $primeiro_ano = date('Y',time());
         }
         
-        $intervalo++; //Para mostrar 2 anos após a ultima devolução ou 2 anos após o atual
+        $intervalo+=2; //Para mostrar 2 anos após a ultima devolução ou 2 anos após o atual
         
         $tabela_devolucoes=[];
         for($i=0;$i<=$intervalo;$i++){            

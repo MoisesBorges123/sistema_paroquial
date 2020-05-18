@@ -16,7 +16,8 @@ class Enderecos extends Model
         'num_casa',
         'apartamento',        
         'complemento',        
-        'obeservacoes'        
+        'obeservacoes',
+        'situacao_endereco'        
     ];
     public $timestamps=false;
     

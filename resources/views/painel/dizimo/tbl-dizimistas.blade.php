@@ -4,51 +4,38 @@
 @section('conteudo')
 <div class="row">
     <div class="col-lg-12 ncol-md-12 col-sm-12 m-b-20">
-        <div class="row">
-        <!--    <div class="col-lg-2 col-md-2 col-sm-12 ">
-                <a href="{{route("FormCadastro.Dizimista")}}" class="btn btn-primary">Novo Dizimista</a>
-            </div>   -->         
-            <div class="col-lg-2 col-md-2 col-sm-12 ">
+        <div class="row">             
+            <div class="col-lg-2 col-md-2 col-sm-6 ">
                 <button id='btn_add' type="button" class="btn btn-primary">Novo Dizimista</button>                
-            </div>            
-
-            <div id='coluna-aniversario' class="col-md-1 col-lg-1 col-sm-6" style="line-height: 24px;">
-                <div class="icon-btn">
-                    <div class="input-group" >
-                    <select class="form-control" id="mes_aniversario">
-                        <option>Selecione o mês de aniversário</option>
-                        @foreach($meses as $mes)
-                        <option value="{{$mes['key']}}">{{$mes['mes']}}</option>
-                        @endforeach
-                    </select>
-                    <div class="icon-btn">
-                        <button class="btn btn-inverse" id="btn-aniversariantes">
-                            <i style="font-size:16px;" class="icofont icofont-birthday-cake"></i>
-                        </button>
-
-                    </div>
-                    </div>
-                </div>                
-            </div>
-           
+            </div> 
             <div class="col-md-4 col-lg-3 col-sm-6" style="line-height: 24px;">
                 <div class="icon-btn">
                     <div class="form-group row" >
-                    <label class='col-sm-4 col-form-label'>Mostrar</label>
-                    
-                    <select class="form-control col-sm-8" id='selecionar_registros'>
-                        <option value='Registro Ativo'>Apenas Ativos</option>
-                        <option value='Deletado'>Apenas Excluidos</option>
-                        <option value=''>Todos</option>                        
-                    </select>    
-         
+                        <label class='col-sm-4 col-form-label'>Mostrar</label>
+                        
+                        <select class="form-control col-sm-8" id='selecionar_registros'>
+                            <option value='Registro Ativo'>Apenas Ativos</option>
+                            <option value='Deletado'>Apenas Excluidos</option>
+                            <option value=''>Todos</option>                        
+                        </select>    
+                        
                     </div>
                 </div>                
             </div>
-       
-          
-                 
+            
+            
+            
+        </div>
+        <div class='row'>
+            <div class='col-md-4' id='loader'> 
+                <div class="loader-block">
+                    <span class='h4'>Carregando Dados</span>
+                    <svg id="loader2" viewBox="0 0 100 100">
+                        <circle id="circle-loader2" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
             </div>
+        </div>
         </div>
     </div>
     <div class="row">
