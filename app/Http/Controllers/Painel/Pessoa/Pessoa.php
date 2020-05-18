@@ -38,7 +38,7 @@ class Pessoa extends Controller
     }//LOAD ALL PEOPLE IN THE SYSTEM 
     public function salvar_pessoa(Request $request){ 
         if(!empty($request->input('nome'))){
-            $exite = $this->pessoa->where('nome',$request->input('nome'))->first();
+            $existe = $this->pessoa->where('nome',$request->input('nome'))->first();
             if($existe){
                 $telefone = $this->telefone->where('pessoa',$existe->id_pessoa)->first();
                 $telefone = $telefone==null ? $this->salvar_endereco($request): $telefone;
