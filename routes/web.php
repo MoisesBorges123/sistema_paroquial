@@ -10,12 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/fpdf', function () {
-    Fpdf::AddPage();
-    Fpdf::SetFont('Courier', 'B', 18);
-    Fpdf::Cell(50, 25, 'Hello World!');
-    Fpdf::Output();
-});
 
 Route::get('/', function () {
     //return view('welcome');
@@ -60,7 +54,7 @@ Route::group(['prefix'=>'painel/dizimo/'],function(){
     Route::group(['prefix'=>'/cartas'],function(){
         Route::get('/aniversariantes','Painel\Dizimo\Cartas@index')->name('Visualizar.Dizimistas.Aniversariantes');
         Route::post('/carrega-table','Painel\Dizimo\Cartas@montaTable')->name('MontaTable.Dizimistas.Aniversariantes');
-        Route::post('/print-table','Painel\Dizimo\Cartas@printer')->name('Print.Dizimistas.Aniversariantes');
+        Route::get('/print-table/{mes?}','Painel\Dizimo\Cartas@printer')->name('Print.Dizimistas.Aniversariantes');
         
     });
 });

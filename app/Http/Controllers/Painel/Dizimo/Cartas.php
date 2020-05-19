@@ -62,15 +62,16 @@ class Cartas extends Controller
             'dados'=>$dados,            
         );
     }
-    public function printer(Request $request){
+    public function printer($mes){
         $fn = new FuncoesAdicionais();
-        $pdf =new FPDF();
-        $mes=$request->input('mes');
+        $pdf =new FPDF();    
+        
         $registros = $this->meus_dizimistas
-        ->where('d_nasc','like','%'.$mes.'%')
+        ->where('d_nasc','like',$mes)
         ->where('situacao_endereco','5')
         ->get();
-
+        dd($registros);
+exit();
         $i=1;
         $proxima_pg=8;
         $nome_mes=$fn->nomeMes($mes);

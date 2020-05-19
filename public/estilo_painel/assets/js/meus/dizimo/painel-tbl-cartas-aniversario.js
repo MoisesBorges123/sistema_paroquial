@@ -5,6 +5,11 @@ $(document).on('click','#print',function(){
 $(document).on('click','#btn-sair',function(){
   $('#id_mes').val(1);
 });
+$(document).on('click','#btn-imprimir',function(){
+    var mes = $('#id_mes').val();
+    $('#form-printer').prop('action',url_imprimir+'/'+mes);
+    $('#form-printer').submit();
+});
 $(window).on('load',function(){
     montarTable();
 });

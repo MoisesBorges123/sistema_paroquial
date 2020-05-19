@@ -65,8 +65,7 @@
                         <h3><i class="icofont icofont-printer text-white"></i>&nbsp;&nbsp;Imprimir...</h3>
                         <div>
                             <p class='lead'>Selecione o mês de aniversário que você deseja imprimir.</p>
-                            <form method="post" action="{{route('Print.Dizimistas.Aniversariantes')}}" target="_blank" >
-                                {!! csrf_field() !!}
+                            <form method="get" id='form-printer' action="" target="_blank" >                               
                                 <div class='row justify-content-center'>                                        
                                     <div class='col-md-4'>
                                     <label>Mês</label>                               
@@ -89,7 +88,7 @@
                                 </div>
                                 <div class='row justify-content-center m-t-30'>
                                     <div class='col-md-4'>
-                                        <button type="submit"  class="btn btn-primary waves-effect">Imprimir</button>                                            
+                                        <button type="button" id='btn-imprimir'  class="btn btn-primary waves-effect">Imprimir</button>                                            
                                     </div>
                                     <div class='col-md-4'>
                                         <button type="button" id='btn-sair' class="btn btn-danger waves-effect md-close">Sair</button>                                            
@@ -144,7 +143,7 @@
      <script type='text/javascript'>
     woli = "{{asset('imagens/woli.png')}}";
     url_busca_table ="{{route('MontaTable.Dizimistas.Aniversariantes')}}";
-
+    url_imprimir = "{{route('Print.Dizimistas.Aniversariantes')}}";
 </script>
 <script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-tbl-cartas-aniversario.js')}}"></script>
 
