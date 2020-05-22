@@ -5,13 +5,49 @@ $(document).on('click','#print',function(){
 $(document).on('click','#btn-sair',function(){
   $('#id_mes').val(1);
 });
-$(document).on('click','#btn-imprimir',function(){
-    var mes = $('#id_mes').val();
-    $('#form-printer').prop('action',url_imprimir+'/'+mes);
-    $('#form-printer').submit();
+$(document).on('click','#btn-carta-devolvida',async function(){
+    cod_carta = createInput('codigo','Código','text',true);
+    (form) = await swal.fire({
+        title:'Carta Devolvida',
+        html:cod_carta.label+cod_carta.input,
+        showCancelButton:true,
+        confirmButtonText:'Enviar <i class="icofont icofont-send-mail"></i>',
+        preConfirm:()=>{
+            if($('#id_codigo').val()==''|| $('#id_codigo').val()==null){
+                return false;
+            }else{
+
+                return true;
+            }
+        }
+    })
+    if(form.value==true){        
+        data = new FormData();
+        data.append('cod_carta',$('#id_codigo').val());
+        (reportar) = await fetch(url_devolver_carta,{
+            method:'POST',
+            headers:{
+                'X-CSRF-TOKEN':_token
+            },
+            credentials:'same-origin',
+            body:data
+        }).then((result)=>{
+            if(result.ok){
+                return result.json();
+            }else{
+                return false;
+            }
+        })
+        if(reportar.update_carta==false){
+            notify('Não foi possível registrar essa devolução, tente novamente.', 'danger', 4000,'top');
+        }else {
+            notify('Devolução registrada!', 'success', 3000,'top');            
+        }
+    }
 });
 $(window).on('load',function(){
-    montarTable();
+    $('#loader').hide();
+    //montarTable();
 });
 
 
@@ -52,6 +88,10 @@ function select_element(){
     var select = "<select id='id_mes' name='mes' class='form-control'>"+options+"</select>";
     return select;
 }
+async function cartasDevolvidas(){
+    
+}
+/*
 function montarTable(){  
     $('#loader').show();  
     fetch(url_busca_table,{
@@ -59,13 +99,13 @@ function montarTable(){
             'X-CSRF-Token':_token
         },
         method:'post',
-        credentials:'same-origin'
+        credentials:'same-origin',
 }).then((result)=>{
         if(!result.ok){
             return{"busca":false}
         }else{
+            console.log('carregou');
             return result.json();
-            
         }
        
     }).then((resposta)=>{                
@@ -75,19 +115,10 @@ function montarTable(){
               
         
         linhasTBL = linhasTBL+
-        "<tr>"
-        +"<td>"
-        +"<div class='border-checkbox-section'>"
-            +"<div class='border-checkbox-group border-checkbox-group-success'>"
-                +"<input class='border-checkbox check-print' name='registro' type='checkbox' value='"+dados[i].id_dizimista+"' id='"+dados[i].id_dizimista+"'>"
-                +"<label class='border-checkbox-label' for='"+dados[i].id_dizimista+"'>Imprimir</label>"
-            +"</div>"        
-        +"</div>"
-        +"</td>"+
+        "<tr>"+        
             "<td>"+dados[i].nome+"</td>"+
             "<td>"+dados[i].mes_aniversario+"</td>"+                
-            "<td>"+dados[i].d_nasc+"</td>"+
-            "<td></td>"+                                
+            "<td>"+dados[i].d_nasc+"</td>"+                                            
         "</tr>";      
      
     } 
@@ -126,4 +157,4 @@ function montarTable(){
     });
     
       
-}
+} */

@@ -48,16 +48,18 @@ Route::group(['prefix'=>'painel/dizimo/'],function(){
     Route::group(['prefix'=>'/devolucao'],function(){
         Route::get('/devolucao/{dizimista?}','Painel\Dizimo\Devolucoes@devolver')->name('Devolucoes.devolver_dizimo');
         Route::match(array('GET', 'POST'),'/salvar/devolucao/{dizimista?}','Painel\Dizimo\Devolucoes@salvar_devolucao')->name('Salvar.devolucao');
-    });
+    });    
     
-    //CARTAS DE ANIVESÁRIO
+    //GRUPO DE ROTAS PARA TRABALHAR COM CARTAS
     Route::group(['prefix'=>'/cartas'],function(){
         Route::get('/aniversariantes','Painel\Dizimo\Cartas@index')->name('Visualizar.Dizimistas.Aniversariantes');
         Route::post('/carrega-table','Painel\Dizimo\Cartas@montaTable')->name('MontaTable.Dizimistas.Aniversariantes');
-        Route::get('/print-table/{mes?}','Painel\Dizimo\Cartas@printer')->name('Print.Dizimistas.Aniversariantes');
-        
+        Route::get('/print-table','Painel\Dizimo\Cartas@printer')->name('Print.Dizimistas.Aniversariantes');
+        Route::post('/carta-devolvida','Painel\Dizimo\Cartas@cartaDevolvida')->name('Devolver.Carta'); //Notificar devolução de uma carta    
+        Route::post('/load/dashboard','Painel\Dizimo\Cartas@dashboard')->name('Dashboard.Cartas.Dizimistas');
     });
 });
+
 
 
 //GRUPO DE ROTAS PARA MANIPULAÇÃO DE LIVROS DE REGISTRO (CERTIDÕES)

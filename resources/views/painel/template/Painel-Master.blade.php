@@ -576,7 +576,7 @@
         
         return campo;
     }
-    function notify(message, type, tempo=3000){
+    function notify(message, type, tempo=3000,position='bottom'){
     $.growl({
         message: message
     },{
@@ -585,7 +585,7 @@
         label: 'Cancel',
         className: 'btn-xs btn-inverse',
         placement: {
-            from: 'bottom',
+            from: position,
             align: 'right'
         },
         delay: tempo,
