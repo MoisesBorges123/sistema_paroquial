@@ -41,13 +41,15 @@ $(document).on('click','#btn-carta-devolvida',async function(){
         if(reportar.update_carta==false){
             notify('Não foi possível registrar essa devolução, tente novamente.', 'danger', 4000,'top');
         }else {
-            notify('Devolução registrada!', 'success', 3000,'top');            
+            notify('Devolução registrada!', 'success', 3000,'top');   
+            dashboard();         
         }
     }
 });
 $(window).on('load',function(){
     $('#loader').hide();
-    //montarTable();
+    dashboard();
+    //grafico();
 });
 
 
@@ -88,37 +90,92 @@ function select_element(){
     var select = "<select id='id_mes' name='mes' class='form-control'>"+options+"</select>";
     return select;
 }
-async function cartasDevolvidas(){
-    
-}
-/*
-function montarTable(){  
-    $('#loader').show();  
-    fetch(url_busca_table,{
-        headers:{
-            'X-CSRF-Token':_token
-        },
-        method:'post',
-        credentials:'same-origin',
-}).then((result)=>{
-        if(!result.ok){
-            return{"busca":false}
+async function dashboard(){
+    let dados = await fetch(url_dashboard)
+    .then((result)=>{
+        if(!result.ok){            
+            swal.fire({
+                title:"Ops! O sistema encontrou um erro.",
+                html:"<i>"+result.statusText+" ("+result.status+")</i>",
+                icon:'error'
+            })
         }else{
-            console.log('carregou');
             return result.json();
         }
-       
-    }).then((resposta)=>{                
-        var linhasTBL = ""; 
-        dados = resposta.dados;  
-    for(var i=0;i<resposta.total_registros;i++){         
-              
         
+    });
+    montaGrafico(dados.grafico.data,dados.grafico.labels)
+    $('#nomeMes').html(dados.emailBox.nomeMes);
+    $('#qtdeEviadas').html(dados.emailBox.n_ct_total);
+    $('#qtdeRetornadas').html(dados.emailBox.n_ct_devolvidas);
+    montarTable(dados.table)
+}   
+
+function montaGrafico(data,labels){
+    var MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    var config = {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cartas Devolvidas',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: data,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Grafico de cartas devolvidas'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Mês'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Valores'
+                    }
+                }]
+            }
+        }
+    };
+
+    
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myLine = new Chart(ctx, config);
+
+}
+
+
+function montarTable(data){  
+    var dados =data.dados;
+    $('#loader').show();                  
+        var linhasTBL = "";         
+    for(var i=0;i<data.total_registros;i++){ 
         linhasTBL = linhasTBL+
         "<tr>"+        
             "<td>"+dados[i].nome+"</td>"+
-            "<td>"+dados[i].mes_aniversario+"</td>"+                
-            "<td>"+dados[i].d_nasc+"</td>"+                                            
+            "<td>"+dados[i].telefone+"</td>"+                
+            "<td>"+dados[i].endereco+"</td>"+                                            
+            "<td><a href='"+dados[i].url_ficha+"'><i class='icofont f-36 icofont-address-book'></i></a></td>"+                                            
         "</tr>";      
      
     } 
@@ -150,11 +207,7 @@ function montarTable(){
     });
     $('#loader').hide();
     
-    
-    
-   
-    
-    });
+ 
     
       
-} */
+} 

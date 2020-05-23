@@ -32,12 +32,12 @@ class Cartas extends Controller
         $query=$this->meus_dizimistas->all();        
         return view('painel.dizimo.cartas.tbl-dizimistas-aniversariantes',compact('query','page_header','tituloPagina'));
     }    
-    public function montaTable(){   
+    private function montaTable(){   
        
         //$mes = date('m',time());
         //$mes =str_pad($mes , 2 , '0' , STR_PAD_LEFT);
         //$query = $this->meus_dizimistas->where('d_nasc','like','%-'.$mes.'-%')->get();
-        $query = $this->meus_dizimistas->all();
+        $query = $this->meus_dizimistas->where('situacao_endereco',4)->orWhere('endereco',0)->get();
         $fn = new FuncoesAdicionais;
         if(count($query)>0){            
             $dados=[];            
@@ -46,7 +46,7 @@ class Cartas extends Controller
                 $mes = $fn->nomeMes(date('m',strtotime($q->d_nasc)));           
                 $telefone=DB::table('telefones')->where('pessoa',$q->id_pessoa)->first();
                 $id_telefone = empty($telefone->id_telefone) ? null : $telefone->id_telefone;
-                $numero = empty($telefone->numero) ? null: $telefone->numero;
+                $numero = empty($telefone->numero) ? '': $telefone->numero;
                 $dados[]=[                   
                    'situacao'=>$q->situacao,
                    'mes_aniversario'=>$mes,
@@ -55,7 +55,9 @@ class Cartas extends Controller
                    'id_dizimista'=>$q->id_dizimista,
                    'id_pessoa'=>$q->id_pessoa,
                    'id_telefone'=> $id_telefone,
-                   'telefone'=>$numero
+                   'telefone'=>$numero,
+                   'endereco'=>!empty($q->logradouro) ? $q->logradouro.", ".$q->barrio.$q->num_casa.", CEP ".$q->cep : '',
+                   'url_ficha'=>route('Devolucoes.devolver_dizimo',$q->id_dizimista)
                 ];
                 
             }
@@ -196,46 +198,54 @@ class Cartas extends Controller
     }
     public function dashboard(){
         $dados_ultimas_cartas = $this->boxEmail();
-        $dados_grafico=$this->grafico($dados_ultimas_cartas['dt_last_letter']);
+        $dados_grafico =$this->grafico($dados_ultimas_cartas['dt_last_letter']);
+        $table = $this->montaTable();
+        $grafico=array(
+            'months'=>['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            'labels'=>$dados_grafico['meses'],
+            'data'=>$dados_grafico['valores'],
+            'title'=>'Grafico Cartas Devolvidas'
+        );
+        return array('emailBox'=>$dados_ultimas_cartas,'grafico'=>$grafico,'table'=>$table);
     }
     private function grafico($ultima_emissao){
         $fn = new FuncoesAdicionais();
-        $mes = date('m',strtotime($ultima_emissa));
-        $ano_passado=date('Y',strtotime($ultima_emissa))-1;
-        $dados=[];
-        for($i=1;$i<=12;$i++){
-            if($mes>0){
+        $mes = date('m',strtotime($ultima_emissao));
+        $ano = date('Y',strtotime($ultima_emissao))-1;
+        
+        $meses=[];
+        $valores=[];
+        for($i=1;$i<=13;$i++){          
+                if($mes==13){
+                    $mes=1;
+                    $ano++;
+                }
                 $ct_devolvidas=$this->cartas
-                ->where('created_at','like',"%-".str_pad($mes , 2 , '0' , STR_PAD_LEFT)."-%")
+                ->where('created_at','like',"%".$ano."-".str_pad($mes, 2 , '0' , STR_PAD_LEFT)."-%")
                 ->where('situacao',7)            
                 ->get()
-                ->count();
-                $mes--;
-                $dados[]=['mes'=>$fn->nomeMes($mes),'valor'=>$ct_devolvidas];
-            }else{
-                $mes2=12;
-                $ct_devolvidas=$this->cartas
-                ->where('created_at','like',"%".$ano_passado."-".str_pad($mes2 , 2 , '0' , STR_PAD_LEFT)."-%")
-                ->where('situacao',7)            
-                ->get()
-                ->count();
-                $dados[]=['mes'=>$fn->nomeMes($mes2),'valor'=>$ct_devolvidas];
-            }
-
+                ->count();                
+                array_push($meses,$fn->nomeMes($mes)."/".$ano);
+                array_push($valores,$ct_devolvidas);            
+   
+            $mes++;
         }
+        return array('meses'=>$meses,'valores'=>$valores);
 
     }
     private function boxEmail(){
-        $ultima_emissao=$this->cartas->all()->max('created_at');        
-        $dados=$this->cartas->where('created_at',$dados_ultimas_cartas)->get();
+        $fn = new FuncoesAdicionais();
+        $ultima_emissao=$this->cartas->all()->max('created_at');
+        $mes = date('m',strtotime($ultima_emissao));        
+        $dados=$this->cartas->where('created_at',$ultima_emissao)->get();
         $total_cartas = count($dados);
         $dados_ct_devolvidas=$this->cartas
-        ->where('created_at',$dados_ultimas_cartas)
+        ->where('created_at',$ultima_emissao)
         ->where('situacao',7)
         ->get();
         $total_cartas_devolvidas = count($dados_ct_devolvidas);
         $tatal_cartas_not_devolvidas = $total_cartas-$total_cartas_devolvidas;
-        return array('dt_last_letter'=>$ultima_emissao,'cartas'=>$dados,'n_ct_devolvidas'=>$total_cartas_devolvidas,'n_ct_total'=>$total_cartas);
+        return array('dt_last_letter'=>$ultima_emissao,'nomeMes'=>$fn->nomeMes($mes),'cartas'=>$dados,'n_ct_devolvidas'=>$total_cartas_devolvidas,'n_ct_total'=>$total_cartas);
     }
 
 

@@ -40,24 +40,24 @@
                         <div class="card-block">
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <i class="feather icon-mail f-34 text-c-blue social-icon"></i>
+                                    <i class="icofont icofont-letterbox f-54 text-c-blue social-icon"></i>
                                 </div>
                                 <div class="col">
                                     <h6 class="m-b-0">Envio de Cartas</h6>
-                                    <p>Mês de ?</p>
-                                    <p class="m-b-0">Cartas Enviadas: 100</p>
-                                    <p class="m-b-0">Cartas Retornadas: 09</p>
-                                                                    </div>
+                                    <p>Mês de <span id='nomeMes'></span></p>
+                                    <p class="m-b-0">Cartas Enviadas: <span id='qtdeEviadas'></span></p>
+                                    <p class="m-b-0">Cartas Retornadas: <span id='qtdeRetornadas'></span></p>
+                                </div>
                             </div>
                         </div>
                         
                     </div>
                 </div>
-                <div class="col-xl-9 col-md-12">
+                <div class="col-xl-8 col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Sales Analytics</h5>
-                            <span class="text-muted">For more details about usage, please refer <a href="https://www.amcharts.com/online-store/" target="_blank">amCharts</a> licences.</span>
+                            <h5>Grafico devolução de cartas</h5>
+                            <span class="text-muted">Demonstrativo de cartas que retornaram ao remetente no periodo de 1 ano.</span>
                             <div class="card-header-right">
                                 <ul class="list-unstyled card-option">
                                     <li><i class="feather icon-maximize full-card"></i></li>
@@ -72,6 +72,23 @@
                             </div>
                             
                         </div>
+                    </div>
+                </div>
+                <div class='co-xl-12 col-md-12'>
+                    <div class="dt-responsive table-responsive" id="mytable">
+                        <table id="minha_tabela" class="table table-striped table-bordered nowrap">   
+                            <thead id='tb_cabeca'>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th class="text-center">Telefone</th>                                                   
+                                    <th class="text-center">Endereço</th>                                                                                                                       
+                                    <th class="text-center">Ações</th>                                
+                                </tr>
+                            </thead>
+                            <tbody id='body_tbl_Dizimistas'></tbody>
+                      
+                            
+                        </table>
                     </div>
                 </div>
               </div>
@@ -185,140 +202,9 @@
     woli = "{{asset('imagens/woli.png')}}";
     url_busca_table ="{{route('MontaTable.Dizimistas.Aniversariantes')}}";
     url_devolver_carta="{{route('Devolver.Carta')}}";
+    url_dashboard="{{route('Dashboard.Cartas.Dizimistas')}}";
     
-</script>
-<script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-tbl-cartas-aniversario.js')}}"></script>
-<script>
-    var MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    var config = {
-        type: 'line',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',],
-            datasets: [{
-                label: 'Cartas Devolvidas',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [
-                    10,
-                    20,
-                    30,
-                    50,
-                    7,
-                    90,
-                    101
-                ],
-                fill: false,
-            }, {
-                label: 'Cartas',
-                fill: false,
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Grafico de cartas devolvidas'
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Mês'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Valores'
-                    }
-                }]
-            }
-        }
-    };
+    </script>
 
-    window.onload = function() {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myLine = new Chart(ctx, config);
-    };
-
-    document.getElementById('randomizeData').addEventListener('click', function() {
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
-                return randomScalingFactor();
-            });
-
-        });
-
-        window.myLine.update();
-    });
-
-    var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function() {
-        var colorName = colorNames[config.data.datasets.length % colorNames.length];
-        var newColor = window.chartColors[colorName];
-        var newDataset = {
-            label: 'Dataset ' + config.data.datasets.length,
-            backgroundColor: newColor,
-            borderColor: newColor,
-            data: [],
-            fill: false
-        };
-
-        for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-        }
-
-        config.data.datasets.push(newDataset);
-        window.myLine.update();
-    });
-
-    document.getElementById('addData').addEventListener('click', function() {
-        if (config.data.datasets.length > 0) {
-            var month = MONTHS[config.data.labels.length % MONTHS.length];
-            config.data.labels.push(month);
-
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data.push(randomScalingFactor());
-            });
-
-            window.myLine.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function() {
-        config.data.datasets.splice(0, 1);
-        window.myLine.update();
-    });
-
-    document.getElementById('removeData').addEventListener('click', function() {
-        config.data.labels.splice(-1, 1); // remove the label first
-
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-        });
-
-        window.myLine.update();
-    });
-</script>
+    <script src="{{asset('estilo_painel\assets\js\meus\dizimo\painel-tbl-cartas-aniversario.js')}}"></script>
 @endsection

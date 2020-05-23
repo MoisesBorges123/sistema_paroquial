@@ -56,7 +56,7 @@ Route::group(['prefix'=>'painel/dizimo/'],function(){
         Route::post('/carrega-table','Painel\Dizimo\Cartas@montaTable')->name('MontaTable.Dizimistas.Aniversariantes');
         Route::get('/print-table','Painel\Dizimo\Cartas@printer')->name('Print.Dizimistas.Aniversariantes');
         Route::post('/carta-devolvida','Painel\Dizimo\Cartas@cartaDevolvida')->name('Devolver.Carta'); //Notificar devolução de uma carta    
-        Route::post('/load/dashboard','Painel\Dizimo\Cartas@dashboard')->name('Dashboard.Cartas.Dizimistas');
+        Route::get('/load/dashboard','Painel\Dizimo\Cartas@dashboard')->name('Dashboard.Cartas.Dizimistas');
     });
 });
 
