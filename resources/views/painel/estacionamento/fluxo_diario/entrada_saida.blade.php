@@ -85,7 +85,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-outline-primary">Pagar</button>
+                                <button type='button' id='btn-pg-sair' class="btn btn-outline-primary">Pagar</button>
                             </div>
                         </div>
 
@@ -302,6 +302,7 @@ url_buscar_pessoas="{{route('Listar.Pessoas')}}";
 url_save_more_informations="{{route('Carros.Update')}}";
 url_busca_carro="{{route('Carros.Fetch')}}";
 url_busca_preco_mensalidade="{{route('Preco.Fetch')}}";
+url_calc="{{route('Carro.CalcEstaciomaneto')}}";
 </script>
 <script>
 /* Set radius for all circles */

@@ -15,6 +15,8 @@ use App\Models\Painel\Estacionamento\Precos;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Painel\Estacionamento\Carros;
 use App\Http\Controllers\Painel\Pessoa\Pessoa;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\Printer;
 class Estacionamento extends Controller
 {
     //
@@ -488,7 +490,84 @@ class Estacionamento extends Controller
 
         
     }
-    
+    private function printer(){
+        $connector = new FilePrintConnector("EPSON-TM-T20");
+        $printer = new Printer($connector);
+        $printer ->setTextSize(5,5);
+        $printer ->setJustification('JUSTIFY_CENTER');
+        $printer ->text("PLACA: ".$carro->placa);
+        $printer ->setLineSpacing(3);
+        $printer ->setTextSize(1,1);
+        $printer ->setJustification('JUSTIFY_CENTER');
+        $printer ->text("Tempo estacionado...........".$calculo['duracao']."\n");                
+        $printer ->text("Valor.......................".$calculo['valor']);
+        $printer ->setLineSpacing(3);
+        $printer ->text(utf8_decode("Estacionamento Parórquia Catedral Imaculada Conceição")."\n");
+        $printer ->text(utf8_decode("Rua Antônio Alves Benjamim nº s/n, Centro, Teófilo Otoni/MG")."\n");
+        $printer ->text("(33) 3522-3278/ (33) 99855-3935");
+        $printer -> cut();
+        $printer ->pulse(0, 120, 240);
+        $printer -> close();
+        
+    }
+    private function efetuaPagamento($registro,$veiculo,$dados_pagamento){
+        $valor = floatval(str_replace(',','.',str_replace('.','',str_replace('R$ ','',$dados_pagamento['valor']))));
+        $desconto = floatval(str_replace(',','.',str_replace('.','',$dados_pagamento['desconto'])));
+        $pagamento = $this->pagamentos->find($registro->pagamento);
+        $update = $pagamento->update(['valor'=>$valo,'justificativa_desconto'=>$dados_pagamento['justificativa'],'pago'=>true,'data_pagamento']);
+        if($update){
+            $printer = $this->printer();
+        }else{
+            $printer=false;
+        }
+        return array('printer'=>$printer,'pagamento'=>$update);
+    }
+    public function carroSaida(Request $request){
+        $pago = $request->input('pago');
+        $cod = $request->input('cod');//Placa
+        if($cod){ 
+            $registro = DB::table('carros_estacionamento')
+                ->where('id_fluxo',$cod)                
+                ->first();
+               $carro = $this->carro->find($registro->carro);
+               
+            
+            if($pago){ //CASO O CLIENTE JÁ TENHA ENTREGADO O DINHEIRO IMPRIMA O COMPROVANTE E ATUALIZE OS DADOS               
+                $dados_pagamento = array(
+                    'justificativa'=> !empty($request->input('justificativa')) ? $request->input('justificativa') : '',
+                    'valor'=>$request->input('valor'),
+                    'desconto'=> !empty($request->input('desconto')) ? $request->input('desconto') : 0,
+                    'dinheiro'=>$pago,
+                );
+                $pagamento=$this->efetuaPagamento($registro,$carro,$dados_pagamento);
+               
+
+
+            }else{ //CASO O CLIENTE NÃO TENHA PAGO INFORME O VALOR                
+                $dados_calc=array(
+                    'data_entrada'=> $registro->data_entrada,
+                    'hora_entrada'=>$registro->hora_entrada,
+                    'min_entrada'=>$registro->min_entrada,
+                    'modalidade'=>$registro->modalidade,
+                    'base_calculo'=>$registro->base_calculo,
+                    'tipo_veiculo'=>$carro->tipo,
+                    'tolerancia'=>3,
+                );
+                
+                $calculo=$this->calc_estacionamento($dados_calc);    
+                return array(
+                    'placa'=>!empty($carro->placa) ? $carro->placa : false,
+                    'calculo'=> !empty($calculo) ?  $calculo:false
+                );
+            }
+            
+        }else{        
+            return array(
+                'placa'=> false,
+                'calculo'=> false
+            );
+        }
+    }
 
 
     

@@ -706,7 +706,66 @@ $(document).ready(function () {
         $('#id_dataSaida')[0].valueAsDate = date;
     });
 });
-
+$(document).on('click','#btn-pg-sair',async function(){
+   var cod=$('#placa_saida').val();    
+   var pago = '';
+   server= await saidaEstacionamento(cod,pago,0);
+   
+   if(server.calculo){
+       pago = createInput('pago','Dinheiro','text',true);
+       desconto = createInput('desconto','Desconto','text',true);
+       (pagamento) = await swal.fire({
+           title:'<h3>Carro '+server.placa+"</h3>",
+           html:"<h4>Tempo Estacionado <b>"+server.calculo.duracao+"</b></h4>"+
+           "<h4>Valor:<b>"+server.calculo.valor+"</b></h4>"+
+           "<div class='row m-t-20'>"+
+           "<div class='col-2'>"+pago.label+"</div><div class='col-10'>"+pago.input+"</div>"+
+           "<div class='col-2'>"+desconto.label+"</div><div class='col-10'>"+desconto.input+"</div>"+
+           "</div>",
+           onOpen:()=>{
+                $('#id_pago').addClass('money2');
+                $('#id_desconto').addClass('money2');
+           },
+           preConfirm:()=>{
+               if($('#id_pago').val()!=''){
+                   var dinheiro = $('#id_pago').val();
+                   var valor = server.calculo.valor;
+                   if($('#id_desconto').val()==''){
+                       var desconto = 0;     
+                       desconto = parseFloat(desconto);                  
+                    }else{
+                        var desconto = $('#id_desconto').val();
+                        desconto = desconto.replace(',','.');
+                        desconto = parseFloat(desconto);
+                   }
+                   valor = valor.replace(',','.');
+                   valor = valor.replace('R$ ','');
+                   dinheiro = dinheiro.replace(',','.');
+                   dinheiro = parseFloat(dinheiro);
+                   valor = parseFloat(valor);
+                    if(dinheiro<(valor-desconto)){
+                        var menssagem = "O valor inserido é invalido";
+                        var type = 'warning'
+                        notify(menssagem, type, tempo=3500,position='top')
+                        return false;
+                    }else{
+                        return true;
+                    }
+               }else{
+                   var menssagem = "O campo dinheiro deve ser preenchido";
+                   var type = 'warning'
+                   notify(menssagem, type, tempo=3500,position='top')
+                   return false;
+               }
+           }
+       });
+       pago = pagamento.value;
+       if(pago){//Efetuando pagamento e imprimindo comprovante
+            saidaEstacionamento(cod,pago);
+       }
+       
+   }
+});
 $(document).on('click','.radio-modalidade',function(){
     $("input[name='modalidade']").attr('checked',false);
     var modalidade = $(this).data('value');    
@@ -717,6 +776,33 @@ $(document).on('click','.radio-veiculo',function(){
     var veiculo = $(this).data('value');    
     $("input[name='tipo'][value='"+veiculo+"']").attr('checked',true);
 });
+async function saidaEstacionamento(cod,pago,desconto=0){
+    data = new FormData();
+    data.append('cod',cod);
+    data.append('pago',pago);
+    data.append('desconto',desconto);
+    (calc) = await fetch(url_calc,{
+            method:'post',
+            headers:{
+                'X-CSRF-TOKEN':_token,
+            },
+            body:data,
+
+        }).then((result)=>{
+            if(result.ok){
+                return result.json();
+            }else{
+
+                swal.fire({
+                    title:'Ops! Foi encontrado erro.',
+                    html:"<i>"+result.statusText+"("+result.status+")</i>",
+                    icon:'error'
+                });
+                return false;
+            }
+        });
+    return calc;
+}
 function montarTable(){
    
     fetch(url_busca,{'method':'GET'}).then((result)=>{
@@ -742,7 +828,7 @@ function montarTable(){
             icone_veiculo='icofont-police-car-alt-2';
             style=null;
         }
-       placas_saida=placas_saida+"<option value="+dados[i].id_fluxo+">"+dados[i].carro+"</option>";
+       placas_saida=placas_saida+"<option value='"+dados[i].id_fluxo+"'>"+dados[i].carro+"</option>";
         linhasTBL = linhasTBL+
         "<tr>"+
             "<td>"+dados[i].carro+"</td>"+

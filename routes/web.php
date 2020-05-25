@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('painel\dashboard');
 })->name('dashboard');
 
+
 //TRABALHANDO COM PESSOAS
 Route::group(['prefix'=>'painel/pessoas/'],function(){
     Route::get('list','Painel\Pessoa\Pessoa@list')->name('Listar.Pessoas');
@@ -169,7 +170,7 @@ Route::group(['prefix'=>'painel/estacionamento'],function(){
    Route::post('/delete','Painel\Estacionamento\Estacionamento@delete')->name("CarrosEstacionados.Delete");
    Route::post('/update','Painel\Estacionamento\Estacionamento@update')->name("CarrosEstacionados.Update");
    Route::post('/cadastrar/carro-estacionado','Painel\Estacionamento\Estacionamento@estacionar')->name("CarroEstacionado.Insert");
-   
+   Route::post('/calc/estacionamento','Painel\Estacionamento\Estacionamento@carroSaida')->name("Carro.CalcEstaciomaneto");
    
    
    //ROTAS PARA TRABALHAR COM TABELA DE PREÇOS
