@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Escritorio_Visita_Estacionamento extends Model
 {
     //
-    protected $table = 'escritorio_visita_estacionamento';
-    protected $primaryKey = "id_fluxo";
+    protected $table = 'escritorio_visita_estacioanamento';
+    protected $primaryKey = "id_visita";
     protected $fillable = [
         'token',         
-        'usuario'
+        'usuario',
+        'tempo_token',
+        'ativada'
     ];
     
-   public $timestamps=false;
+   public $timestamps=true;
 }

@@ -10,7 +10,7 @@
                                 
                             <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                                        <span class="pcoded-micon"><i class="feather ion-social-usd"></i></span>
                                         <span class="pcoded-mtext">Preços</span>
                                         <span class="pcoded-badge label label-danger">R$</span>
                                     </a>
@@ -35,7 +35,7 @@
                                 </li>
                                 <li class="">
                                     <a href="{{route('FluxoDiario.Visualizar')}}">
-                                        <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-police-car-alt-2"></i></span>
                                         <span class="pcoded-mtext">Entrada / Saída</span>
                                     </a>
                                 </li>
@@ -47,7 +47,7 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-box"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-holding-hands"></i></span>
                                         <span class="pcoded-mtext">Dizimistas</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -61,7 +61,7 @@
                                 </li>
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-gitlab"></i></span>
+                                        <span class="pcoded-micon"><i class="icofont icofont-email"></i></span>
                                         <span class="pcoded-mtext">Cartas</span>
                                     </a>
                                     <ul class="pcoded-submenu">
@@ -853,6 +853,12 @@
                                     <a href="{{route("visualizar.Situacoes")}}">
                                         <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
                                         <span class="pcoded-mtext">Tabela de Status</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{{route("Perfil.Create")}}">
+                                        <span class="pcoded-micon"><i class="icofont icofont-traffic-light"></i></span>
+                                        <span class="pcoded-mtext">Perfil</span>
                                     </a>
                                 </li>
                                 <li class="">

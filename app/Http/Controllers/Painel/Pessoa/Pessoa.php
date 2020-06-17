@@ -30,6 +30,10 @@ class Pessoa extends Controller
             return false;
         }
     }
+    public function buscaTelefone($pessoa){
+        $telefone = $this->telefone->where('pessoa',$pessoa)->first();
+        return array('telefone'=>$telefone->numero);
+    }
     public function list(){
         $pessoa = DB::table('v_pessoas')->get();
         $total_pessoas = count($pessoa);
@@ -44,7 +48,7 @@ class Pessoa extends Controller
                 $telefone = $telefone==null ? $this->salvar_endereco($request): $telefone;
                 $endereco = DB::table('enderecos')->where('id_endereco',$existe->endereco)->first();
                 $endereco = $endereco==null ? $this->salvar_endereco($request): $endereco;
-                return array('insert_pessoa'=>$existe,'insert_telefone'=>$telefoe,'insert_endereco'=>$endereco);
+                return array('insert_pessoa'=>$existe,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
             }else{
                 $fn = new FuncoesAdicionais;
                 $nome= !empty($request->input('nome')) ? $fn->tratarNomesProprios($request->input('nome')) : null;

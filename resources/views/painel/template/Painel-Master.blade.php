@@ -213,8 +213,8 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="auth-normal-sign-in.htm">
-                                                    <i class="feather icon-log-out"></i> Logout
+                                            <a href="{{route('logout')}}">
+                                                    <i class="feather icon-log-out"></i> Sair
                                                 </a>
                                             </li>
                                         </ul>
@@ -501,7 +501,7 @@
                 if(caracteres>=5){
                     var x = telefone.val();
                    var y=x.substr(5,1);
-                   console.log(y);
+                   
                     if(y==9){
                         //Montar Função para o telefone funcionar tanto com celular como fixo
                         $('.phone_area-code').mask('(00) 00000-0000');

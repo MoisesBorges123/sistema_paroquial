@@ -8,8 +8,8 @@ class Pessoas extends Model
 {
     //
     protected $table = 'pessoas';
-   protected $primaryKey = "id_pessoa";
-     protected $fillable = ['nome','endereco','d_nasc','email','sexo'];
+    protected $primaryKey = "id_pessoa";
+    protected $fillable = ['nome','endereco','d_nasc','email','sexo'];
      
     public $timestamps=false;
     public $rules =[

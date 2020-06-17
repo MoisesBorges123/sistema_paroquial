@@ -162,4 +162,7 @@ class Batizado extends Controller
             $campos2=['nome','pai','mae','padrinho','madrinha','data_nasc','sexo'];
             $dadosBatizando = $fn->tratamentoDados($valores, $campos);
     }
+    public function store(Request $request){
+        
+    }
 }

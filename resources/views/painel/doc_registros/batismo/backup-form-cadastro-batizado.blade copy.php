@@ -19,7 +19,7 @@
                 @endif
 
 
-            <form method="post" class="form" action="{{route('Cadastrar.Batizado')}}">
+                <form method="post" class="form" action="">
                     {!! csrf_field() !!}
                     <div class="form-group row  m-b-25 m-t-10">
                         <div class="col-md-3 col-sm-6 ml-auto pesquisa_livro">
@@ -35,83 +35,93 @@
 
                     </div>
                     <div class="form-group row m-t-10">
-                        <div class="col-md-1 col-sm-1 p-t-5 p-r-0 text-right">
+                        <div class="col-md-1 col-sm-1 p-t-5 p-r-0 text-right passo1">
                             <label class='h4 '>Aos</label>                    
                         </div>
-                        <div class="col-md-4 col-sm-5 p-r-0">
+                        <div class="col-md-4 col-sm-5 p-r-0 passo1">
                             <input class="form-control data-avancada" type="text" placeholder="Data do Batizado" readonly="readonly">                
                         </div>
-                        <div class="col-md-1 col-sm-1 p-t-5 p-r-0 p-l-0 text-center">
+                        <div class="col-md-1 col-sm-1 p-t-5 p-r-0 p-l-0 text-center passo2">
                             <label class='h4 '>na</label>                    
                         </div>
-                        <div class="col-md-5 col-sm-12  p-l-0">
-                            <input class='form-control' name='paroquia' type="text" placeholder='Local do Batizado'>                            
-                        </div>                        
+                        <div class="col-md-2 col-sm-5  p-l-0 passo2">
+                            <select class='form-control' name='capela_paroquia' id="tipo">
+                                <option value=''>Pároquia/Capela</option>
+                                <option value='1'>Capela</option>
+                                <option value='2'>Paróquia</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-sm-12  p-l-0 passo3">
+                        </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row passo4">
                         <div class="col-md-3 col-sm-6 p-t-6 p-r-0 text-center">
                             <label class='h4'>Batizei solenemente</label>                    
                         </div>
-                        <div class="col-md-6 col-sm-6 p-l-0">                    
+                        <div class="col-md-6 col-sm-6 p-l-0 passo4">                    
                             <input type="text" name='batizando' class="form-control" placeholder="Nome da criança">
                         </div>
-                        <div class="col-md-2 col-sm-4 p-t-6 p-r-0 text-left">
+                        <div class="col-md-2 col-sm-4 p-t-6 p-r-0 text-left passo5">
                             <label class='h4'>Nascido em</label>                    
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-4 col-sm-5 p-r-0">
+                        <div class="col-md-4 col-sm-5 p-r-0 passo5">
                             <input name="d_nasc" class="form-control data-avancada" type="text" placeholder="Data do Nascimento" readonly="readonly">                
                         </div>                
-                        <div class="col-md-2 col-sm-4 p-t-6 p-r-0 text-left">
+                        <div class="col-md-2 col-sm-4 p-t-6 p-r-0 text-left passo6">
                             <label class='h4'>, filho de</label>                    
                         </div>
-                        <div class="col-md-6 col-sm-6 p-r-0">                    
+                        <div class="col-md-6 col-sm-6 p-r-0 passo6">                    
                             <input type="text" name='pai' class="form-control form-control-md" placeholder="Nome do pai">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-1 col-sm-3 p-t-6 p-r-0 text-center">
+                        <div class="col-md-1 col-sm-3 p-t-6 p-r-0 text-center passo7">
                             <label class='h4'>e de</label>                    
                         </div>
-                        <div class="col-md-6 col-sm-6 p-l-0">                    
+                        <div class="col-md-6 col-sm-6 p-l-0 passo7">                    
                             <input type="text" name='mae' class="form-control form-control-md" placeholder="Nome da mãe">
                         </div>
-                        <div class="col-md-3 col-sm-4 p-t-6 p-r-0 text-center">
+                        <div class="col-md-3 col-sm-4 p-t-6 p-r-0 text-center passo8">
                             <label class='h4'>Foram padrinhos</label>                    
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-5 col-sm-6  p-r-0">                    
+                        <div class="col-md-5 col-sm-6  p-r-0 passo8">                    
                             <input type="text" name='padrinho' class="form-control form-control-md" placeholder="Nome do padrinho">
                         </div>
                         <div class="col-md-1 col-sm-3 p-t-6 p-r-0 text-center passo9">
                             <label class='h4'>e</label>                    
                         </div>               
-                        <div class="col-md-5 col-sm-6">                    
+                        <div class="col-md-5 col-sm-6 passo9">                    
                             <input type="text" name='madrinha' class="form-control form-control-md" placeholder="Nome da madrinha">.
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-12 col-sm-12">                    
+                        <div class="col-md-12 col-sm-12 passo10">                    
                             <label class="h4">E para constar lavrei este termo que assino</label>
                         </div>                
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-2 col-sm-2 p-r-0 text-center">                    
+                        <div class="col-md-2 col-sm-2 p-r-0 text-center passo10">                    
                             <label class="h4">O padre</label>
                         </div>
-                        <div class="col-md-10 col-sm-10 p-l-0" id="camp10">                    
-                           <input name='padre' type='text' class='form-control' placeholder ='Nome do padre' />
+                        <div class="col-md-10 col-sm-10 p-l-0 passo10 " id="camp10">                    
+                            <select class="form-control" id="padre" name="padre">
+                                <option>- Selecione o Padre Celebrante -</option>
+                                <option value='-1'>Não está na Lista</option>
+
+                            </select>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row passo11">
                         <div class="col-md-12 col-sm-12">
                             <textarea name="observacao" id="editor" class="form-control" rows="8">Insira aqui algumas observações sobre esse registro</textarea>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row passo12">
                         <div class="col-md-12 col-sm-12 text-center">
                             <button type="button" id='cadastra_igreja' class="fade hidden btn btn-primary btn-outline-primary waves-effect md-trigger" data-modal="modal-13">Cadastra Igreja</button>
                             <button type="submit" class='btn btn-info md-effect-13'>Salvar</button> 

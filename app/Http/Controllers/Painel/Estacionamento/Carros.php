@@ -38,12 +38,12 @@ class Carros extends Controller
             $telefone=DB::table('telefones')->where('pessoa',$pessoa)->first();
             $fn_pessoa = new Pessoa;
             $dadosPessoa=$fn_pessoa->getpeople($pessoa);
-            $numero = !empty($telefone->numero)? $telefone->numero : null;
+            $numero = !empty($telefone->numero)? $telefone->numero : '';
             $dados = array(
                 'id_pessoa'=>$pessoa,
                 'nome'=>$dadosPessoa->nome,
                 'numero'=>$numero,
-                'id_carro'=>$carro->id_carro,
+                'id_carro'=>$veiculo,
                 'tipo_veiculo'=>$carro->tipo,
                 'modelo_veiculo'=>$carro->modelo,
                 'cor'=>$carro->cor
@@ -60,7 +60,7 @@ class Carros extends Controller
         $cor = !empty($request->input('cor_veiculo')) ? $request->input('cor_veiculo') : null;
         $pessoa = !empty($request->input('pessoa')) ? $request->input('pessoa') : null;
         $id_pessoa = is_numeric($pessoa) ? $pessoa : $this->salvar_pessoa($request);
-        $insert=$this->carro->create(['placa'=>strtoupper($request->input('placa')),'isencao'=>$insencao,'tipo'=>$request->input('tipo_veiculo'),'modelo'=>$modelo,'cor'=>$cor]);        
+        $insert=$this->carro->create(['placa'=>strtoupper($request->input('placa')),'pessoa'=>$id_pessoa,'isencao'=>$insencao,'tipo'=>$request->input('tipo_veiculo'),'modelo'=>$modelo,'cor'=>$cor]);        
         if($insert){
             $resposta=$insert->id_veiculo;
         }else{

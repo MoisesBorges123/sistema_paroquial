@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Painel\Pessoa\Pessoa;
 
 class RegisterController extends Controller
 {
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -48,9 +50,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'login' => 'required|string|max:255|unique:usuarios',
+            'password' => 'required|string|max:255',
+            'pessoa' => 'required',
         ]);
     }
 
@@ -60,12 +62,45 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function store(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'pessoa' => $data['pessoa'],
+            'login' => $data['login'],
             'password' => bcrypt($data['password']),
+            /*
+            *$hash1 = bcrypt('secret')
+            $hash2 = bcrypt('secret')
+            Hash::check('secret', $hash1)
+            Hash::check('secret', $hash2)
+            Você deve obter true nos dois casos de Hash::check.
+            */
         ]);
+    }
+    public function create(){
+        return view('register');
+    }
+    public function register(Request $request){     
+        $fn_pessoa = new Pessoa;   
+        $pessoa = $fn_pessoa->salvar_pessoa($request);        
+        
+        $data = array(
+            'login'=>$request->input('login'),
+            'password'=>$request->input('password'),
+            'pessoa'=>$pessoa['insert_pessoa']->id_pessoa,
+            
+        );
+        $validator = $this->validator($data);
+        if($validator->fails()){
+            dd($validator);exit();
+            return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput();
+        }else{
+            $cadastro=$this->store($data);
+            return redirect()
+            ->back();
+        }
     }
 }

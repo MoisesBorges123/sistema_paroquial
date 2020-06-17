@@ -212,9 +212,10 @@
         background-attachment: inherit;
     }
 
-    .btn-delete, .btn-update, .btn-detalhes{
+    .btn-delete, .btn-update, .btn-detalhes, .btn-key {
         cursor: pointer;
-    }
+       
+     }
 
 
 
@@ -299,10 +300,14 @@ url_busca="{{route('CarrosEstacionados.Visualizar')}}";
 url_delete="{{route('CarrosEstacionados.Delete')}}";
 url_update="{{route('CarrosEstacionados.Update')}}";
 url_buscar_pessoas="{{route('Listar.Pessoas')}}";
+url_busca_telefone = "{{route('Fetch.Telefone')}}";
 url_save_more_informations="{{route('Carros.Update')}}";
 url_busca_carro="{{route('Carros.Fetch')}}";
 url_busca_preco_mensalidade="{{route('Preco.Fetch')}}";
 url_calc="{{route('Carro.CalcEstaciomaneto')}}";
+url_keyGeneration = "{{route('CarrosEstacionados.Key')}}";
+url_checkingKey = "{{route('CarrosEstacionados.CheckingKey')}}";
+renovar_mensalidade = "{{route('Mensalidade.Renovar')}}";
 </script>
 <script>
 /* Set radius for all circles */
