@@ -18,6 +18,9 @@
                 </div>
                 @endif
 
+                @if(isset(session('insert')))
+                {{dd(session('insert'))}}
+                @endif
 
             <form method="post" class="form" action="{{route('Cadastrar.Batizado')}}">
                     {!! csrf_field() !!}

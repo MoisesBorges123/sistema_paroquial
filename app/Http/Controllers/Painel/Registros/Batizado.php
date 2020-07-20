@@ -11,6 +11,7 @@ use App\Models\Painel\Registros\Batizando;
 use App\Models\Painel\Registros\Batizados;
 use App\Models\Painel\Livros_Registros\Folhas;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
+use App\Http\Controllers\Painel\Pessoa\Pessoa;
 
 class Batizado extends Controller
 {
@@ -163,6 +164,43 @@ class Batizado extends Controller
             $dadosBatizando = $fn->tratamentoDados($valores, $campos);
     }
     public function store(Request $request){
-        
+        $pai =  array(
+            'nome'=>$request->input('pai')
+        );
+        $mae =  array(
+            'nome'=>$request->input('mae')
+        );
+        $crianca =  array(
+            'nome'=>$request->input('crianca'),
+            'd_nasc'=>$request->input('d_nasc'),            
+        );
+        $padrinho = array(
+            'nome'=>$request->input('padrinho')
+        );
+        $madrinha = array(
+            'nome'=>$request->input('madrinha')
+        );
+        $fnPessoa = new Pessoa;
+        $cad_crianca = $fnPessoa->store($crianca);
+        $cad_mae = $fnPessoa->store($mae);
+        $cad_pai = $fnPessoa->store($pai);
+        $cad_padrinho = $fnPessoa->store($padrinho);
+        $cad_madrinha = $fnPessoa->store($madrinha);
+        $batizado = array(
+            'crianca'=>$cad_crianca['insert_pessoa']->id_pessoa,
+            'data_batismo'=>$request->input('data_batismo'),
+            'celebrante'=>$request->input('celebrante'),
+            'local'=>$request->input('local'),
+            'folha'=>$request->input('folha'),
+            'num_registro'=>$request->input('num_registro'),
+            'padrinho'=>$cad_padrinho['insert_pessoa']->id_pessoa,
+            'madrinha'=>$cad_madrinha['insert_pessoa']->id_pessoa,
+        );
+        $insert = $this->batizado->create($batizado);
+        if($insert){
+            $this->form_cadastro();
+        }else{
+            return redirect()->back()->with('insert',$insert);
+        }
     }
 }

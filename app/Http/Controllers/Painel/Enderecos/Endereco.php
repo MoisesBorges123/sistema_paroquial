@@ -33,6 +33,9 @@ class Endereco extends Controller
         }
         return $endereco;
     }//CAPAZ DE CADASTRAR O ENDERECO E RETORNA O OBJETO DO CADASTRO
+    public function store($dados){
+        return  $this->insert_endereco($dados);
+    }
     private function buscaEndereco(Request $request){
         if(!empty($request->input('num_casa'))){
             $endereco=$this->endereco->where('num_casa',$request->input('num_casa'))->first();

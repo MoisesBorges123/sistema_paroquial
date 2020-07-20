@@ -115,7 +115,7 @@ Route::group(['prefix'=>'/painel//','middleware' => ['auth']],function(){
         
         //FORMULÁRIO P/ CADASTRAR BATIZADO    
         Route::get('/batizado/cadastro', 'Painel\Registros\Batizado@form_cadastro')->name("FormCadastro.Batizado");    
-        Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@salvar')->name("Cadastrar.Batizado");
+        Route::post('/cadastrar/registro/batismo','Painel\Registros\Batizado@store')->name("Cadastrar.Batizado");
             Route::post('/ajax/livro_folha/registro/batismo','Painel\Registros\Batizado@busca_folha')->name("Pesquisa_Folha.Batizado");
             Route::post('/ajax/igreja_capela/registro/batismo','Painel\Registros\Batizado@busca_igreja')->name("Pesquisa_Igreja.Batizado");
             

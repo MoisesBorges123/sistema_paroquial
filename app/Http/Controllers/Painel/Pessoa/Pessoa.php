@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Painel\Enderecos\Endereco;
+use App\Http\Controllers\Painel\Pessoa\Telefone;
 use App\Http\Controllers\Funcoes\FuncoesAdicionais;
 use App\Models\Painel\Telefone\Telefones;
 use App\Models\Painel\Pessoa\Pessoas;
@@ -45,7 +46,7 @@ class Pessoa extends Controller
             $existe = $this->pessoa->where('nome',$request->input('nome'))->first();
             if($existe){
                 $telefone = $this->telefone->where('pessoa',$existe->id_pessoa)->first();
-                $telefone = $telefone==null ? $this->salvar_endereco($request): $telefone;
+                $telefone = $telefone==null ? $this->salvar_telefone($request): $telefone;
                 $endereco = DB::table('enderecos')->where('id_endereco',$existe->endereco)->first();
                 $endereco = $endereco==null ? $this->salvar_endereco($request): $endereco;
                 return array('insert_pessoa'=>$existe,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
@@ -174,6 +175,54 @@ class Pessoa extends Controller
         );
         $update=$fone->update($newEmail);
         return $update;
+
+    }
+    public function store($pessoa){
+         
+        if(!empty($pessoa['nome'])){
+            $existe = $this->pessoa->where('nome',$pessoa['nome'])->first();
+            if($existe){
+                $telefone = $this->telefone->where('pessoa',$existe->id_pessoa)->first();
+                $telefone = $telefone==null ? $this->salvar_telefone($pessoa['telefone']): $telefone;
+                $endereco = DB::table('enderecos')->where('id_endereco',$existe->endereco)->first();
+                $endereco = $endereco==null ? $this->salvar_endereco($pessoa['endereco']): $endereco;
+                return array('insert_pessoa'=>$existe,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
+            }else{
+                $fn = new FuncoesAdicionais;
+                $nome= !empty($pessoa['nome']) ? $fn->tratarNomesProprios($pessoa['nome']) : null;
+                $endereco= !empty ($pessoa['endereco']) ? $pessoa['endereco'] : null;
+                $d_nasc= !empty ($pessoa['d_nasc']) ? $pessoa['d_nasc'] : null;
+                $email= !empty ($pessoa['email']) ? $pessoa['email'] : null;
+                $sexo= !empty ($pessoa['sexo']) ? $pessoa['sexo'] : null;
+                $observacoes_pessoa= !empty ($pessoa['observacoes_pessoa']) ? $pessoa['observacoes_pessoa'] : null;
+                $telefone= !empty ($pessoa['telefone']) ? $pessoa['telefone'] : null;       
+                if($nome!=null){
+                    if($endereco==null){
+                        $tentativa_salvar_endereco = $this->salvar_endereco($pessoa['endereco']);///////////////////////
+                    }
+                    $endereco = $tentativa_salvar_endereco==false ? null : $tentativa_salvar_endereco;
+                    $pessoaNew = array(
+                        'nome'=>$nome,
+                        'endereco'=>$endereco,
+                        'd_nasc'=>$d_nasc,
+                        'email'=>$email,
+                        'sexo'=>$sexo,
+                        'observacoes_pessoa'=>$observacoes_pessoa
+                    );
+                    $insert = $this->pessoa->create($pessoaNew);
+
+                    if($telefone!=null){
+                        $tentativa_salvar_telefone = $this->salvar_telefone($request,$insert->id_pessoa);/////////////////
+                        $telefone = $tentativa_salvar_telefone==false ? null : $tentativa_salvar_telefone;
+                    }
+                    return array('insert_pessoa'=>$insert,'insert_telefone'=>$telefone,'insert_endereco'=>$endereco);
+                }else{
+                    return array('insert_pessoa'=>null,'insert_telefone'=>null,'insert_endereco'=>null);
+                }
+            }
+
+        }        
+        
 
     }
 }
